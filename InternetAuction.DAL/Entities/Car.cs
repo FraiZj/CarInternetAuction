@@ -1,17 +1,38 @@
-﻿namespace InternetAuction.DAL.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace InternetAuction.DAL.Entities
 {
     public class Car
     {
         public int Id { get; set; }
+
+        [Required, RegularExpression(@"^[a-zA-Z_-]+$")]
         public string Brand { get; set; }
+
+        [Required, RegularExpression(@"^[a-zA-Z0-9_-]*$")]
         public string Model { get; set; }
+
+        [Required]
         public int Year { get; set; }
-        public string Mileage { get; set; }
-        public string Transmission { get; set; }
-        public string DriveUnit { get; set; }
+
+        [Required]
+        public int Mileage { get; set; }
+
+        [Required]
+        public int TransmissionId { get; set; }
+
+        [Required]
+        public int DriveUnitId { get; set; }
+
+        [Required]
         public string EngineType { get; set; }
-        public string BodyType { get; set; }
+
+        [Required]
+        public int BodyTypeId { get; set; }
 
         public TechnicalPassport TechnicalPassport { get; set; }
+        public Transmission Transmission { get; set; }
+        public DriveUnit DriveUnit { get; set; }
+        public BodyType BodyType { get; set; }
     }
 }
