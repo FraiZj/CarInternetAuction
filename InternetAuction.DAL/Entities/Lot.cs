@@ -1,13 +1,12 @@
-﻿using System;
+﻿using InternetAuction.DAL.Entities.Base;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace InternetAuction.DAL.Entities
 {
-    public class Lot
+    public class Lot : BaseEntity
     {
-        public int Id { get; set; }
-
         [Required]
         public int CarId { get; set; }
 

@@ -1,12 +1,11 @@
-﻿using System;
+﻿using InternetAuction.DAL.Entities.Base;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace InternetAuction.DAL.Entities
 {
-    public class Bet
+    public class Bet : BaseEntity
     {
-        public int Id { get; set; }
-
         [Required]
         public int UserId { get; set; }
 

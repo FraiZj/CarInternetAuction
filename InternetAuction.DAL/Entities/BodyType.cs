@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using InternetAuction.DAL.Entities.Base;
+using System.Collections.Generic;
 
 namespace InternetAuction.DAL.Entities
 {
-    public class BodyType
+    public class BodyType : BaseEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
 
         public virtual ICollection<Car> Cars { get; set; }

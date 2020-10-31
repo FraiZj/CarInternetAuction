@@ -11,13 +11,13 @@ namespace InternetAuction.DAL
         public ApplicationDbContext()   
             : base(ConfigurationManager.ConnectionStrings["ApplicationDbContext"].ConnectionString)
         {
-            Database.SetInitializer(new DbInitializer());
+            Database.SetInitializer(new ApplicationDbInitializer());
         }
 
         public ApplicationDbContext(string nameOrConnectionString)
             : base(nameOrConnectionString)
         {
-            Database.SetInitializer(new DbInitializer());
+            Database.SetInitializer(new ApplicationDbInitializer());
         }
 
         public virtual DbSet<Car> Cars { get; set; }
@@ -31,7 +31,7 @@ namespace InternetAuction.DAL
         public virtual DbSet<SaleType> SaleTypes { get; set; }
     }
 
-    public class DbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
+    public class ApplicationDbInitializer : CreateDatabaseIfNotExists<ApplicationDbContext>
     {
         protected override void Seed(ApplicationDbContext context)
         {
@@ -82,8 +82,6 @@ namespace InternetAuction.DAL
                 new Transmission { Id = 4, Name = "Continuously Variable Transmission (CVT)"}
             };
             context.Transmissions.AddRange(transmissions);
-
-            context.SaveChanges();
 
             base.Seed(context);
         }

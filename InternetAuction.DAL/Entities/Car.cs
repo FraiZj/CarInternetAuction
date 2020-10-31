@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using InternetAuction.DAL.Entities.Base;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace InternetAuction.DAL.Entities
 {
-    public class Car
+    public class Car : BaseEntity
     {
-        public int Id { get; set; }
 
         [Required, RegularExpression(@"^[a-zA-Z_-]+$")]
         public string Brand { get; set; }

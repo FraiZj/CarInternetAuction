@@ -1,8 +1,9 @@
-﻿namespace InternetAuction.DAL.Entities
+﻿using InternetAuction.DAL.Entities.Base;
+
+namespace InternetAuction.DAL.Entities
 {
-    public class CarImage
+    public class CarImage : BaseEntity
     {
-        public int Id { get; set; }
         public string Title { get; set; }
         public byte[] Data { get; set; }
         public int CarId { get; set; }

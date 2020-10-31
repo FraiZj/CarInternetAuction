@@ -63,6 +63,7 @@
     <Compile Include="ApplicationDbContext.cs" />
     <Compile Include="Entities\ApplicationRole.cs" />
     <Compile Include="Entities\ApplicationUser.cs" />
+    <Compile Include="Entities\Base\BaseEntity.cs" />
     <Compile Include="Entities\Bet.cs" />
     <Compile Include="Entities\BodyType.cs" />
     <Compile Include="Entities\Car.cs" />
@@ -72,6 +73,8 @@
     <Compile Include="Entities\SaleType.cs" />
     <Compile Include="Entities\TechnicalPassport.cs" />
     <Compile Include="Entities\Transmission.cs" />
+    <Compile Include="Interfaces\ICarRepository.cs" />
+    <Compile Include="Interfaces\Base\IRepository.cs" />
     <Compile Include="Migrations\202010311006389_InitialMigration.cs" />
     <Compile Include="Migrations\202010311006389_InitialMigration.designer.cs">
       <DependentUpon>202010311006389_InitialMigration.cs</DependentUpon>
@@ -82,6 +85,8 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\Base\Repository.cs" />
+    <Compile Include="Repositories\CarRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -95,6 +100,7 @@
       <DependentUpon>202010311035142_AddedCarImageModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
