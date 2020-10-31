@@ -13,25 +13,45 @@ namespace InternetAuction.DAL.Repositories
             : base(context)
         { }
 
-        public async Task<IQueryable<Car>> FindAllWithDetailsAsync()
+        public override async Task<IQueryable<Car>> FindAllAsync()
         {
             return await _entities
                 .Include(e => e.BodyType)
                 .Include(e => e.CarImages)
                 .Include(e => e.DriveUnit)
-                .Include(e => e.TechnicalPassport)
                 .Include(e => e.Transmission)
                 .ToListAsync() as IQueryable<Car>;
         }
 
-        public async Task<Car> GetByIdWithDetailsAsync(int id)
+        public async Task<IQueryable<Car>> FindAllWithTechnicalPassportAsync()
         {
             return await _entities
                 .Include(e => e.BodyType)
                 .Include(e => e.CarImages)
                 .Include(e => e.DriveUnit)
-                .Include(e => e.TechnicalPassport)
                 .Include(e => e.Transmission)
+                .Include(e => e.TechnicalPassport)
+                .ToListAsync() as IQueryable<Car>;
+        }
+
+        public override async Task<Car> GetByIdAsync(int id)
+        {
+            return await _entities
+                .Include(e => e.BodyType)
+                .Include(e => e.CarImages)
+                .Include(e => e.DriveUnit)
+                .Include(e => e.Transmission)
+                .FirstOrDefaultAsync(e => e.Id == id);
+        }
+
+        public async Task<Car> GetByIdWithTechnicalPassportAsync(int id)
+        {
+            return await _entities
+                .Include(e => e.BodyType)
+                .Include(e => e.CarImages)
+                .Include(e => e.DriveUnit)
+                .Include(e => e.Transmission)
+                .Include(e => e.TechnicalPassport)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
     }

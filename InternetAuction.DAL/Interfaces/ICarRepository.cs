@@ -7,7 +7,7 @@ namespace InternetAuction.DAL.Interfaces
 {
     public interface ICarRepository : IRepository<Car>
     {
-        Task<IQueryable<Car>> FindAllWithDetailsAsync();
-        Task<Car> GetByIdWithDetailsAsync(int id);
+        Task<IQueryable<Car>> FindAllWithTechnicalPassportAsync();
+        Task<Car> GetByIdWithTechnicalPassportAsync(int id);
     }
 }

@@ -36,12 +36,12 @@ namespace InternetAuction.DAL.Repositories.Base
                 _entities.Remove(entity);
         }
 
-        public async Task<IQueryable<TEntity>> FindAllAsync()
+        public virtual async Task<IQueryable<TEntity>> FindAllAsync()
         {
             return await _entities.ToListAsync() as IQueryable<TEntity>;
         }
 
-        public async Task<TEntity> GetByIdAsync(int id)
+        public virtual async Task<TEntity> GetByIdAsync(int id)
         {
             return await _entities.FirstOrDefaultAsync(e => e.Id == id);
         }
