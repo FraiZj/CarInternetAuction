@@ -66,6 +66,7 @@
     <Compile Include="Entities\Bet.cs" />
     <Compile Include="Entities\BodyType.cs" />
     <Compile Include="Entities\Car.cs" />
+    <Compile Include="Entities\CarImage.cs" />
     <Compile Include="Entities\DriveUnit.cs" />
     <Compile Include="Entities\Lot.cs" />
     <Compile Include="Entities\SaleType.cs" />
@@ -74,6 +75,10 @@
     <Compile Include="Migrations\202010311006389_InitialMigration.cs" />
     <Compile Include="Migrations\202010311006389_InitialMigration.designer.cs">
       <DependentUpon>202010311006389_InitialMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010311035142_AddedCarImageModel.cs" />
+    <Compile Include="Migrations\202010311035142_AddedCarImageModel.designer.cs">
+      <DependentUpon>202010311035142_AddedCarImageModel.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -85,6 +90,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202010311006389_InitialMigration.resx">
       <DependentUpon>202010311006389_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010311035142_AddedCarImageModel.resx">
+      <DependentUpon>202010311035142_AddedCarImageModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

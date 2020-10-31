@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace InternetAuction.DAL.Entities
 {
@@ -34,5 +35,6 @@ namespace InternetAuction.DAL.Entities
         public Transmission Transmission { get; set; }
         public DriveUnit DriveUnit { get; set; }
         public BodyType BodyType { get; set; }
+        public virtual ICollection<CarImage> CarImages { get; set; }
     }
 }

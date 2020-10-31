@@ -8,7 +8,7 @@ namespace InternetAuction.DAL
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        internal ApplicationDbContext()   
+        public ApplicationDbContext()   
             : base(ConfigurationManager.ConnectionStrings["ApplicationDbContext"].ConnectionString)
         {
             Database.SetInitializer(new DbInitializer());
@@ -22,6 +22,7 @@ namespace InternetAuction.DAL
 
         public virtual DbSet<Car> Cars { get; set; }
         public virtual DbSet<TechnicalPassport> TechnicalPassports { get; set; }
+        public virtual DbSet<CarImage> CarImages { get; set; }
         public virtual DbSet<Lot> Lots { get; set; }
         public virtual DbSet<Bet> Bets { get; set; }
         public virtual DbSet<DriveUnit> DriveUnits { get; set; }
@@ -81,6 +82,8 @@ namespace InternetAuction.DAL
                 new Transmission { Id = 4, Name = "Continuously Variable Transmission (CVT)"}
             };
             context.Transmissions.AddRange(transmissions);
+
+            context.SaveChanges();
 
             base.Seed(context);
         }
