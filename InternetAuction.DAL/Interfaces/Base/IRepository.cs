@@ -6,7 +6,7 @@ namespace InternetAuction.DAL.Interfaces.Base
 {
     public interface IRepository<TEntity> where TEntity : BaseEntity
     {
-        Task<IQueryable<TEntity>> FindAllAsync();
+        IQueryable<TEntity> FindAll();
 
         Task<TEntity> GetByIdAsync(int id);
 

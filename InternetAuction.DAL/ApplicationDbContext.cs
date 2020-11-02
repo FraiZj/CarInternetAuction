@@ -8,11 +8,14 @@ namespace InternetAuction.DAL
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext()   
-            : base(ConfigurationManager.ConnectionStrings["ApplicationDbContext"].ConnectionString)
+        public ApplicationDbContext()
         {
-            Database.SetInitializer(new ApplicationDbInitializer());
+
         }
+
+        //public ApplicationDbContext()
+        //    : this(ConfigurationManager.ConnectionStrings["ApplicationDbContext"].ConnectionString)
+        //{ } // ApplicationDbContext
 
         public ApplicationDbContext(string nameOrConnectionString)
             : base(nameOrConnectionString)

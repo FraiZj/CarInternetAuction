@@ -12,33 +12,31 @@ namespace InternetAuction.DAL.Repositories.Base
         protected readonly ApplicationDbContext _context;
         protected readonly DbSet<TEntity> _entities;
 
-        public Repository(ApplicationDbContext context)
+        protected Repository(ApplicationDbContext context)
         {
             _context = context;
             _entities = context.Set<TEntity>();
         }
 
-        public void Add(TEntity entity)
+        public virtual void Add(TEntity entity)
         {
             _entities.Add(entity);
         }
 
-        public void Delete(TEntity entity)
+        public virtual void Delete(TEntity entity)
         {
             _entities.Remove(entity);
         }
 
-        public async Task DeleteByIdAsync(int id)
+        public virtual async Task DeleteByIdAsync(int id)
         {
             var entity = await GetByIdAsync(id);
-
-            if (entity != null)
-                _entities.Remove(entity);
+            _entities.Remove(entity);
         }
 
-        public virtual async Task<IQueryable<TEntity>> FindAllAsync()
+        public virtual IQueryable<TEntity> FindAll()
         {
-            return await _entities.ToListAsync() as IQueryable<TEntity>;
+            return _entities.AsEnumerable().AsQueryable();
         }
 
         public virtual async Task<TEntity> GetByIdAsync(int id)
@@ -46,7 +44,7 @@ namespace InternetAuction.DAL.Repositories.Base
             return await _entities.FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public void Update(TEntity entity)
+        public virtual void Update(TEntity entity)
         {
             _entities.Attach(entity);
         }
