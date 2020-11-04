@@ -38,7 +38,7 @@ namespace InternetAuction.DAL.Repositories
         public override IQueryable<Car> FindAll()
         {
             return _entities
-                .Include(e => e.CarImages.FirstOrDefault())
+                .Include(e => e.CarImages)
                 .AsQueryable();
         }
 

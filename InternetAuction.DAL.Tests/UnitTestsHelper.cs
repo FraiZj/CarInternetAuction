@@ -21,7 +21,8 @@ namespace InternetAuction.DAL.Tests
                     Year = 1,
                     Mileage = 1,
                     EngineType = "2.8",
-                    CarImages = new List<CarImage> { new CarImage { Id = 1, CarId = 1 } }
+                    CarImages = new List<CarImage> { new CarImage { Id = 1, CarId = 1 } },
+                    TechnicalPassport = new TechnicalPassport { CarId = 1, PrimaryDamage = "BMW" }
                 },
                 new Car { Id = 2, Brand = "Audi", Model = "RS6" },
                 new Car { Id = 3, Brand = "Mercedes-Benz", Model = "E63" },
