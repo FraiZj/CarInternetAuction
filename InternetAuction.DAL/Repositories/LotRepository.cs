@@ -17,7 +17,6 @@ namespace InternetAuction.DAL.Repositories
         {
             return _entities
                 .Include(e => e.Car)
-                .Include(e => e.SaleType)
                 .AsQueryable();
         }
 
@@ -25,7 +24,6 @@ namespace InternetAuction.DAL.Repositories
         {
             return _entities
                 .Include(e => e.Car)
-                .Include(e => e.SaleType)
                 .Include(e => e.Seller)
                 .Include(e => e.Bets)
                 .Include(e => e.Buyer)
@@ -36,7 +34,6 @@ namespace InternetAuction.DAL.Repositories
         {
             return await _entities
                 .Include(e => e.Car)
-                .Include(e => e.SaleType)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
@@ -44,7 +41,6 @@ namespace InternetAuction.DAL.Repositories
         {
             return await _entities
                 .Include(e => e.Car)
-                .Include(e => e.SaleType)
                 .Include(e => e.Seller)
                 .Include(e => e.Bets)
                 .Include(e => e.Buyer)

@@ -30,7 +30,7 @@ namespace InternetAuction.DAL.Repositories.Base
 
         public virtual async Task DeleteByIdAsync(int id)
         {
-            var entity = await GetByIdAsync(id);
+            var entity = await _entities.FirstOrDefaultAsync(e => e.Id == id);
             _entities.Remove(entity);
         }
 

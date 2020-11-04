@@ -53,20 +53,14 @@ namespace InternetAuction.DAL.Repositories
         public override async Task<Car> GetByIdAsync(int id)
         {
             return await _entities
-                .Include(e => e.BodyType)
                 .Include(e => e.CarImages)
-                .Include(e => e.DriveUnit)
-                .Include(e => e.Transmission)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task<Car> GetByIdWithTechnicalPassportAsync(int id)
         {
             return await _entities
-                .Include(e => e.BodyType)
                 .Include(e => e.CarImages)
-                .Include(e => e.DriveUnit)
-                .Include(e => e.Transmission)
                 .Include(e => e.TechnicalPassport)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }

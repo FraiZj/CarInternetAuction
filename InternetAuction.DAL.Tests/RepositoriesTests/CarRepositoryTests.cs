@@ -11,6 +11,12 @@ namespace InternetAuction.DAL.Tests.RepositoriesTests
     [TestFixture]
     public class CarRepositoryTests
     {
+        /// <summary>
+        /// Sets and returns mock context
+        /// </summary>
+        /// <param name="carDbSet"></param>
+        /// <param name="techPassportDbSet"></param>
+        /// <returns></returns>
         private Mock<ApplicationDbContext> GetMockContext(Mock<DbSet<Car>> carDbSet, Mock<DbSet<TechnicalPassport>> techPassportDbSet)
         {
             var mockContext =  new Mock<ApplicationDbContext>();
@@ -99,7 +105,7 @@ namespace InternetAuction.DAL.Tests.RepositoriesTests
         }
 
         [Test]
-        public async Task CarRepository_DeleteByIdAsync()
+        public async Task CarRepository_DeleteByIdAsync_DeletesCar()
         {
             var mockCarDbSet = UnitTestsHelper.GetMockDbSet<Car>(UnitTestsHelper.GetTestCars());
             var mockTechnicalPassportDbSet = UnitTestsHelper.GetMockDbSet<TechnicalPassport>(UnitTestsHelper.GetTestTechnicalPassports());
@@ -163,6 +169,41 @@ namespace InternetAuction.DAL.Tests.RepositoriesTests
                 Assert.AreEqual(testCars[i].CarImages?.First().Id, cars[i].CarImages?.First().Id);
                 Assert.AreEqual(testCars[i].TechnicalPassport?.CarId, cars[i].TechnicalPassport?.CarId);
             }
+        }
+
+        [Test]
+        public async Task CarRepository_GetByIdAsync_ReturnsProperCar()
+        {
+            var car = UnitTestsHelper.GetTestCars().First();
+            var mockCarDbSet = UnitTestsHelper.GetMockDbSet<Car>(UnitTestsHelper.GetTestCars().AsQueryable());
+            var mockTechnicalPassportDbSet = UnitTestsHelper.GetMockDbSet<TechnicalPassport>(UnitTestsHelper.GetTestTechnicalPassports());
+            var mockContext = GetMockContext(mockCarDbSet, mockTechnicalPassportDbSet);
+            var carRepo = new CarRepository(mockContext.Object);
+
+            var result = await carRepo.GetByIdAsync(1);
+
+            Assert.AreEqual(car.Id, car.Id);
+            Assert.AreEqual(car.Brand, result.Brand);
+            Assert.AreEqual(car.BodyType, result.BodyType);
+            Assert.AreEqual(car.CarImages?.First().Id, result.CarImages?.First().Id);
+        }
+
+        [Test]
+        public async Task CarRepository_GetByIdWithTechnicalPassportAsync_ReturnsProperCarWithTechnicalPassport()
+        {
+            var car = UnitTestsHelper.GetTestCars().First();
+            var mockCarDbSet = UnitTestsHelper.GetMockDbSet<Car>(UnitTestsHelper.GetTestCars().AsQueryable());
+            var mockTechnicalPassportDbSet = UnitTestsHelper.GetMockDbSet<TechnicalPassport>(UnitTestsHelper.GetTestTechnicalPassports());
+            var mockContext = GetMockContext(mockCarDbSet, mockTechnicalPassportDbSet);
+            var carRepo = new CarRepository(mockContext.Object);
+
+            var result = await carRepo.GetByIdAsync(1);
+
+            Assert.AreEqual(car.Id, car.Id);
+            Assert.AreEqual(car.Brand, result.Brand);
+            Assert.AreEqual(car.BodyType, result.BodyType);
+            Assert.AreEqual(car.CarImages?.First().Id, result.CarImages?.First().Id);
+            Assert.AreEqual(car.TechnicalPassport?.CarId, result.TechnicalPassport?.CarId);
         }
 
         [Test]

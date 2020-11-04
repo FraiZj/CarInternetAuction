@@ -1,7 +1,5 @@
 ﻿using InternetAuction.DAL.Entities;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Data.Entity;
 
 namespace InternetAuction.DAL
