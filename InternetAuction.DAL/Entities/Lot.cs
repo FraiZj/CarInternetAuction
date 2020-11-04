@@ -1,4 +1,5 @@
 ﻿using InternetAuction.DAL.Entities.Base;
+using InternetAuction.DAL.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,12 +19,11 @@ namespace InternetAuction.DAL.Entities
         public DateTime AuctionDate { get; set; }
 
         [Required]
-        public int SaleTypeId { get; set; }
+        public SaleType SaleType { get; set; }
 
         public Car Car { get; set; }
         public ApplicationUser Seller { get; set; }
         public ApplicationUser Buyer { get; set; }
-        public SaleType SaleType { get; set; }
         public virtual ICollection<Bet> Bets { get; set; }
     }
 }

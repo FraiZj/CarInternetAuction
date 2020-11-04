@@ -38,21 +38,14 @@ namespace InternetAuction.DAL.Repositories
         public override IQueryable<Car> FindAll()
         {
             return _entities
-                .Include(e => e.BodyType)
-                .Include(e => e.CarImages)
-                .Include(e => e.DriveUnit)
-                .Include(e => e.Transmission)
-                .Include(e => e.TechnicalPassport)
+                .Include(e => e.CarImages.FirstOrDefault())
                 .AsQueryable();
         }
 
         public IQueryable<Car> FindAllWithTechnicalPassport()
         {
             return _entities
-                .Include(e => e.BodyType)
                 .Include(e => e.CarImages)
-                .Include(e => e.DriveUnit)
-                .Include(e => e.Transmission)
                 .Include(e => e.TechnicalPassport)
                 .AsQueryable();
         }

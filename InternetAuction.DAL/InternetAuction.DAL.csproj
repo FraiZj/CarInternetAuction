@@ -65,14 +65,14 @@
     <Compile Include="Entities\ApplicationUser.cs" />
     <Compile Include="Entities\Base\BaseEntity.cs" />
     <Compile Include="Entities\Bet.cs" />
-    <Compile Include="Entities\BodyType.cs" />
+    <Compile Include="Enums\BodyType.cs" />
     <Compile Include="Entities\Car.cs" />
     <Compile Include="Entities\CarImage.cs" />
-    <Compile Include="Entities\DriveUnit.cs" />
+    <Compile Include="Enums\DriveUnit.cs" />
     <Compile Include="Entities\Lot.cs" />
-    <Compile Include="Entities\SaleType.cs" />
+    <Compile Include="Enums\SaleType.cs" />
     <Compile Include="Entities\TechnicalPassport.cs" />
-    <Compile Include="Entities\Transmission.cs" />
+    <Compile Include="Enums\Transmission.cs" />
     <Compile Include="Interfaces\ICarRepository.cs" />
     <Compile Include="Interfaces\Base\IRepository.cs" />
     <Compile Include="Interfaces\ILotRepository.cs" />
@@ -83,6 +83,10 @@
     <Compile Include="Migrations\202010311035142_AddedCarImageModel.cs" />
     <Compile Include="Migrations\202010311035142_AddedCarImageModel.designer.cs">
       <DependentUpon>202010311035142_AddedCarImageModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011040826082_UpdateEntities.cs" />
+    <Compile Include="Migrations\202011040826082_UpdateEntities.designer.cs">
+      <DependentUpon>202011040826082_UpdateEntities.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -100,6 +104,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202010311035142_AddedCarImageModel.resx">
       <DependentUpon>202010311035142_AddedCarImageModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011040826082_UpdateEntities.resx">
+      <DependentUpon>202011040826082_UpdateEntities.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

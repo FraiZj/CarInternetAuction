@@ -15,19 +15,8 @@ namespace InternetAuction.DAL.Tests.RepositoriesTests
         {
             var mockContext =  new Mock<ApplicationDbContext>();
             mockContext
-                .Setup(m => m.DriveUnits)
-                .Returns(UnitTestsHelper.GetMockDbSet<DriveUnit>(UnitTestsHelper.GetTestDriveUnits()).Object);
-            mockContext
-                .Setup(m => m.BodyTypes)
-                .Returns(UnitTestsHelper.GetMockDbSet<BodyType>(UnitTestsHelper.GetTestBodyTypes()).Object);
-            mockContext
-                .Setup(m => m.Transmissions)
-                .Returns(UnitTestsHelper.GetMockDbSet<Transmission>(UnitTestsHelper.GetTestTransmissions()).Object);
-            mockContext
                 .Setup(m => m.CarImages)
                 .Returns(UnitTestsHelper.GetMockDbSet<CarImage>(UnitTestsHelper.GetTestCarImages()).Object);
-
-
             mockContext
                 .Setup(m => m.Set<Car>())
                 .Returns(carDbSet.Object);

@@ -1,5 +1,6 @@
 ﻿using InternetAuction.DAL.Entities;
 using Moq;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -19,10 +20,7 @@ namespace InternetAuction.DAL.Tests
                     Model = "M5",
                     Year = 1,
                     Mileage = 1,
-                    TransmissionId = 1,
-                    DriveUnitId = 1,
                     EngineType = "2.8",
-                    BodyTypeId = 1,
                     CarImages = new List<CarImage> { new CarImage { Id = 1, CarId = 1 } }
                 },
                 new Car { Id = 2, Brand = "Audi", Model = "RS6" },
@@ -41,17 +39,18 @@ namespace InternetAuction.DAL.Tests
             }.AsQueryable();
         }
 
-        public static IQueryable<DriveUnit> GetTestDriveUnits()
-            => new List<DriveUnit> { new DriveUnit { Id = 1, Name = "TestDriveUnit" } }.AsQueryable();
-
-        public static IQueryable<BodyType> GetTestBodyTypes()
-            => new List<BodyType> { new BodyType { Id = 1, Name = "TestBodyType", Cars = new List<Car> { } } }.AsQueryable();
-
-        public static IQueryable<Transmission> GetTestTransmissions()
-            => new List<Transmission> { new Transmission { Id = 1, Name = "TestTransmission" } }.AsQueryable();
-
         public static IQueryable<CarImage> GetTestCarImages()
             => new List<CarImage> { new CarImage { Id = 1, CarId = 1 } }.AsQueryable();
+
+        public static IQueryable<Lot> GetTestLots()
+        {
+            return new List<Lot>
+            {
+                new Lot { Id = 1, AuctionDate = new DateTime(2020, 11, 10)},
+                new Lot { Id = 2, AuctionDate = new DateTime(2020, 11, 10)},
+                new Lot { Id = 3, AuctionDate = new DateTime(2020, 11, 10)}
+            }.AsQueryable();
+        }
 
         public static Mock<DbSet<T>> GetMockDbSet<T>(IQueryable<T> data) where T : class
         {

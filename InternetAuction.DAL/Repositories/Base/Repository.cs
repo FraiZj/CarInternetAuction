@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace InternetAuction.DAL.Repositories.Base
 {
-    public class Repository<TEntity> : IRepository<TEntity>
+    public abstract class Repository<TEntity> : IRepository<TEntity>
         where TEntity : BaseEntity
     {
         protected readonly ApplicationDbContext _context;
