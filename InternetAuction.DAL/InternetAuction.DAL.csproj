@@ -73,6 +73,7 @@
     <Compile Include="Enums\SaleType.cs" />
     <Compile Include="Entities\TechnicalPassport.cs" />
     <Compile Include="Enums\Transmission.cs" />
+    <Compile Include="Interfaces\IBetRepository.cs" />
     <Compile Include="Interfaces\ICarRepository.cs" />
     <Compile Include="Interfaces\Base\IRepository.cs" />
     <Compile Include="Interfaces\ILotRepository.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Base\Repository.cs" />
+    <Compile Include="Repositories\BetRepository.cs" />
     <Compile Include="Repositories\CarRepository.cs" />
     <Compile Include="Repositories\LotRepository.cs" />
   </ItemGroup>
