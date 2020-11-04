@@ -16,7 +16,8 @@ namespace InternetAuction.DAL.Entities
         public string Country { get; set; }
         public string City { get; set; }
 
-        public virtual ICollection<Lot> SoldLots { get; set; }
+
+        public virtual ICollection<Lot> SaleLots { get; set; } 
         public virtual ICollection<Lot> PurchasedLots { get; set; }
         public virtual ICollection<Bet> Bets { get; set; }
     }
