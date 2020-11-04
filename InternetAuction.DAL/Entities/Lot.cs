@@ -12,8 +12,8 @@ namespace InternetAuction.DAL.Entities
         public int CarId { get; set; }
 
         [Required]
-        public int SellerId { get; set; }
-        public int BuyerId { get; set; }
+        public string SellerId { get; set; }
+        public string BuyerId { get; set; }
 
         [Required]
         public DateTime AuctionDate { get; set; }

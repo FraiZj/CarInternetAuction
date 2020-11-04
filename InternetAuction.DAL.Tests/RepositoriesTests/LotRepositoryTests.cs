@@ -13,7 +13,7 @@ namespace InternetAuction.DAL.Tests.RepositoriesTests
     public class LotRepositoryTests
     {
         /// <summary>
-        /// Returns setted mock context
+        /// Sets and returns mock context
         /// </summary>
         /// <param name="mockDbSet"></param>
         /// <returns></returns>

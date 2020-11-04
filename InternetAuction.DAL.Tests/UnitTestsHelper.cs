@@ -60,11 +60,30 @@ namespace InternetAuction.DAL.Tests
                     AuctionDate = new DateTime(2020, 11, 10), 
                     CarId = 1, 
                     Car = new Car { Id = 1, Brand = "Audi", Model = "RS6" }, 
-                    SellerId = 1,
+                    SellerId = "1",
                     Seller = new ApplicationUser { Id = "1" } 
                 },
                 new Lot { Id = 2, AuctionDate = new DateTime(2020, 11, 10), CarId = 2 },
                 new Lot { Id = 3, AuctionDate = new DateTime(2020, 11, 10), CarId = 3 }
+            }.AsQueryable();
+        }
+
+        public static IQueryable<Bet> GetTestBets()
+        {
+            return new List<Bet>
+            {
+                new Bet 
+                {
+                    Id = 1, 
+                    BetDate = new DateTime(2020, 11, 04), 
+                    Sum = 10000, 
+                    LotId = 1, 
+                    Lot = new Lot { Id = 1 }, 
+                    UserId = "1", 
+                    User = new ApplicationUser { Id = "1" } 
+                },
+                new Bet { Id = 2, BetDate = new DateTime(2020, 11, 08), Sum = 15000},
+                new Bet { Id = 3, BetDate = new DateTime(2020, 11, 10), Sum = 17000}
             }.AsQueryable();
         }
 
