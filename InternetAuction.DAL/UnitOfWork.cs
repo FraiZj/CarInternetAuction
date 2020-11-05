@@ -8,11 +8,18 @@ using System.Threading.Tasks;
 
 namespace InternetAuction.DAL
 {
+    /// <summary>
+    /// Represents a unit of work class
+    /// </summary>
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
         private bool disposed;
 
+        /// <summary>
+        /// Initializes the instance of the unit of work with context
+        /// </summary>
+        /// <param name="context"></param>
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;

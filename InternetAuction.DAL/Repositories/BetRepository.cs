@@ -7,8 +7,15 @@ using System.Threading.Tasks;
 
 namespace InternetAuction.DAL.Repositories
 {
+    /// <summary>
+    /// Represents a bet repository class
+    /// </summary>
     public class BetRepository : Repository<Bet>, IBetRepository
     {
+        /// <summary>
+        /// Initializes an instance of the bet repository with context
+        /// </summary>
+        /// <param name="context"></param>
         public BetRepository(ApplicationDbContext context)
             : base(context)
         { }

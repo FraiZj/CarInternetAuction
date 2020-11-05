@@ -158,7 +158,7 @@ namespace InternetAuction.DAL.Tests.RepositoriesTests
             var mockContext = GetMockContext(mockCarDbSet, mockTechnicalPassportDbSet);
             var carRepo = new CarRepository(mockContext.Object);
 
-            var cars = carRepo.FindAllWithTechnicalPassport().ToList();
+            var cars = carRepo.FindAllWithDetails().ToList();
 
             Assert.AreEqual(testCars.Count, cars.Count);
             for (int i = 0; i < cars.Count; i++)

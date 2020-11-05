@@ -7,12 +7,23 @@ using System.Threading.Tasks;
 
 namespace InternetAuction.DAL.Repositories
 {
+    /// <summary>
+    /// Represents a lot repository class
+    /// </summary>
     public class LotRepository : Repository<Lot>, ILotRepository
     {
+        /// <summary>
+        /// Initializes an instance of the lot repository with context
+        /// </summary>
+        /// <param name="context"></param>
         public LotRepository(ApplicationDbContext context)
             : base(context)
         {}
 
+        /// <summary>
+        /// Returns all lots
+        /// </summary>
+        /// <returns></returns>
         public override IQueryable<Lot> FindAll()
         {
             return _entities
@@ -30,6 +41,11 @@ namespace InternetAuction.DAL.Repositories
                 .AsQueryable();
         }
 
+        /// <summary>
+        /// Returns a lot with details by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public override async Task<Lot> GetByIdAsync(int id)
         {
             return await _entities

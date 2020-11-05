@@ -6,12 +6,20 @@ using System.Threading.Tasks;
 
 namespace InternetAuction.DAL.Repositories.Base
 {
+    /// <summary>
+    /// Abstract class that implements basic repository methods
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
     public abstract class Repository<TEntity> : IRepository<TEntity>
         where TEntity : BaseEntity
     {
         protected readonly ApplicationDbContext _context;
         protected readonly DbSet<TEntity> _entities;
 
+        /// <summary>
+        /// Initializes an instance of the generic repository with context
+        /// </summary>
+        /// <param name="context"></param>
         protected Repository(ApplicationDbContext context)
         {
             _context = context;
@@ -36,7 +44,7 @@ namespace InternetAuction.DAL.Repositories.Base
 
         public virtual IQueryable<TEntity> FindAll()
         {
-            return _entities.AsEnumerable().AsQueryable();
+            return _entities.AsQueryable();
         }
 
         public virtual async Task<TEntity> GetByIdAsync(int id)

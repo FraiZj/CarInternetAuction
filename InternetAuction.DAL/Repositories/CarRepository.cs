@@ -7,8 +7,15 @@ using System.Threading.Tasks;
 
 namespace InternetAuction.DAL.Repositories
 {
+    /// <summary>
+    /// Represents a car repository class
+    /// </summary>
     public class CarRepository : Repository<Car>, ICarRepository
     {
+        /// <summary>
+        /// Initializes an instance of the car repository with context
+        /// </summary>
+        /// <param name="context"></param>
         public CarRepository(ApplicationDbContext context)
             : base(context)
         { }
@@ -18,6 +25,10 @@ namespace InternetAuction.DAL.Repositories
             _context.TechnicalPassports.Add(technicalPassport);
         }
 
+        /// <summary>
+        /// Deletes a car and its technical passport
+        /// </summary>
+        /// <param name="entity"></param>
         public override void Delete(Car entity)
         {
             var technicalPassport = _context.TechnicalPassports.FirstOrDefault(p => p.CarId == entity.Id);
@@ -26,6 +37,11 @@ namespace InternetAuction.DAL.Repositories
             _entities.Remove(entity);
         }
 
+        /// <summary>
+        /// Deletes a car and its technical passport by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public override async Task DeleteByIdAsync(int id)
         {
             var car = await _entities.FirstOrDefaultAsync(p => p.Id == id);
@@ -35,6 +51,10 @@ namespace InternetAuction.DAL.Repositories
             _entities.Remove(car);
         }
 
+        /// <summary>
+        /// Returns all cars
+        /// </summary>
+        /// <returns></returns>
         public override IQueryable<Car> FindAll()
         {
             return _entities
@@ -42,7 +62,7 @@ namespace InternetAuction.DAL.Repositories
                 .AsQueryable();
         }
 
-        public IQueryable<Car> FindAllWithTechnicalPassport()
+        public IQueryable<Car> FindAllWithDetails()
         {
             return _entities
                 .Include(e => e.CarImages)
@@ -50,6 +70,11 @@ namespace InternetAuction.DAL.Repositories
                 .AsQueryable();
         }
 
+        /// <summary>
+        /// Returns a car by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public override async Task<Car> GetByIdAsync(int id)
         {
             return await _entities
@@ -57,7 +82,7 @@ namespace InternetAuction.DAL.Repositories
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public async Task<Car> GetByIdWithTechnicalPassportAsync(int id)
+        public async Task<Car> GetByIdWithDetails(int id)
         {
             return await _entities
                 .Include(e => e.CarImages)

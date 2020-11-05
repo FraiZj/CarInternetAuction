@@ -1,21 +1,25 @@
 ﻿using InternetAuction.DAL.Entities;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System.Configuration;
 using System.Data.Entity;
 
 namespace InternetAuction.DAL
 {
+    /// <summary>
+    /// DbContext which uses a custom user entity with a string primary key
+    /// </summary>
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-        {
-
-        }
+        { }
 
         //public ApplicationDbContext()
         //    : this(ConfigurationManager.ConnectionStrings["ApplicationDbContext"].ConnectionString)
         //{ } // ApplicationDbContext
 
+        /// <summary>
+        /// Initializes an instance of the ApplicationDbContext
+        /// </summary>
+        /// <param name="nameOrConnectionString"></param>
         public ApplicationDbContext(string nameOrConnectionString)
             : base(nameOrConnectionString)
         {
