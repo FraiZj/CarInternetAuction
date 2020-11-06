@@ -7,7 +7,7 @@ namespace InternetAuction.DAL.Interfaces.Base
     /// <summary>
     /// Interface that exposes basic repository methods
     /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TEntity">Type of repository elements</typeparam>
     public interface IRepository<TEntity> where TEntity : BaseEntity
     {
         /// <summary>

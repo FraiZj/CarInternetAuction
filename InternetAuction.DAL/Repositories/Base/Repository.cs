@@ -9,7 +9,7 @@ namespace InternetAuction.DAL.Repositories.Base
     /// <summary>
     /// Abstract class that implements basic repository methods
     /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TEntity">Type of repository elements</typeparam>
     public abstract class Repository<TEntity> : IRepository<TEntity>
         where TEntity : BaseEntity
     {

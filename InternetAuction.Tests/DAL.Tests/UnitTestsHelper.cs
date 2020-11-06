@@ -7,7 +7,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using InternetAuction.DAL.Enums;
 
-namespace InternetAuction.DAL.Tests
+namespace InternetAuction.Tests.DAL.Tests
 {
     /// <summary>
     /// Represents class with helper methods for unit testing

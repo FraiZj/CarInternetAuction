@@ -1,4 +1,5 @@
-﻿using InternetAuction.DAL.Entities;
+﻿using InternetAuction.DAL;
+using InternetAuction.DAL.Entities;
 using InternetAuction.DAL.Repositories;
 using Moq;
 using NUnit.Framework;
@@ -7,7 +8,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace InternetAuction.DAL.Tests.RepositoriesTests
+namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
 {
     [TestFixture]
     public class LotRepositoryTests

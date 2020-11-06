@@ -3,7 +3,7 @@ using System.Data.Entity.Infrastructure;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace InternetAuction.DAL.Tests
+namespace InternetAuction.Tests.DAL.Tests
 {
     internal class TestDbAsyncEnumerator<T> : IDbAsyncEnumerator<T>
     {
