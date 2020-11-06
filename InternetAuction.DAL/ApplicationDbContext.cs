@@ -1,5 +1,6 @@
 ﻿using InternetAuction.DAL.Entities;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Configuration;
 using System.Data.Entity;
 
 namespace InternetAuction.DAL
@@ -9,12 +10,12 @@ namespace InternetAuction.DAL
     /// </summary>
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext()
-        { }
-
         //public ApplicationDbContext()
-        //    : this(ConfigurationManager.ConnectionStrings["ApplicationDbContext"].ConnectionString)
-        //{ } // ApplicationDbContext
+        //{ }
+
+        public ApplicationDbContext()
+            : this(ConfigurationManager.ConnectionStrings["ApplicationDbContext"].ConnectionString)
+        { } // ApplicationDbContext
 
         /// <summary>
         /// Initializes an instance of the ApplicationDbContext

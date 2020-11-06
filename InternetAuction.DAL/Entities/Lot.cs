@@ -20,6 +20,8 @@ namespace InternetAuction.DAL.Entities
         [Required]
         public DateTime AuctionDate { get; set; }
 
+        public bool IsActive { get; set; }
+
         [ForeignKey("SellerId")]
         public ApplicationUser Seller { get; set; }
         [ForeignKey("BuyerId")]

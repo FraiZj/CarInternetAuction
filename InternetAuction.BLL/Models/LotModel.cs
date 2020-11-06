@@ -8,8 +8,8 @@ namespace InternetAuction.BLL.Models
 {
     public class LotModel : BaseModel
     {
-        [Required, Display(Name = "Car Id")]
-        public int CarId { get; set; }
+        [Required, Display(Name = "Car")]
+        public CarModel Car { get; set; }
 
         [Required, Display(Name = "Seller Id")]
         public string SellerId { get; set; }

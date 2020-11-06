@@ -96,6 +96,10 @@
     <Compile Include="Migrations\202011041217466_FixedEntitiesForeignKeys.designer.cs">
       <DependentUpon>202011041217466_FixedEntitiesForeignKeys.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011061258382_UpdatedLotEntity.cs" />
+    <Compile Include="Migrations\202011061258382_UpdatedLotEntity.designer.cs">
+      <DependentUpon>202011061258382_UpdatedLotEntity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Base\Repository.cs" />
@@ -120,6 +124,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011041217466_FixedEntitiesForeignKeys.resx">
       <DependentUpon>202011041217466_FixedEntitiesForeignKeys.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011061258382_UpdatedLotEntity.resx">
+      <DependentUpon>202011061258382_UpdatedLotEntity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
