@@ -85,6 +85,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\InternetAuction.BLL\InternetAuction.BLL.csproj">
+      <Project>{25aa2d0a-e912-4b0e-a585-984f552897cc}</Project>
+      <Name>InternetAuction.BLL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\InternetAuction.DAL\InternetAuction.DAL.csproj">
       <Project>{475f1d16-27b5-4a6d-bb4a-f2b241cf1f2a}</Project>
       <Name>InternetAuction.DAL</Name>
