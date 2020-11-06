@@ -1,10 +1,11 @@
 ﻿using InternetAuction.BLL.EnumsDtos;
+using InternetAuction.BLL.Models.Base;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace InternetAuction.BLL.Models
 {
-    public class CarModel
+    public class CarModel : BaseModel
     {
         [Required, RegularExpression(@"^[a-zA-Z_-]+$")]
         public string Brand { get; set; }
@@ -30,7 +31,10 @@ namespace InternetAuction.BLL.Models
         [Required, Display(Name = "Body Type")]
         public BodyTypeDto BodyType { get; set; }
 
-        public virtual TechnicalPassportModel TechnicalPassport { get; set; }
-        public virtual ICollection<CarImageModel> CarImages { get; set; }
+        [Display(Name = "Technical Passport")]
+        public TechnicalPassportModel TechnicalPassport { get; set; }
+
+        [Display(Name = "Car Images")]
+        public ICollection<CarImageModel> CarImages { get; set; }
     }
 }
