@@ -4,6 +4,7 @@ using InternetAuction.DAL.Repositories;
 using Moq;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +14,25 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
     [TestFixture]
     public class BetRepositoryTests
     {
+        private IQueryable<Bet> GetTestBets()
+        {
+            return new List<Bet>
+            {
+                new Bet
+                {
+                    Id = 1,
+                    BetDate = new DateTime(2020, 11, 04),
+                    Sum = 10000,
+                    LotId = 1,
+                    Lot = new Lot { Id = 1 },
+                    UserId = "1",
+                    User = new ApplicationUser { Id = "1" }
+                },
+                new Bet { Id = 2, BetDate = new DateTime(2020, 11, 08), Sum = 15000},
+                new Bet { Id = 3, BetDate = new DateTime(2020, 11, 10), Sum = 17000}
+            }.AsQueryable();
+        }
+
         /// <summary>
         /// Sets and returns mock context
         /// </summary>
@@ -34,7 +54,7 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public void BetRepository_Add_AddsBet()
         {
-            var mockDbSet = UnitTestsHelper.GetMockDbSet<Bet>(UnitTestsHelper.GetTestBets());
+            var mockDbSet = UnitTestHelper.GetMockDbSet<Bet>(GetTestBets());
             var mockContext = GetMockContext(mockDbSet);
             var betRepo = new BetRepository(mockContext.Object);
             var bet = new Bet
@@ -57,7 +77,7 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public void BetRepository_Delete_DeletesBet()
         {
-            var mockDbSet = UnitTestsHelper.GetMockDbSet<Bet>(UnitTestsHelper.GetTestBets());
+            var mockDbSet = UnitTestHelper.GetMockDbSet<Bet>(GetTestBets());
             var mockContext = GetMockContext(mockDbSet);
             var betRepo = new BetRepository(mockContext.Object);
             var bet = new Bet
@@ -80,7 +100,7 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public async Task BetRepository_DeleteByIdAsync_DeletesBet()
         {
-            var mockDbSet = UnitTestsHelper.GetMockDbSet<Bet>(UnitTestsHelper.GetTestBets());
+            var mockDbSet = UnitTestHelper.GetMockDbSet<Bet>(GetTestBets());
             var mockContext = GetMockContext(mockDbSet);
             var betRepo = new BetRepository(mockContext.Object);
             var bet = new Bet
@@ -103,8 +123,8 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public void BetRepository_FindAll_ReturnsAllBets()
         {
-            var bets = UnitTestsHelper.GetTestBets().ToList();
-            var mockDbSet = UnitTestsHelper.GetMockDbSet<Bet>(bets.AsQueryable());
+            var bets = GetTestBets().ToList();
+            var mockDbSet = UnitTestHelper.GetMockDbSet<Bet>(bets.AsQueryable());
             var mockContext = GetMockContext(mockDbSet);
             var betRepo = new BetRepository(mockContext.Object);
 
@@ -122,8 +142,8 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public void BetRepository_FindAllWithDetails_ReturnsAllBetsWithDetails()
         {
-            var bets = UnitTestsHelper.GetTestBets().ToList();
-            var mockDbSet = UnitTestsHelper.GetMockDbSet<Bet>(bets.AsQueryable());
+            var bets = GetTestBets().ToList();
+            var mockDbSet = UnitTestHelper.GetMockDbSet<Bet>(bets.AsQueryable());
             var mockContext = GetMockContext(mockDbSet);
             var betRepo = new BetRepository(mockContext.Object);
 
@@ -141,8 +161,8 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public async Task BetRepository_GetByIdAsync_ReturnsProperBet()
         {
-            var bet = UnitTestsHelper.GetTestBets().First();
-            var mockDbSet = UnitTestsHelper.GetMockDbSet<Bet>(UnitTestsHelper.GetTestBets());
+            var bet = GetTestBets().First();
+            var mockDbSet = UnitTestHelper.GetMockDbSet<Bet>(GetTestBets());
             var mockContext = GetMockContext(mockDbSet);
             var betRepo = new BetRepository(mockContext.Object);
 
@@ -156,8 +176,8 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public async Task BetRepository_GetByIdWithDetailsAsync_ReturnsProperBetWithDetails()
         {
-            var bet = UnitTestsHelper.GetTestBets().First();
-            var mockDbSet = UnitTestsHelper.GetMockDbSet<Bet>(UnitTestsHelper.GetTestBets());
+            var bet = GetTestBets().First();
+            var mockDbSet = UnitTestHelper.GetMockDbSet<Bet>(GetTestBets());
             var mockContext = GetMockContext(mockDbSet);
             var betRepo = new BetRepository(mockContext.Object);
 
@@ -171,7 +191,7 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public void BetRepository_Update_UpdatesBet()
         {
-            var mockDbSet = UnitTestsHelper.GetMockDbSet<Bet>(UnitTestsHelper.GetTestBets());
+            var mockDbSet = UnitTestHelper.GetMockDbSet<Bet>(GetTestBets());
             var mockContext = GetMockContext(mockDbSet);
             var betRepo = new BetRepository(mockContext.Object);
             var bet = new Bet

@@ -1,8 +1,10 @@
 ﻿using InternetAuction.DAL;
 using InternetAuction.DAL.Entities;
+using InternetAuction.DAL.Enums;
 using InternetAuction.DAL.Repositories;
 using Moq;
 using NUnit.Framework;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +14,39 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
     [TestFixture]
     public class CarRepositoryTests
     {
+        private IQueryable<TechnicalPassport> GetTestTechnicalPassports()
+        {
+            return new List<TechnicalPassport>
+            {
+                new TechnicalPassport { CarId = 1, PrimaryDamage = "BMW" },
+                new TechnicalPassport { CarId = 2, PrimaryDamage = "Audi" },
+                new TechnicalPassport { CarId = 3, PrimaryDamage = "Mercedes" },
+            }.AsQueryable();
+        }
+
+        private IQueryable<Car> GetTestCars()
+        {
+            return new List<Car>
+            {
+                new Car {
+                    Id = 1,
+                    Brand = "BMW",
+                    Model = "M5",
+                    Year = 1,
+                    Mileage = 1,
+                    EngineType = "2.8",
+                    BodyType = BodyType.Sedan,
+                    DriveUnit = DriveUnit.FourWheelDrive,
+                    Transmission = Transmission.AT,
+                    CarImages = new List<CarImage> { new CarImage { Id = 1, CarId = 1 } },
+                    TechnicalPassport = new TechnicalPassport { CarId = 1, PrimaryDamage = "BMW" }
+                },
+                new Car { Id = 2, Brand = "Audi", Model = "RS6" },
+                new Car { Id = 3, Brand = "Mercedes-Benz", Model = "E63" },
+
+            }.AsQueryable();
+        }
+
         /// <summary>
         /// Sets and returns mock context
         /// </summary>
@@ -23,7 +58,7 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
             var mockContext =  new Mock<ApplicationDbContext>();
             mockContext
                 .Setup(m => m.CarImages)
-                .Returns(UnitTestsHelper.GetMockDbSet<CarImage>(UnitTestsHelper.GetTestCarImages()).Object);
+                .Returns(UnitTestHelper.GetMockDbSet<CarImage>(new List<CarImage> { new CarImage { Id = 1, CarId = 1 } }.AsQueryable()).Object);
             mockContext
                 .Setup(m => m.Set<Car>())
                 .Returns(carDbSet.Object);
@@ -40,8 +75,8 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public void CarRepository_Add_AddsCar()
         {
-            var mockCarDbSet = UnitTestsHelper.GetMockDbSet<Car>(UnitTestsHelper.GetTestCars());
-            var mockTechnicalPassportDbSet = UnitTestsHelper.GetMockDbSet<TechnicalPassport>(UnitTestsHelper.GetTestTechnicalPassports());
+            var mockCarDbSet = UnitTestHelper.GetMockDbSet<Car>(GetTestCars());
+            var mockTechnicalPassportDbSet = UnitTestHelper.GetMockDbSet<TechnicalPassport>(GetTestTechnicalPassports());
             var mockContext = GetMockContext(mockCarDbSet, mockTechnicalPassportDbSet);
             var carRepo = new CarRepository(mockContext.Object);
             var car = new Car 
@@ -62,8 +97,8 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public void CarRepository_AddTechnicalPassport_AddsTechnicalPassport()
         {
-            var mockCarDbSet = UnitTestsHelper.GetMockDbSet<Car>(UnitTestsHelper.GetTestCars());
-            var mockTechnicalPassportDbSet = UnitTestsHelper.GetMockDbSet<TechnicalPassport>(UnitTestsHelper.GetTestTechnicalPassports());
+            var mockCarDbSet = UnitTestHelper.GetMockDbSet<Car>(GetTestCars());
+            var mockTechnicalPassportDbSet = UnitTestHelper.GetMockDbSet<TechnicalPassport>(GetTestTechnicalPassports());
             var mockContext = GetMockContext(mockCarDbSet, mockTechnicalPassportDbSet);
             var carRepo = new CarRepository(mockContext.Object);
             var technicalPassport = new TechnicalPassport 
@@ -84,11 +119,11 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public void CarRepository_Delete_DeletesCar()
         {
-            var mockCarDbSet = UnitTestsHelper.GetMockDbSet<Car>(UnitTestsHelper.GetTestCars());
-            var mockTechnicalPassportDbSet = UnitTestsHelper.GetMockDbSet<TechnicalPassport>(UnitTestsHelper.GetTestTechnicalPassports());
+            var mockCarDbSet = UnitTestHelper.GetMockDbSet<Car>(GetTestCars());
+            var mockTechnicalPassportDbSet = UnitTestHelper.GetMockDbSet<TechnicalPassport>(GetTestTechnicalPassports());
             var mockContext = GetMockContext(mockCarDbSet, mockTechnicalPassportDbSet);
             var carRepo = new CarRepository(mockContext.Object);
-            var car = UnitTestsHelper.GetTestCars().First();
+            var car = GetTestCars().First();
 
             carRepo.Delete(car);
 
@@ -108,11 +143,11 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public async Task CarRepository_DeleteByIdAsync_DeletesCar()
         {
-            var mockCarDbSet = UnitTestsHelper.GetMockDbSet<Car>(UnitTestsHelper.GetTestCars());
-            var mockTechnicalPassportDbSet = UnitTestsHelper.GetMockDbSet<TechnicalPassport>(UnitTestsHelper.GetTestTechnicalPassports());
+            var mockCarDbSet = UnitTestHelper.GetMockDbSet<Car>(GetTestCars());
+            var mockTechnicalPassportDbSet = UnitTestHelper.GetMockDbSet<TechnicalPassport>(GetTestTechnicalPassports());
             var mockContext = GetMockContext(mockCarDbSet, mockTechnicalPassportDbSet);
             var carRepo = new CarRepository(mockContext.Object);
-            var car = UnitTestsHelper.GetTestCars().First();
+            var car = GetTestCars().First();
 
             await carRepo.DeleteByIdAsync(car.Id);
 
@@ -132,9 +167,9 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public void CarRepository_FindAll_ReturnsAllCars()
         {
-            var testCars = UnitTestsHelper.GetTestCars().ToList();
-            var mockCarDbSet = UnitTestsHelper.GetMockDbSet<Car>(testCars.AsQueryable());
-            var mockTechnicalPassportDbSet = UnitTestsHelper.GetMockDbSet<TechnicalPassport>(UnitTestsHelper.GetTestTechnicalPassports());
+            var testCars = GetTestCars().ToList();
+            var mockCarDbSet = UnitTestHelper.GetMockDbSet<Car>(testCars.AsQueryable());
+            var mockTechnicalPassportDbSet = UnitTestHelper.GetMockDbSet<TechnicalPassport>(GetTestTechnicalPassports());
             var mockContext = GetMockContext(mockCarDbSet, mockTechnicalPassportDbSet);
             var carRepo = new CarRepository(mockContext.Object);
 
@@ -153,9 +188,9 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public void CarRepository_FindAllWithTechnicalPassport_ReturnsAllCarsWithTechnicalPassport()
         {
-            var testCars = UnitTestsHelper.GetTestCars().ToList();
-            var mockCarDbSet = UnitTestsHelper.GetMockDbSet<Car>(testCars.AsQueryable());
-            var mockTechnicalPassportDbSet = UnitTestsHelper.GetMockDbSet<TechnicalPassport>(UnitTestsHelper.GetTestTechnicalPassports());
+            var testCars = GetTestCars().ToList();
+            var mockCarDbSet = UnitTestHelper.GetMockDbSet<Car>(testCars.AsQueryable());
+            var mockTechnicalPassportDbSet = UnitTestHelper.GetMockDbSet<TechnicalPassport>(GetTestTechnicalPassports());
             var mockContext = GetMockContext(mockCarDbSet, mockTechnicalPassportDbSet);
             var carRepo = new CarRepository(mockContext.Object);
 
@@ -175,9 +210,9 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public async Task CarRepository_GetByIdAsync_ReturnsProperCar()
         {
-            var car = UnitTestsHelper.GetTestCars().First();
-            var mockCarDbSet = UnitTestsHelper.GetMockDbSet<Car>(UnitTestsHelper.GetTestCars().AsQueryable());
-            var mockTechnicalPassportDbSet = UnitTestsHelper.GetMockDbSet<TechnicalPassport>(UnitTestsHelper.GetTestTechnicalPassports());
+            var car = GetTestCars().First();
+            var mockCarDbSet = UnitTestHelper.GetMockDbSet<Car>(GetTestCars().AsQueryable());
+            var mockTechnicalPassportDbSet = UnitTestHelper.GetMockDbSet<TechnicalPassport>(GetTestTechnicalPassports());
             var mockContext = GetMockContext(mockCarDbSet, mockTechnicalPassportDbSet);
             var carRepo = new CarRepository(mockContext.Object);
 
@@ -192,9 +227,9 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public async Task CarRepository_GetByIdWithTechnicalPassportAsync_ReturnsProperCarWithTechnicalPassport()
         {
-            var car = UnitTestsHelper.GetTestCars().First();
-            var mockCarDbSet = UnitTestsHelper.GetMockDbSet<Car>(UnitTestsHelper.GetTestCars().AsQueryable());
-            var mockTechnicalPassportDbSet = UnitTestsHelper.GetMockDbSet<TechnicalPassport>(UnitTestsHelper.GetTestTechnicalPassports());
+            var car = GetTestCars().First();
+            var mockCarDbSet = UnitTestHelper.GetMockDbSet<Car>(GetTestCars().AsQueryable());
+            var mockTechnicalPassportDbSet = UnitTestHelper.GetMockDbSet<TechnicalPassport>(GetTestTechnicalPassports());
             var mockContext = GetMockContext(mockCarDbSet, mockTechnicalPassportDbSet);
             var carRepo = new CarRepository(mockContext.Object);
 
@@ -210,8 +245,8 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public void CarRepository_Update_UpdatesCar()
         {
-            var mockCarDbSet = UnitTestsHelper.GetMockDbSet<Car>(UnitTestsHelper.GetTestCars());
-            var mockTechnicalPassportDbSet = UnitTestsHelper.GetMockDbSet<TechnicalPassport>(UnitTestsHelper.GetTestTechnicalPassports());
+            var mockCarDbSet = UnitTestHelper.GetMockDbSet<Car>(GetTestCars());
+            var mockTechnicalPassportDbSet = UnitTestHelper.GetMockDbSet<TechnicalPassport>(GetTestTechnicalPassports());
             var mockContext = GetMockContext(mockCarDbSet, mockTechnicalPassportDbSet);
             var carRepo = new CarRepository(mockContext.Object);
             var car = new Car
@@ -234,8 +269,8 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public void CarRepository_UpdateTechnicalPassport_UpdatesTechnicalPassport()
         {
-            var mockCarDbSet = UnitTestsHelper.GetMockDbSet<Car>(UnitTestsHelper.GetTestCars());
-            var mockTechnicalPassportDbSet = UnitTestsHelper.GetMockDbSet<TechnicalPassport>(UnitTestsHelper.GetTestTechnicalPassports());
+            var mockCarDbSet = UnitTestHelper.GetMockDbSet<Car>(GetTestCars());
+            var mockTechnicalPassportDbSet = UnitTestHelper.GetMockDbSet<TechnicalPassport>(GetTestTechnicalPassports());
             var mockContext = GetMockContext(mockCarDbSet, mockTechnicalPassportDbSet);
             var carRepo = new CarRepository(mockContext.Object);
             var techPassport = new TechnicalPassport

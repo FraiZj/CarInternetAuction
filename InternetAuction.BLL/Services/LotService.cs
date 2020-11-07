@@ -24,7 +24,7 @@ namespace InternetAuction.BLL.Services
             _mapper = mapper;
         }
 
-        private bool Validate(LotModel model, out ICollection<ValidationResult> validationResults)
+        private bool Validate(object model, out ICollection<ValidationResult> validationResults)
         {
             validationResults = new List<ValidationResult>();
             return Validator.TryValidateObject(model, new System.ComponentModel.DataAnnotations.ValidationContext(model), validationResults, true);
@@ -32,18 +32,24 @@ namespace InternetAuction.BLL.Services
 
         public async Task<OperationDetails> AddAsync(LotModel model)
         {
-            if (model is null) 
-                return new OperationDetails(false, new List<string> { "Lot cannot be null" });
-
-            if (!Validate(model, out var validationResults))
-                return new OperationDetails(false, validationResults.Select(r => r.ErrorMessage));
-
-            if (model.AuctionDate.ToUniversalTime() < DateTime.UtcNow
-                || DateTime.UtcNow.Month - model.AuctionDate.ToUniversalTime().Month > 1)
-                return new OperationDetails(false, new List<string> { "Invalid Auction Date" });
-
             try
             {
+                if (model is null)
+                    return new OperationDetails(false, new List<string> { "Lot cannot be null" });
+
+                ICollection<ValidationResult> validationResult;
+                if (!Validate(model, out validationResult)
+                    || !Validate(model.Car, out validationResult)
+                    || !Validate(model.Car.TechnicalPassport, out validationResult))
+                    return new OperationDetails(false, validationResult.Select(r => r.ErrorMessage));
+
+                if (model.AuctionDate.ToUniversalTime().Date < DateTime.UtcNow.Date
+                    || DateTime.UtcNow.Month - model.AuctionDate.ToUniversalTime().Month > 1)
+                    return new OperationDetails(false, new List<string> { "Invalid Auction Date" });
+
+                if (model.Car.Year > DateTime.UtcNow.Year)
+                    return new OperationDetails(false, new List<string> { "Invalid Car Year" });
+
                 var lot = _mapper.Map<Lot>(model);
                 _unitOfWork.LotRepository.Add(lot);
                 await _unitOfWork.SaveAsync();

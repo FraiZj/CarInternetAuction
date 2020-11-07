@@ -4,6 +4,7 @@ using InternetAuction.DAL.Repositories;
 using Moq;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +14,24 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
     [TestFixture]
     public class LotRepositoryTests
     {
+        private IQueryable<Lot> GetTestLots()
+        {
+            return new List<Lot>
+            {
+                new Lot
+                {
+                    Id = 1,
+                    AuctionDate = new DateTime(2020, 11, 10),
+                    CarId = 1,
+                    Car = new Car { Id = 1, Brand = "Audi", Model = "RS6" },
+                    SellerId = "1",
+                    Seller = new ApplicationUser { Id = "1" }
+                },
+                new Lot { Id = 2, AuctionDate = new DateTime(2020, 11, 10), CarId = 2 },
+                new Lot { Id = 3, AuctionDate = new DateTime(2020, 11, 10), CarId = 3 }
+            }.AsQueryable();
+        }
+
         /// <summary>
         /// Sets and returns mock context
         /// </summary>
@@ -34,7 +53,7 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public void LotRepository_Add_AddsLot()
         {
-            var mockDbSet = UnitTestsHelper.GetMockDbSet<Lot>(UnitTestsHelper.GetTestLots());
+            var mockDbSet = UnitTestHelper.GetMockDbSet<Lot>(GetTestLots());
             var mockContext = GetMockContext(mockDbSet);
             var lotRepo = new LotRepository(mockContext.Object);
             var lot = new Lot
@@ -57,7 +76,7 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public void LotRepository_Delete_DeletesLot()
         {
-            var mockDbSet = UnitTestsHelper.GetMockDbSet<Lot>(UnitTestsHelper.GetTestLots());
+            var mockDbSet = UnitTestHelper.GetMockDbSet<Lot>(GetTestLots());
             var mockContext = GetMockContext(mockDbSet);
             var lotRepo = new LotRepository(mockContext.Object);
             var lot = new Lot
@@ -80,7 +99,7 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public async Task LotRepository_DeleteByIdAsync_DeletesLot()
         {
-            var mockDbSet = UnitTestsHelper.GetMockDbSet<Lot>(UnitTestsHelper.GetTestLots());
+            var mockDbSet = UnitTestHelper.GetMockDbSet<Lot>(GetTestLots());
             var mockContext = GetMockContext(mockDbSet);
             var lotRepo = new LotRepository(mockContext.Object);
             var id = 1;
@@ -96,8 +115,8 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public void LotRepository_FindAll_ReturnsAllLots()
         {
-            var lots = UnitTestsHelper.GetTestLots().ToList();
-            var mockDbSet = UnitTestsHelper.GetMockDbSet<Lot>(lots.AsQueryable());
+            var lots = GetTestLots().ToList();
+            var mockDbSet = UnitTestHelper.GetMockDbSet<Lot>(lots.AsQueryable());
             var mockContext = GetMockContext(mockDbSet);
             var lotRepo = new LotRepository(mockContext.Object);
 
@@ -115,8 +134,8 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public void LotRepository_FindAllWithDetails_ReturnsAllLotsWithDetails()
         {
-            var lots = UnitTestsHelper.GetTestLots().ToList();
-            var mockDbSet = UnitTestsHelper.GetMockDbSet<Lot>(lots.AsQueryable());
+            var lots = GetTestLots().ToList();
+            var mockDbSet = UnitTestHelper.GetMockDbSet<Lot>(lots.AsQueryable());
             var mockContext = GetMockContext(mockDbSet);
             var lotRepo = new LotRepository(mockContext.Object);
 
@@ -135,8 +154,8 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public async Task LotRepository_GetByIdAsync_ReturnsProperLot()
         {
-            var lot = UnitTestsHelper.GetTestLots().First();
-            var mockDbSet = UnitTestsHelper.GetMockDbSet<Lot>(UnitTestsHelper.GetTestLots().AsQueryable());
+            var lot = GetTestLots().First();
+            var mockDbSet = UnitTestHelper.GetMockDbSet<Lot>(GetTestLots().AsQueryable());
             var mockContext = GetMockContext(mockDbSet);
             var lotRepo = new LotRepository(mockContext.Object);
 
@@ -150,8 +169,8 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public async Task LotRepository_GetByIdWithDetailsAsync_ReturnsProperLotWithDetails()
         {
-            var lot = UnitTestsHelper.GetTestLots().First();
-            var mockDbSet = UnitTestsHelper.GetMockDbSet<Lot>(UnitTestsHelper.GetTestLots().AsQueryable());
+            var lot = GetTestLots().First();
+            var mockDbSet = UnitTestHelper.GetMockDbSet<Lot>(GetTestLots().AsQueryable());
             var mockContext = GetMockContext(mockDbSet);
             var lotRepo = new LotRepository(mockContext.Object);
 
@@ -166,7 +185,7 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public void LotRepository_Update_UpdatesLot()
         {
-            var mockDbSet = UnitTestsHelper.GetMockDbSet<Lot>(UnitTestsHelper.GetTestLots());
+            var mockDbSet = UnitTestHelper.GetMockDbSet<Lot>(GetTestLots());
             var mockContext = GetMockContext(mockDbSet);
             var lotRepo = new LotRepository(mockContext.Object);
             var lot = new Lot
