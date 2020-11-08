@@ -153,7 +153,5 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
                     && l.SaleType == SaleType.BrandNew)),
                 Times.Never);
         }
-
-
     }
 }

@@ -12,7 +12,7 @@ namespace InternetAuction.BLL.Models
         [Required, Display(Name = "Lot Id")]
         public int LotId { get; set; }
 
-        [Required, Display(Name = "Bet Date")]
+        [Display(Name = "Bet Date")]
         public DateTime BetDate { get; set; }
 
         [Required]
