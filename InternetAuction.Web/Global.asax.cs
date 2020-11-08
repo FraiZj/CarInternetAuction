@@ -1,7 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using InternetAuction.BLL.Infrastructure;
+using Ninject;
+using Ninject.Modules;
+using Ninject.Web.Mvc;
+using System.Configuration;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -16,6 +17,10 @@ namespace InternetAuction.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            NinjectModule module = new InternetAuctionNinjectModule(ConfigurationManager.ConnectionStrings["ApplicationDbContext"].ConnectionString);
+            var kernel = new StandardKernel(module);
+            DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
         }
     }
 }
