@@ -69,6 +69,7 @@
     <Compile Include="Interfaces\IBetService.cs" />
     <Compile Include="Interfaces\ICrud.cs" />
     <Compile Include="Interfaces\ILotService.cs" />
+    <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
     <Compile Include="Models\BetModel.cs" />
     <Compile Include="Models\CarImageModel.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BetService.cs" />
     <Compile Include="Services\LotService.cs" />
+    <Compile Include="Services\UserService.cs" />
     <Compile Include="Validation\InternetAuctionException.cs" />
   </ItemGroup>
   <ItemGroup>
