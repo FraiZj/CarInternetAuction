@@ -31,7 +31,7 @@ namespace InternetAuction.BLL.Models
         [Required, Display(Name = "Body Type")]
         public BodyTypeDto BodyType { get; set; }
 
-        [Display(Name = "Technical Passport")]
+        [Required, Display(Name = "Technical Passport")]
         public TechnicalPassportModel TechnicalPassport { get; set; }
 
         [Display(Name = "Car Images")]

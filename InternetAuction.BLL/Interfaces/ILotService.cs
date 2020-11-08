@@ -36,25 +36,11 @@ namespace InternetAuction.BLL.Interfaces
         Task<LotModel> GetByIdWithDetailsAsync(int id);
 
         /// <summary>
-        /// Returns active lot with details by id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        Task<LotModel> GetActiveLotByIdWIthDetailsAsync(int id);
-
-        /// <summary>
-        /// Makes the lot inactive
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        Task<OperationDetails> AddToArchiveAsync(LotModel model);
-
-        /// <summary>
         /// Marks the lot as sold
         /// </summary>
         /// <param name="model"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<OperationDetails> SellLotAsync(LotModel model, int userId);
+        Task<OperationDetails> SellLotAsync(int lotId, string userId);
     }
 }

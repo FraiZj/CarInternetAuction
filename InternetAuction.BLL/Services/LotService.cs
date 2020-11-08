@@ -24,31 +24,55 @@ namespace InternetAuction.BLL.Services
             _mapper = mapper;
         }
 
-        private bool Validate(object model, out ICollection<ValidationResult> validationResults)
+        private ICollection<ValidationResult> Validate(object model)
         {
-            validationResults = new List<ValidationResult>();
-            return Validator.TryValidateObject(model, new System.ComponentModel.DataAnnotations.ValidationContext(model), validationResults, true);
+            var validationResult = new List<ValidationResult>();
+            Validator.TryValidateObject(model, new System.ComponentModel.DataAnnotations.ValidationContext(model), validationResult, true);
+            return validationResult;
+        }
+
+        private bool ValidateLotModel(LotModel model, out ICollection<ValidationResult> validationResult)
+        {
+            if (model is null)
+            {
+                validationResult = new List<ValidationResult> { new ValidationResult("LotModel cannot be null") };
+                return false;
+            }
+
+            if (model.Car is null)
+            {
+                validationResult = new List<ValidationResult> { new ValidationResult("Car cannot be null") };
+                return false;
+            }
+
+            if (model.Car.TechnicalPassport is null)
+            {
+                validationResult = new List<ValidationResult> { new ValidationResult("TechnicalPassport cannot be null") };
+                return false;
+            }
+
+            var modelValidationResult = Validate(model);
+            var carValidationResult = Validate(model.Car);
+            var technicalPassportValidationResult = Validate(model.Car.TechnicalPassport);
+
+            validationResult = modelValidationResult.Concat(carValidationResult).Concat(technicalPassportValidationResult).ToList();
+
+            if (model.AuctionDate.Date < DateTime.UtcNow.Date
+                    || DateTime.UtcNow.Month - model.AuctionDate.ToUniversalTime().Month > 1)
+                validationResult.Add(new ValidationResult("Invalid Auction Date", new List<string> { "AuctionDate" }));
+
+            if (model.Car.Year > DateTime.UtcNow.Year)
+                validationResult.Add(new ValidationResult("Invalid Car Year", new List<string> { "Car", "Year" }));
+
+            return validationResult.Count == 0;
         }
 
         public async Task<OperationDetails> AddAsync(LotModel model)
         {
             try
             {
-                if (model is null)
-                    return new OperationDetails(false, new List<string> { "Lot cannot be null" });
-
-                ICollection<ValidationResult> validationResult;
-                if (!Validate(model, out validationResult)
-                    || !Validate(model.Car, out validationResult)
-                    || !Validate(model.Car.TechnicalPassport, out validationResult))
-                    return new OperationDetails(false, validationResult.Select(r => r.ErrorMessage));
-
-                if (model.AuctionDate.ToUniversalTime().Date < DateTime.UtcNow.Date
-                    || DateTime.UtcNow.Month - model.AuctionDate.ToUniversalTime().Month > 1)
-                    return new OperationDetails(false, new List<string> { "Invalid Auction Date" });
-
-                if (model.Car.Year > DateTime.UtcNow.Year)
-                    return new OperationDetails(false, new List<string> { "Invalid Car Year" });
+                if (!ValidateLotModel(model, out var validationResult))
+                    return new OperationDetails(false, validationResult);
 
                 var lot = _mapper.Map<Lot>(model);
                 _unitOfWork.LotRepository.Add(lot);
@@ -62,59 +86,127 @@ namespace InternetAuction.BLL.Services
             return new OperationDetails(true);
         }
 
-        public Task<OperationDetails> AddToArchiveAsync(LotModel model)
+        public async Task<OperationDetails> DeleteByIdAsync(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<OperationDetails> DeleteByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<LotModel> GetActiveLotByIdWIthDetailsAsync(int id)
-        {
-            throw new NotImplementedException();
+            try
+            {
+                await _unitOfWork.LotRepository.DeleteByIdAsync(id);
+                await _unitOfWork.SaveAsync();
+                return new OperationDetails(true);
+            }
+            catch (Exception ex)
+            {
+                throw new InternetAuctionException("An error occure while deleting a lot", ex.InnerException);
+            }
         }
 
         public IQueryable<LotModel> GetAll()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var lots = _unitOfWork.LotRepository.FindAll();
+                return _mapper.Map<IQueryable<LotModel>>(lots);
+            }
+            catch (Exception ex)
+            {
+                throw new InternetAuctionException("An error occure while searching lots", ex.InnerException);
+            }
         }
 
         public IQueryable<LotModel> GetAllActiveLots()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var lots = _unitOfWork.LotRepository.FindAll().Where(l => l.IsActive);
+                return _mapper.Map<IQueryable<LotModel>>(lots);
+            }
+            catch (Exception ex)
+            {
+                throw new InternetAuctionException("An error occure while searching lots", ex.InnerException);
+            }
         }
 
         public IQueryable<LotModel> GetAllActiveLotsWithDetails()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var lots = _unitOfWork.LotRepository.FindAll().Where(l => l.IsActive);
+                return _mapper.Map<IQueryable<LotModel>>(lots);
+            }
+            catch (Exception ex)
+            {
+                throw new InternetAuctionException("An error occure while searching lots", ex.InnerException);
+            }
         }
 
         public IQueryable<LotModel> GetAllWithDetails()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var lots = _unitOfWork.LotRepository.FindAllWithDetails();
+                return _mapper.Map<IQueryable<LotModel>>(lots);
+            }
+            catch (Exception ex)
+            {
+                throw new InternetAuctionException("An error occure while searching lots", ex.InnerException);
+            }
         }
 
-        public Task<LotModel> GetByIdAsync(int id)
+        public async Task<LotModel> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var lot = await _unitOfWork.LotRepository.GetByIdAsync(id);
+                return _mapper.Map<LotModel>(lot);
+            }
+            catch (Exception ex)
+            {
+                throw new InternetAuctionException("An error occure while searching the lot", ex.InnerException);
+            }
         }
 
-        public Task<LotModel> GetByIdWithDetailsAsync(int id)
+        public async Task<LotModel> GetByIdWithDetailsAsync(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var lot = await _unitOfWork.LotRepository.GetByIdWithDetailsAsync(id);
+                return _mapper.Map<LotModel>(lot);
+            }
+            catch (Exception ex)
+            {
+                throw new InternetAuctionException("An error occure while searching the lot", ex.InnerException);
+            }
         }
 
-        public Task<OperationDetails> SellLotAsync(LotModel model, int userId)
+        public async Task<OperationDetails> SellLotAsync(int lotId, string userId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var lot = await _unitOfWork.LotRepository.GetByIdAsync(lotId);
+                lot.BuyerId = userId;
+                lot.IsActive = false;
+                await _unitOfWork.SaveAsync();
+                return new OperationDetails(true);
+            }
+            catch (Exception ex)
+            {
+                throw new InternetAuctionException("An error occure while updating lot", ex.InnerException);
+            }
         }
 
-        public Task<OperationDetails> UpdateAsync(LotModel model)
+        public async Task<OperationDetails> UpdateAsync(LotModel model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var lot = _mapper.Map<Lot>(model);
+                _unitOfWork.LotRepository.Update(lot);
+                await _unitOfWork.SaveAsync();
+                return new OperationDetails(true);
+            }
+            catch (Exception ex)
+            {
+                throw new InternetAuctionException("An error occure while updating lot", ex.InnerException);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace InternetAuction.BLL.Infrastructure
 {
@@ -12,10 +13,10 @@ namespace InternetAuction.BLL.Infrastructure
         /// </summary>
         /// <param name="succedeed"></param>
         /// <param name="errors"></param>
-        public OperationDetails(bool succedeed = true, IEnumerable<string> errors = null)
+        public OperationDetails(bool succedeed = true, IEnumerable<ValidationResult> validationResults = null)
         {
             Succedeed = succedeed;
-            Errors = errors is null ? new List<string>() : errors;
+            ValidationResults = validationResults is null ? new List<ValidationResult>() : validationResults;
         }
 
         /// <summary>
@@ -26,6 +27,6 @@ namespace InternetAuction.BLL.Infrastructure
         /// <summary>
         /// Operation errors
         /// </summary>
-        public IEnumerable<string> Errors { get; private set; }
+        public IEnumerable<ValidationResult> ValidationResults { get; private set; }
     }
 }

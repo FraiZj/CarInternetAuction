@@ -82,7 +82,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
             var lotService = new LotService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile());
             var lot = new LotModel
             {
-                AuctionDate = new DateTime(2020, 11, 08),
+                AuctionDate = new DateTime(2020, 11, 8),
                 SellerId = "1",
                 SaleType = SaleTypeDto.BrandNew,
                 Car = new CarModel
@@ -123,18 +123,23 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
             var lotService = new LotService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile());
             var lot = new LotModel
             {
-                AuctionDate = new DateTime(2020, 11, 08),
+                AuctionDate = new DateTime(2020, 11, 5),
                 SellerId = "1",
                 SaleType = SaleTypeDto.BrandNew,
                 Car = new CarModel
                 {
                     Brand = "",
                     Model = "CarModel",
-                    Year = 2014,
+                    Year = 2022,
                     Mileage = 100000,
                     Transmission = TransmissionDto.AT,
                     DriveUnit = DriveUnitDto.FourWheelDrive,
-                    //BodyType = BodyTypeDto.Bus
+                    TechnicalPassport = new TechnicalPassportModel
+                    {
+                        VIN = "4Y1SL65848Z411439",
+                        IsMileageConfirmed = true,
+                        HasKeys = true
+                    }
                 }
             };
 
@@ -148,5 +153,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
                     && l.SaleType == SaleType.BrandNew)),
                 Times.Never);
         }
+
+
     }
 }
