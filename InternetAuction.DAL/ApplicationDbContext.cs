@@ -11,6 +11,10 @@ namespace InternetAuction.DAL
     {
         public ApplicationDbContext() { }
 
+        //public ApplicationDbContext() 
+        //    : base(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=InternerAuction; MultipleActiveResultSets=true;  Integrated Security=True") 
+        //{ }
+
         /// <summary>
         /// Initializes an instance of the ApplicationDbContext
         /// </summary>

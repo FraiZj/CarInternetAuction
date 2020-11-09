@@ -1,0 +1,58 @@
+﻿@model InternetAuction.BLL.Models.LotModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>LotModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SellerId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SellerId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BuyerId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BuyerId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AuctionDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AuctionDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Car.BodyType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Car.BodyType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SaleType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SaleType)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

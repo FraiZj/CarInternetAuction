@@ -20,6 +20,7 @@ namespace InternetAuction.Web
 
             NinjectModule module = new InternetAuctionNinjectModule(ConfigurationManager.ConnectionStrings["ApplicationDbContext"].ConnectionString);
             var kernel = new StandardKernel(module);
+            kernel.Unbind<ModelValidatorProvider>();
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
         }
     }

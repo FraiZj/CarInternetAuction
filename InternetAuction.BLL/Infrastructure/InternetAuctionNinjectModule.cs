@@ -5,6 +5,7 @@ using InternetAuction.DAL;
 using InternetAuction.DAL.Interfaces;
 using InternetAuction.DAL.Repositories;
 using Ninject.Modules;
+using System.Web.ModelBinding;
 
 namespace InternetAuction.BLL.Infrastructure
 {

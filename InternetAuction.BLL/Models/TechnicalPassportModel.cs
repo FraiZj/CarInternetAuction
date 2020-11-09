@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using InternetAuction.BLL.EnumsDtos;
+using System.ComponentModel.DataAnnotations;
 
 namespace InternetAuction.BLL.Models
 {
@@ -9,19 +10,19 @@ namespace InternetAuction.BLL.Models
         [Required, StringLength(17), RegularExpression(@"^[a-zA-Z0-9]+$")]
         public string VIN { get; set; }
 
+        [Required]
+        public TransmissionDto Transmission { get; set; }
+
+        [Required, Display(Name = "Drive Unit")]
+        public DriveUnitDto DriveUnit { get; set; }
+
+        [Required, Display(Name = "Body Type")]
+        public BodyTypeDto BodyType { get; set; }
+
         [Display(Name = "Primary Damage")]
         public string PrimaryDamage { get; set; }
 
-        [Display(Name = "Secondary Damage")]
-        public string SecondaryDamage { get; set; }
-
-        public string Features { get; set; }
-
-        [Required, Display(Name = "Is Mileage Confirmed")]
-        public bool IsMileageConfirmed { get; set; }
-
         [Required, Display(Name = "Has Keys")]
         public bool HasKeys { get; set; }
-        public string Location { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using InternetAuction.BLL.EnumsDtos;
-using InternetAuction.BLL.Models.Base;
+﻿using InternetAuction.BLL.Models.Base;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -19,17 +18,8 @@ namespace InternetAuction.BLL.Models
         [Required]
         public int Mileage { get; set; }
 
-        [Required]
-        public TransmissionDto Transmission { get; set; }
-
-        [Required, Display(Name = "Drive Unit")]
-        public DriveUnitDto DriveUnit { get; set; }
-
         [Required, Display(Name = "Engine Type")]
         public string EngineType { get; set; }
-
-        [Required, Display(Name = "Body Type")]
-        public BodyTypeDto BodyType { get; set; }
 
         [Required, Display(Name = "Technical Passport")]
         public TechnicalPassportModel TechnicalPassport { get; set; }

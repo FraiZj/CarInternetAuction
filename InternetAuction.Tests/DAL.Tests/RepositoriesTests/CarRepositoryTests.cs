@@ -35,11 +35,14 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
                     Year = 1,
                     Mileage = 1,
                     EngineType = "2.8",
-                    BodyType = BodyType.Sedan,
-                    DriveUnit = DriveUnit.FourWheelDrive,
-                    Transmission = Transmission.AT,
                     CarImages = new List<CarImage> { new CarImage { Id = 1, CarId = 1 } },
-                    TechnicalPassport = new TechnicalPassport { CarId = 1, PrimaryDamage = "BMW" }
+                    TechnicalPassport = new TechnicalPassport { 
+                        CarId = 1, 
+                        PrimaryDamage = "BMW",
+                        BodyType = BodyType.Sedan,
+                        DriveUnit = DriveUnit.FourWheelDrive,
+                        Transmission = Transmission.AT,
+                    }
                 },
                 new Car { Id = 2, Brand = "Audi", Model = "RS6" },
                 new Car { Id = 3, Brand = "Mercedes-Benz", Model = "E63" },
@@ -180,7 +183,7 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
             {
                 Assert.AreEqual(testCars[i].Id, cars[i].Id);
                 Assert.AreEqual(testCars[i].Brand, cars[i].Brand);
-                Assert.AreEqual(testCars[i].BodyType, cars[i].BodyType);
+                Assert.AreEqual(testCars[i].EngineType, cars[i].EngineType);
                 Assert.AreEqual(testCars[i].CarImages?.First().Id, cars[i].CarImages?.First().Id);
             }
         }
@@ -201,7 +204,7 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
             {
                 Assert.AreEqual(testCars[i].Id, cars[i].Id);
                 Assert.AreEqual(testCars[i].Brand, cars[i].Brand);
-                Assert.AreEqual(testCars[i].BodyType, cars[i].BodyType);
+                Assert.AreEqual(testCars[i].EngineType, cars[i].EngineType);
                 Assert.AreEqual(testCars[i].CarImages?.First().Id, cars[i].CarImages?.First().Id);
                 Assert.AreEqual(testCars[i].TechnicalPassport?.CarId, cars[i].TechnicalPassport?.CarId);
             }
@@ -220,7 +223,7 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
 
             Assert.AreEqual(car.Id, car.Id);
             Assert.AreEqual(car.Brand, result.Brand);
-            Assert.AreEqual(car.BodyType, result.BodyType);
+            Assert.AreEqual(car.EngineType, result.EngineType);
             Assert.AreEqual(car.CarImages?.First().Id, result.CarImages?.First().Id);
         }
 
@@ -237,7 +240,7 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
 
             Assert.AreEqual(car.Id, car.Id);
             Assert.AreEqual(car.Brand, result.Brand);
-            Assert.AreEqual(car.BodyType, result.BodyType);
+            Assert.AreEqual(car.EngineType, result.EngineType);
             Assert.AreEqual(car.CarImages?.First().Id, result.CarImages?.First().Id);
             Assert.AreEqual(car.TechnicalPassport?.CarId, result.TechnicalPassport?.CarId);
         }

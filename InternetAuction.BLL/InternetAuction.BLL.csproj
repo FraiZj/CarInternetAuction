@@ -97,7 +97,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="AutomapperProfile.cs" />
     <Compile Include="EnumsDtos\BodyTypeDto.cs" />
     <Compile Include="EnumsDtos\DriveUnitDto.cs" />

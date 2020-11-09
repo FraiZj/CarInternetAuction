@@ -31,10 +31,6 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
                         Model = "CarModel1",
                         Year = 2014,
                         Mileage = 100000,
-                        Transmission = TransmissionDto.CVT,
-                        DriveUnit = DriveUnitDto.FourWheelDrive,
-                        EngineType = "2.0",
-                        BodyType = BodyTypeDto.Bus
                     }
                 },
                 new LotModel
@@ -48,10 +44,6 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
                         Model = "CarModel2",
                         Year = 2014,
                         Mileage = 100000,
-                        Transmission = TransmissionDto.MT,
-                        DriveUnit = DriveUnitDto.FourWheelDrive,
-                        EngineType = "3.0",
-                        BodyType = BodyTypeDto.PeopleMover
                     }
                 },
                 new LotModel
@@ -65,10 +57,6 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
                         Model = "CarModel3",
                         Year = 2019,
                         Mileage = 100000,
-                        Transmission = TransmissionDto.AT,
-                        DriveUnit = DriveUnitDto.FourWheelDrive,
-                        EngineType = "3.0",
-                        BodyType = BodyTypeDto.Coupe
                     }
                 },
             }.AsQueryable();
@@ -91,15 +79,14 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
                     Model = "CarModel",
                     Year = 2014,
                     Mileage = 100000,
-                    Transmission = TransmissionDto.AT,
-                    DriveUnit = DriveUnitDto.FourWheelDrive,
-                    BodyType = BodyTypeDto.Bus,
                     EngineType = "2.3",
                     TechnicalPassport = new TechnicalPassportModel
                     {
                         VIN = "4Y1SL65848Z411439",
-                        IsMileageConfirmed = true,
-                        HasKeys = true
+                        HasKeys = true,
+                        Transmission = TransmissionDto.MT,
+                        DriveUnit = DriveUnitDto.FourWheelDrive,
+                        BodyType = BodyTypeDto.PeopleMover
                     }
                 }
             };
@@ -132,13 +119,12 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
                     Model = "CarModel",
                     Year = 2022,
                     Mileage = 100000,
-                    Transmission = TransmissionDto.AT,
-                    DriveUnit = DriveUnitDto.FourWheelDrive,
                     TechnicalPassport = new TechnicalPassportModel
                     {
                         VIN = "4Y1SL65848Z411439",
-                        IsMileageConfirmed = true,
-                        HasKeys = true
+                        HasKeys = true,
+                        Transmission = TransmissionDto.AT,
+                        DriveUnit = DriveUnitDto.FourWheelDrive,
                     }
                 }
             };
