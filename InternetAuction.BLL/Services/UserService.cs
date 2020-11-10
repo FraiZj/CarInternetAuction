@@ -24,7 +24,37 @@ namespace InternetAuction.BLL.Services
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            SetInitialData();
         }
+
+        private void SetInitialData()
+        {
+            if(_unitOfWork.ApplicationRoleManager.FindByName("Client") is null)
+            {
+                var role = new ApplicationRole { Name = "Client" };
+                _unitOfWork.ApplicationRoleManager.Create(role);
+            }
+
+            if (_unitOfWork.ApplicationRoleManager.FindByName("Admin") is null)
+            {
+                var role = new ApplicationRole { Name = "Admin" };
+                _unitOfWork.ApplicationRoleManager.Create(role);
+            }
+
+            if (_unitOfWork.ApplicationUserManager.FindByEmail("admin1") is null)
+            {
+                var admin = new ApplicationUser 
+                { 
+                    FirstName = "AdminOne", 
+                    LastName = "AdminOne",
+                    Email = "admin1", 
+                    UserName = "admin1" 
+                };
+                _unitOfWork.ApplicationUserManager.Create(admin, "admin1");
+                _unitOfWork.ApplicationUserManager.AddToRole(admin.Id, "Admin");
+            }
+        }
+
 
         public async Task<UserModel> GetUserModelByIdAsync(string id)
         {
@@ -57,11 +87,25 @@ namespace InternetAuction.BLL.Services
                 if (user != null)
                     return new OperationDetails(false, CreateValidationResults("User with this email already exist", "Email"));
 
-                user = _mapper.Map<ApplicationUser>(model);
-                var result = await _unitOfWork.ApplicationUserManager.CreateAsync(user);
+                user = new ApplicationUser 
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Email = model.Email,
+                    PhoneNumber = model.PhoneNumber,
+                    UserName = model.UserName
+                };
+                var result = await _unitOfWork.ApplicationUserManager.CreateAsync(user, model.Password);
 
                 if (result.Errors.Any())
-                    return new OperationDetails(false);
+                {
+                    List<ValidationResult> validationResults = new List<ValidationResult>();
+                    foreach (var error in result.Errors)
+                    {
+                        validationResults.AddRange(CreateValidationResults("", error));
+                    }
+                    return new OperationDetails(false, validationResults);
+                }
 
                 await _unitOfWork.ApplicationUserManager.AddToRoleAsync(user.Id, "Client");
                 await _unitOfWork.SaveAsync();

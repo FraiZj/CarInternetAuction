@@ -18,7 +18,7 @@ namespace InternetAuction.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            NinjectModule module = new InternetAuctionNinjectModule(ConfigurationManager.ConnectionStrings["ApplicationDbContext"].ConnectionString);
+            NinjectModule module = new InternetAuctionNinjectModule(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
             var kernel = new StandardKernel(module);
             kernel.Unbind<ModelValidatorProvider>();
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));

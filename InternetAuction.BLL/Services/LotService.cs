@@ -34,6 +34,7 @@ namespace InternetAuction.BLL.Services
                 var lot = _mapper.Map<Lot>(model);
                 _unitOfWork.LotRepository.Add(lot);
                 await _unitOfWork.SaveAsync();
+
                 return new OperationDetails(true);
             }
             catch (Exception ex)

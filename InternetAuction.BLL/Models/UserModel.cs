@@ -23,11 +23,7 @@ namespace InternetAuction.BLL.Models
         public string Password { get; set; }
 
         [Required, Phone]
-        public string Phone { get; set; }
-
-        [Required, RegularExpression(@"^[a-zA-Z_-]+$")]
-        public string Country { get; set; }
-        public string City { get; set; }
+        public string PhoneNumber { get; set; }
 
         [Display(Name = "Bets Ids")]
         public ICollection<int> BetsIds { get; set; }
@@ -37,5 +33,6 @@ namespace InternetAuction.BLL.Models
 
         [Display(Name = "Purchased Lots Ids")]
         public ICollection<int> PurchasedLotsIds { get; set; }
+
     }
 }

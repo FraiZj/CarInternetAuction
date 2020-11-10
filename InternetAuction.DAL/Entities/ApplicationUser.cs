@@ -12,11 +12,6 @@ namespace InternetAuction.DAL.Entities
         [Required, RegularExpression(@"^[a-zA-Z_-]+$")]
         public string LastName { get; set; }
 
-        [Required, RegularExpression(@"^[a-zA-Z_-]+$")]
-        public string Country { get; set; }
-        public string City { get; set; }
-
-
         public virtual ICollection<Lot> SaleLots { get; set; } 
         public virtual ICollection<Lot> PurchasedLots { get; set; }
         public virtual ICollection<Bet> Bets { get; set; }

@@ -11,7 +11,7 @@ namespace InternetAuction.BLL.Models
         [Required, Display(Name = "Car")]
         public CarModel Car { get; set; }
 
-        [Required, Display(Name = "Seller Id")]
+        [Display(Name = "Seller Id")]
         public string SellerId { get; set; }
 
         [Display(Name = "Buyer Id")]

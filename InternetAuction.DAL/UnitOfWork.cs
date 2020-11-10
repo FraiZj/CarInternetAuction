@@ -23,8 +23,8 @@ namespace InternetAuction.DAL
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
-            ApplicationUserManager = new ApplicationUserManager(new UserStore<ApplicationUser>());
-            ApplicationRoleManager = new ApplicationRoleManager(new RoleStore<ApplicationRole>());
+            ApplicationUserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
+            ApplicationRoleManager = new ApplicationRoleManager(new RoleStore<ApplicationRole>(context));
             CarRepository = new CarRepository(context);
             LotRepository = new LotRepository(context);
             BetRepository = new BetRepository(context);
