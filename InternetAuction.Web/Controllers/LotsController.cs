@@ -3,6 +3,7 @@ using InternetAuction.BLL.Models;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -35,6 +36,8 @@ namespace InternetAuction.Web.Controllers
         {
             var lot = await lotService.GetByIdWithDetailsAsync(id);
 
+            ViewBag.UserId = User.Identity.GetUserId();
+
             //if (lot is null)
             //    return RedirectToAction("NotFound", "Errors");
 
@@ -59,7 +62,8 @@ namespace InternetAuction.Web.Controllers
                 {
                     SaleType = model.SaleType,
                     SellerId = User.Identity.GetUserId(),
-                    AuctionDate = DateTime.UtcNow.AddDays(3),
+                    AuctionDate = model.AuctionDate,
+                    IsActive = true,
                     Car = new CarModel
                     {
                         Brand = model.Car.Brand,
@@ -78,11 +82,17 @@ namespace InternetAuction.Web.Controllers
                     }
                 };
 
-                await lotService.AddAsync(lot);
+                var result = await lotService.AddAsync(lot);
 
+                if (result.Succedeed)
+                {
+                    return RedirectToAction("Details", new { id = (int)result.ReturnValue });
+                }
 
-
-                return RedirectToAction("Details", new { id = lot.Id });
+                foreach (var error in result.ValidationResults)
+                {
+                    ModelState.AddModelError(error.MemberNames.First(), error.ErrorMessage);
+                }
             }
 
             return View(model);

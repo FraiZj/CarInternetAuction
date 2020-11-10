@@ -13,11 +13,14 @@ namespace InternetAuction.BLL.Infrastructure
         /// </summary>
         /// <param name="succedeed"></param>
         /// <param name="errors"></param>
-        public OperationDetails(bool succedeed = true, IEnumerable<ValidationResult> validationResults = null)
+        public OperationDetails(bool succedeed = true, IEnumerable<ValidationResult> validationResults = null, object returnValue = null)
         {
             Succedeed = succedeed;
             ValidationResults = validationResults is null ? new List<ValidationResult>() : validationResults;
+            ReturnValue = returnValue;
         }
+
+        public object ReturnValue { get; private set; }
 
         /// <summary>
         /// Is operation succedeed

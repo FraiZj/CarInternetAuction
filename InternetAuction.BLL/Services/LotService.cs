@@ -35,7 +35,7 @@ namespace InternetAuction.BLL.Services
                 _unitOfWork.LotRepository.Add(lot);
                 await _unitOfWork.SaveAsync();
 
-                return new OperationDetails(true);
+                return new OperationDetails(true, returnValue: lot.Id);
             }
             catch (Exception ex)
             {

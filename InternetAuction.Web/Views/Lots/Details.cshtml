@@ -1,4 +1,6 @@
-﻿@model InternetAuction.BLL.Models.LotModel
+﻿@using InternetAuction.Web.Infrastructure;
+
+@model InternetAuction.BLL.Models.LotModel
 
 <div>
     <h4>LotModel</h4>
@@ -9,7 +11,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.SaleType)
+            @Model.SaleType.GetDisplayName()
         </dd>
 
         <dt>
@@ -41,7 +43,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Car.TechnicalPassport.BodyType)
+            @Model.Car.TechnicalPassport.BodyType.GetDisplayName()
         </dd>
 
         <dt>
@@ -54,6 +56,11 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+
+    @if (User.IsInRole("Admin") || ViewBag.UserId == Model.SellerId)
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+    }
+
     @Html.ActionLink("Back to List", "Index")
 </p>
