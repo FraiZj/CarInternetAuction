@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace InternetAuction.Web.Controllers
 {
+    [Authorize]
     public class LotsController : Controller
     {
         private readonly ILotService lotService;
@@ -21,6 +22,23 @@ namespace InternetAuction.Web.Controllers
         {
             var lots = lotService.GetAllActiveLots();
             return View(lots);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult AllLots()
+        {
+            var lots = lotService.GetAll();
+            return View(lots);
+        }
+
+        public async Task<ActionResult> Details(int id)
+        {
+            var lot = await lotService.GetByIdWithDetailsAsync(id);
+
+            //if (lot is null)
+            //    return RedirectToAction("NotFound", "Errors");
+
+            return View(lot);
         }
 
         [Authorize]
@@ -42,7 +60,6 @@ namespace InternetAuction.Web.Controllers
                     SaleType = model.SaleType,
                     SellerId = User.Identity.GetUserId(),
                     AuctionDate = DateTime.UtcNow.AddDays(3),
-                    Bets = new List<int>(),
                     Car = new CarModel
                     {
                         Brand = model.Car.Brand,
@@ -63,10 +80,19 @@ namespace InternetAuction.Web.Controllers
 
                 await lotService.AddAsync(lot);
 
-                return View("Details", model);
+
+
+                return RedirectToAction("Details", new { id = lot.Id });
             }
 
             return View(model);
         }
+
+        //[Authorize]
+        //public async Task<ActionResult> BuyLot(int lotId)
+        //{
+
+        //    lotService.UpdateAsync();
+        //}
     }
 }

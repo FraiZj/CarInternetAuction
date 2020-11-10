@@ -1,29 +1,23 @@
 ﻿@model InternetAuction.BLL.Models.LotModel
 
-@{
-    ViewBag.Title = "Details";
-}
-
-<h2>Details</h2>
-
 <div>
     <h4>LotModel</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.SellerId)
+            @Html.DisplayNameFor(model => model.SaleType)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.SellerId)
+            @Html.DisplayFor(model => model.SaleType)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.BuyerId)
+            @Html.DisplayNameFor(model => model.IsActive)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.BuyerId)
+            @Html.DisplayFor(model => model.IsActive)
         </dd>
 
         <dt>
@@ -35,21 +29,28 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Car.BodyType)
+            @Html.DisplayNameFor(model => model.Car.Brand)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Car.BodyType)
+            @Html.DisplayFor(model => model.Car.Brand)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.SaleType)
+            @Html.DisplayNameFor(model => model.Car.TechnicalPassport.BodyType)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.SaleType)
+            @Html.DisplayFor(model => model.Car.TechnicalPassport.BodyType)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Car.TechnicalPassport.HasKeys)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Car.TechnicalPassport.HasKeys)
+        </dd>
     </dl>
 </div>
 <p>

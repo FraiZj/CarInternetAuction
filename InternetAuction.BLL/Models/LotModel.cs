@@ -26,6 +26,6 @@ namespace InternetAuction.BLL.Models
         [Required, Display(Name = "Auction Date")]
         public DateTime AuctionDate { get; set; }
 
-        public ICollection<int> Bets { get; set; }
+        public ICollection<BetModel> Bets { get; set; }
     }
 }
