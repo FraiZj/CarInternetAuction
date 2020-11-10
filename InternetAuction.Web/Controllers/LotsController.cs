@@ -1,5 +1,6 @@
 ﻿using InternetAuction.BLL.Interfaces;
 using InternetAuction.BLL.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,12 +17,13 @@ namespace InternetAuction.Web.Controllers
             this.lotService = lotService;
         }
 
-        public ActionResult Lots()
+        public ActionResult ActiveLots()
         {
             var lots = lotService.GetAllActiveLots();
             return View(lots);
         }
 
+        [Authorize]
         [HttpGet]
         public ActionResult Create()
         {
@@ -29,6 +31,7 @@ namespace InternetAuction.Web.Controllers
             return View(lotModel);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult> Create(LotModel model)
         {
@@ -37,7 +40,7 @@ namespace InternetAuction.Web.Controllers
                 var lot = new LotModel
                 {
                     SaleType = model.SaleType,
-                    SellerId = "1",
+                    SellerId = User.Identity.GetUserId(),
                     AuctionDate = DateTime.UtcNow.AddDays(3),
                     Bets = new List<int>(),
                     Car = new CarModel
@@ -64,13 +67,6 @@ namespace InternetAuction.Web.Controllers
             }
 
             return View(model);
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
     }
 }

@@ -17,6 +17,9 @@ namespace InternetAuction.BLL.Models
         [Display(Name = "Buyer Id")]
         public string BuyerId { get; set; }
 
+        [Display(Name = "Is Active")]
+        public bool IsActive { get; set; }
+
         [Required, Display(Name = "Sale Type")]
         public SaleTypeDto SaleType { get; set; }
 

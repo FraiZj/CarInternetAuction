@@ -74,8 +74,8 @@ namespace InternetAuction.BLL.Services
         {
             try
             {
-                var lots = _unitOfWork.LotRepository.FindAll().Where(l => l.IsActive);
-                return _mapper.Map<IQueryable<LotModel>>(lots);
+                var lots = _unitOfWork.LotRepository.FindAll().Where(l => l.IsActive).ToList();
+                return _mapper.Map<List<LotModel>>(lots).AsQueryable();
             }
             catch (Exception ex)
             {

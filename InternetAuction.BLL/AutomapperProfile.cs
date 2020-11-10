@@ -24,7 +24,7 @@ namespace InternetAuction.BLL
                 .ReverseMap();
 
             CreateMap<Lot, LotModel>()
-                .ForMember(l => l.SellerId, opt => opt.MapFrom(lot => lot.Seller.Id))
+                .ForMember(l => l.SellerId, opt => opt.MapFrom(lot => lot.SellerId))
                 .ForMember(l => l.BuyerId, opt => opt.MapFrom(lot => lot.BuyerId))
                 .ForMember(l => l.Bets, opt => opt.MapFrom(lot => lot.Bets.Select(b => b.Id)))
                 .ReverseMap();

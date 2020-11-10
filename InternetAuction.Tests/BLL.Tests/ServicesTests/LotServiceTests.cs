@@ -70,7 +70,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
             var lotService = new LotService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile());
             var lot = new LotModel
             {
-                AuctionDate = new DateTime(2020, 11, 8),
+                AuctionDate = DateTime.Now,
                 SellerId = "1",
                 SaleType = SaleTypeDto.BrandNew,
                 Car = new CarModel
@@ -110,7 +110,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
             var lotService = new LotService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile());
             var lot = new LotModel
             {
-                AuctionDate = new DateTime(2020, 11, 5),
+                AuctionDate = DateTime.Now,
                 SellerId = "1",
                 SaleType = SaleTypeDto.BrandNew,
                 Car = new CarModel
