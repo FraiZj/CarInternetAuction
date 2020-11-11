@@ -30,6 +30,9 @@ namespace InternetAuction.BLL.Services
         {
             var carImages = new List<CarImage>();
 
+            if (files is null)
+                return carImages;
+
             foreach (var file in files)
             {
                 var img = new CarImage();
@@ -51,6 +54,10 @@ namespace InternetAuction.BLL.Services
         private ICollection<ImageModel> GetRetrievedImages(ICollection<CarImage> carImages)
         {
             var imageModels = new List<ImageModel>();
+
+            if (carImages is null)
+                return imageModels;
+
             foreach (var image in carImages)
             {
                 var imageModel = new ImageModel
@@ -60,6 +67,7 @@ namespace InternetAuction.BLL.Services
                 };
                 imageModels.Add(imageModel);
             }
+
             return imageModels;
         }
 

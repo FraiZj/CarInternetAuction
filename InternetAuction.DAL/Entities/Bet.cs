@@ -18,7 +18,7 @@ namespace InternetAuction.DAL.Entities
         [Required]
         public decimal Sum { get; set; }
 
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
         public Lot Lot { get; set; }
     }
 }

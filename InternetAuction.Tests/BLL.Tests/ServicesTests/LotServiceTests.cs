@@ -22,10 +22,10 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
             {
                 new LotModel
                 {
-                    AuctionDate = DateTime.UtcNow.AddDays(-2),
                     SellerId = "1",
                     SaleType = SaleTypeDto.BrandNew,
                     IsActive = false,
+                    TurnkeyPrice = 5000,
                     Car = new CarModel
                     {
                         Brand = "CarBrand1",
@@ -36,10 +36,10 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
                 },
                 new LotModel
                 {
-                    AuctionDate = DateTime.UtcNow,
                     SellerId = "2",
                     SaleType = SaleTypeDto.BrandNew,
                     IsActive = true,
+                    TurnkeyPrice = 8000,
                     Car = new CarModel
                     {
                         Brand = "CarBrand2",
@@ -50,10 +50,10 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
                 },
                 new LotModel
                 {
-                    AuctionDate = DateTime.UtcNow.AddDays(2),
                     SellerId = "3",
                     SaleType = SaleTypeDto.BrandNew,
                     IsActive = true,
+                    TurnkeyPrice = 3000,
                     Car = new CarModel
                     {
                         Brand = "CarBrand3",
@@ -71,7 +71,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
             {
                 new Lot
                 {
-                    AuctionDate = DateTime.UtcNow.AddDays(-2),
+                    TurnkeyPrice = 5000,
                     SellerId = "1",
                     SaleType = SaleType.BrandNew,
                     IsActive = false,
@@ -85,7 +85,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
                 },
                 new Lot
                 {
-                    AuctionDate = DateTime.UtcNow,
+                    TurnkeyPrice = 8000,
                     SellerId = "2",
                     SaleType = SaleType.BrandNew,
                     IsActive = true,
@@ -99,7 +99,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
                 },
                 new Lot
                 {
-                    AuctionDate = DateTime.UtcNow.AddDays(2),
+                    TurnkeyPrice = 3000,
                     SellerId = "3",
                     SaleType = SaleType.BrandNew,
                     IsActive = true,
@@ -122,7 +122,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
             var lotService = new LotService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile());
             var lot = new LotModel
             {
-                AuctionDate = DateTime.Now,
+                TurnkeyPrice = 5000,
                 SellerId = "1",
                 SaleType = SaleTypeDto.BrandNew,
                 Car = new CarModel
@@ -149,7 +149,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
             mockUnitOfWork.Verify(
                 m => m.LotRepository.Add(It.Is<Lot>(
                     l => l.Car.Brand == lot.Car.Brand
-                    && l.AuctionDate == lot.AuctionDate
+                    && l.TurnkeyPrice == lot.TurnkeyPrice
                     && l.SaleType == SaleType.BrandNew)),
                 Times.Once);
             mockUnitOfWork.Verify(
@@ -165,7 +165,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
             var lotService = new LotService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile());
             var lot = new LotModel
             {
-                AuctionDate = DateTime.Now,
+                TurnkeyPrice = 5000,
                 SellerId = "1",
                 SaleType = SaleTypeDto.BrandNew,
                 Car = new CarModel
@@ -190,7 +190,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
             mockUnitOfWork.Verify(
                 m => m.LotRepository.Add(It.Is<Lot>(
                     l => l.Car.Brand == lot.Car.Brand
-                    && l.AuctionDate == lot.AuctionDate
+                    && l.TurnkeyPrice == lot.TurnkeyPrice
                     && l.SaleType == SaleType.BrandNew)),
                 Times.Never);
             mockUnitOfWork.Verify(
@@ -231,7 +231,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
             {
                 Assert.AreEqual(expected[i].Id, actual[i].Id);
                 Assert.AreEqual(expected[i].SaleType, actual[i].SaleType);
-                Assert.AreEqual(expected[i].AuctionDate.Date, actual[i].AuctionDate.Date);
+                Assert.AreEqual(expected[i].TurnkeyPrice, actual[i].TurnkeyPrice);
                 Assert.AreEqual(expected[i].IsActive, actual[i].IsActive);
             }
 
@@ -252,7 +252,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
             {
                 Assert.AreEqual(expected[i].Id, actual[i].Id);
                 Assert.AreEqual(expected[i].SaleType, actual[i].SaleType);
-                Assert.AreEqual(expected[i].AuctionDate.Date, actual[i].AuctionDate.Date);
+                Assert.AreEqual(expected[i].TurnkeyPrice, actual[i].TurnkeyPrice);
                 Assert.AreEqual(expected[i].IsActive, actual[i].IsActive);
             }
         }
@@ -271,7 +271,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
 
             Assert.AreEqual(expected.Id, actual.Id);
             Assert.AreEqual(expected.SaleType, actual.SaleType);
-            Assert.AreEqual(expected.AuctionDate.Date, actual.AuctionDate.Date);
+            Assert.AreEqual(expected.TurnkeyPrice, actual.TurnkeyPrice);
             Assert.AreEqual(expected.IsActive, actual.IsActive);
         }
 
@@ -283,7 +283,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
             var lotService = new LotService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile());
             var lot = new LotModel
             {
-                AuctionDate = DateTime.Now,
+                TurnkeyPrice = 5000,
                 SellerId = "2",
                 SaleType = SaleTypeDto.BrandNew,
                 IsActive = true,
@@ -311,7 +311,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
             mockUnitOfWork.Verify(
                 m => m.LotRepository.Update(It.Is<Lot>(
                     l => l.Car.Brand == lot.Car.Brand
-                    && l.AuctionDate == lot.AuctionDate
+                    && l.TurnkeyPrice == lot.TurnkeyPrice
                     && l.SaleType == SaleType.BrandNew)),
                 Times.Once);
             mockUnitOfWork.Verify(

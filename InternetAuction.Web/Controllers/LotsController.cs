@@ -89,6 +89,7 @@ namespace InternetAuction.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(LotModel model)
         {
+            // TODO: add images editing
             if (ModelState.IsValid)
             {
                 var result = await _lotService.UpdateAsync(model);

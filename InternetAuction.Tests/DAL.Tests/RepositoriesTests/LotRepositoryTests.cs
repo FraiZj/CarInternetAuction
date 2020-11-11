@@ -21,14 +21,14 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
                 new Lot
                 {
                     Id = 1,
-                    AuctionDate = new DateTime(2020, 11, 10),
                     CarId = 1,
                     Car = new Car { Id = 1, Brand = "Audi", Model = "RS6" },
                     SellerId = "1",
+                    TurnkeyPrice = 5000,
                     Seller = new ApplicationUser { Id = "1" }
                 },
-                new Lot { Id = 2, AuctionDate = new DateTime(2020, 11, 10), CarId = 2 },
-                new Lot { Id = 3, AuctionDate = new DateTime(2020, 11, 10), CarId = 3 }
+                new Lot { Id = 2, TurnkeyPrice = 3000, CarId = 2 },
+                new Lot { Id = 3, TurnkeyPrice = 8000, CarId = 3 }
             }.AsQueryable();
         }
 
@@ -59,7 +59,7 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
             var lot = new Lot
             {
                 Id = 100,
-                AuctionDate = new DateTime(2020, 11, 15),
+                TurnkeyPrice = 5000,
                 CarId = 1
             };
 
@@ -68,7 +68,7 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
             mockDbSet.Verify(
                 m => m.Add(It.Is<Lot>(
                     l => l.Id == lot.Id
-                        && l.AuctionDate == lot.AuctionDate
+                        && l.TurnkeyPrice == lot.TurnkeyPrice
                         && l.CarId == lot.CarId)),
                 Times.Once);
         }
@@ -82,7 +82,7 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
             var lot = new Lot
             {
                 Id = 1,
-                AuctionDate = new DateTime(2020, 11, 15),
+                TurnkeyPrice = 5000,
                 CarId = 1
             };
 
@@ -91,7 +91,7 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
             mockDbSet.Verify(
                 m => m.Remove(It.Is<Lot>(
                     l => l.Id == lot.Id 
-                        && l.AuctionDate == lot.AuctionDate 
+                        && l.TurnkeyPrice == lot.TurnkeyPrice
                         && l.CarId == lot.CarId)),
                 Times.Once);
         }
@@ -126,7 +126,7 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
             for (int i = 0; i < result.Count; i++)
             {
                 Assert.AreEqual(lots[i].Id, result[i].Id);
-                Assert.AreEqual(lots[i].AuctionDate, result[i].AuctionDate);
+                Assert.AreEqual(lots[i].TurnkeyPrice, result[i].TurnkeyPrice);
                 Assert.AreEqual(lots[i].Car?.Id, result[i].Car?.Id);
             }
         }
@@ -145,7 +145,7 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
             for (int i = 0; i < result.Count; i++)
             {
                 Assert.AreEqual(lots[i].Id, result[i].Id);
-                Assert.AreEqual(lots[i].AuctionDate, result[i].AuctionDate);
+                Assert.AreEqual(lots[i].TurnkeyPrice, result[i].TurnkeyPrice);
                 Assert.AreEqual(lots[i].Car?.Id, result[i].Car?.Id);
                 Assert.AreEqual(lots[i].Seller?.Id, result[i].Seller?.Id);
             }
@@ -162,7 +162,7 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
             var result = await lotRepo.GetByIdAsync(lot.Id);
 
             Assert.AreEqual(lot.Id, result.Id);
-            Assert.AreEqual(lot.AuctionDate, result.AuctionDate);
+            Assert.AreEqual(lot.TurnkeyPrice, result.TurnkeyPrice);
             Assert.AreEqual(lot.Car?.Id, result.Car?.Id);
         }
 
@@ -177,7 +177,7 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
             var result = await lotRepo.GetByIdWithDetailsAsync(lot.Id);
 
             Assert.AreEqual(lot.Id, result.Id);
-            Assert.AreEqual(lot.AuctionDate, result.AuctionDate);
+            Assert.AreEqual(lot.TurnkeyPrice, result.TurnkeyPrice);
             Assert.AreEqual(lot.Car?.Id, result.Car?.Id);
             Assert.AreEqual(lot.Seller?.Id, result.Seller?.Id);
         }
@@ -185,13 +185,14 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public void LotRepository_Update_UpdatesLot()
         {
+            // TODO: fix test
             var mockDbSet = UnitTestHelper.GetMockDbSet<Lot>(GetTestLots());
             var mockContext = GetMockContext(mockDbSet);
             var lotRepo = new LotRepository(mockContext.Object);
             var lot = new Lot
             {
                 Id = 1,
-                AuctionDate = new DateTime(2020, 11, 15),
+                TurnkeyPrice = 5000,
                 CarId = 1
             };
 
@@ -200,7 +201,7 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
             mockDbSet.Verify(
                 m => m.Attach(It.Is<Lot>(
                     l => l.Id == lot.Id
-                        && l.AuctionDate == lot.AuctionDate
+                        && l.TurnkeyPrice == lot.TurnkeyPrice
                         && l.CarId == lot.CarId)),
                 Times.Once);
         }

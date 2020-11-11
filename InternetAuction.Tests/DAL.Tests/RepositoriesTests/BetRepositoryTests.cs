@@ -198,7 +198,8 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
             {
                 Id = 1,
                 BetDate = new DateTime(2020, 11, 15),
-                LotId = 1
+                LotId = 1,
+                UserId = "1"
             };
 
             betRepo.Update(bet);
