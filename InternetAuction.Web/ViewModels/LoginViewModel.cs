@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace InternetAuction.Web.Models
+namespace InternetAuction.Web.ViewModels
 {
     public class LoginViewModel
     {

@@ -54,6 +54,10 @@
             @Html.DisplayFor(model => model.Car.TechnicalPassport.HasKeys)
         </dd>
     </dl>
+    @foreach (var img in Model.Car.CarImages)
+    {
+        <img src="@img.Url" alt="@img.Title" />
+    }
 </div>
 <p>
 

@@ -54,7 +54,7 @@ namespace InternetAuction.DAL.Repositories.Base
 
         public virtual void Update(TEntity entity)
         {
-            _entities.Attach(entity);
+            _context.Entry(entity).State = EntityState.Modified;
         }
     }
 }

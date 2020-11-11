@@ -1,6 +1,7 @@
 ﻿using InternetAuction.BLL.Models.Base;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace InternetAuction.BLL.Models
 {
@@ -25,6 +26,9 @@ namespace InternetAuction.BLL.Models
         public TechnicalPassportModel TechnicalPassport { get; set; }
 
         [Display(Name = "Car Images")]
-        public ICollection<CarImageModel> CarImages { get; set; }
+        public ICollection<ImageModel> CarImages { get; set; }
+
+        [Display(Name = "Files")]
+        public ICollection<HttpPostedFileBase> Files { get; set; }
     }
 }

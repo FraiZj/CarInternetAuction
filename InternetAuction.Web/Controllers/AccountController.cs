@@ -1,6 +1,6 @@
 ﻿using InternetAuction.BLL.Interfaces;
 using InternetAuction.BLL.Models;
-using InternetAuction.Web.Models;
+using InternetAuction.Web.ViewModels;
 using Microsoft.Owin.Security;
 using System.Linq;
 using System.Threading.Tasks;
@@ -52,10 +52,11 @@ namespace InternetAuction.Web.Controllers
             return View(model);
         }
 
+        [HttpPost]
         public ActionResult Logout()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Create", "Lots");
+            return RedirectToAction("ActiveLots", "Lots");
         }
 
         [HttpGet]

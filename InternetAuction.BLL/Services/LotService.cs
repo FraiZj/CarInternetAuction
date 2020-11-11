@@ -8,8 +8,10 @@ using InternetAuction.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace InternetAuction.BLL.Services
 {
@@ -24,6 +26,43 @@ namespace InternetAuction.BLL.Services
             _mapper = mapper;
         }
 
+        private ICollection<CarImage> GetUploadedImages(ICollection<HttpPostedFileBase> files)
+        {
+            var carImages = new List<CarImage>();
+
+            foreach (var file in files)
+            {
+                var img = new CarImage();
+                img.Title = file.FileName;
+
+                using (var ms = new MemoryStream())
+                {
+                    file.InputStream.CopyTo(ms);
+                    img.Data = ms.ToArray();
+                    ms.Close();
+                }
+
+                carImages.Add(img);
+            }
+
+            return carImages;
+        }
+
+        private ICollection<ImageModel> GetRetrievedImages(ICollection<CarImage> carImages)
+        {
+            var imageModels = new List<ImageModel>();
+            foreach (var image in carImages)
+            {
+                var imageModel = new ImageModel
+                {
+                    Url = $"data:image/jpg;base64,{Convert.ToBase64String(image.Data)}",
+                    Title = image.Title
+                };
+                imageModels.Add(imageModel);
+            }
+            return imageModels;
+        }
+
         public async Task<OperationDetails> AddAsync(LotModel model)
         {
             try
@@ -32,6 +71,7 @@ namespace InternetAuction.BLL.Services
                     return new OperationDetails(false, validationResult);
 
                 var lot = _mapper.Map<Lot>(model);
+                lot.Car.CarImages = GetUploadedImages(model.Car.Files);
                 _unitOfWork.LotRepository.Add(lot);
                 await _unitOfWork.SaveAsync();
 
@@ -127,7 +167,9 @@ namespace InternetAuction.BLL.Services
             try
             {
                 var lot = await _unitOfWork.LotRepository.GetByIdWithDetailsAsync(id);
-                return _mapper.Map<LotModel>(lot);
+                var lotModel = _mapper.Map<LotModel>(lot);
+                lotModel.Car.CarImages = GetRetrievedImages(lot.Car.CarImages);
+                return lotModel;
             }
             catch (Exception ex)
             {
@@ -145,7 +187,7 @@ namespace InternetAuction.BLL.Services
                 var lot = _mapper.Map<Lot>(model);
                 _unitOfWork.LotRepository.Update(lot);
                 await _unitOfWork.SaveAsync();
-                return new OperationDetails(true);
+                return new OperationDetails(true, returnValue: lot.Id);
             }
             catch (Exception ex)
             {

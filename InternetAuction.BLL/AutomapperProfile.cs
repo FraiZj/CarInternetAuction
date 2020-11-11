@@ -33,9 +33,10 @@ namespace InternetAuction.BLL
                 .ForMember(b => b.LotId, opt => opt.MapFrom(bet => bet.Lot))
                 .ReverseMap();
 
-            CreateMap<Car, CarModel>().ReverseMap();
+            CreateMap<Car, CarModel>()
+                .ForMember(c => c.CarImages, opt => opt.Ignore())
+                .ReverseMap();
             CreateMap<TechnicalPassport, TechnicalPassportModel>().ReverseMap();
-            CreateMap<CarImage, CarImageModel>().ReverseMap();
 
             CreateMap<Transmission, TransmissionDto>().ReverseMap();
             CreateMap<BodyType, BodyTypeDto>().ReverseMap();

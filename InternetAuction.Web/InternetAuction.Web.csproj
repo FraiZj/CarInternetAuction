@@ -192,8 +192,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\EnumExtensions.cs" />
-    <Compile Include="Models\LoginViewModel.cs" />
-    <Compile Include="Models\RegisterViewModel.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -337,7 +337,8 @@
     <Content Include="Views\Lots\Details.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Lots\ActiveLots.cshtml" />
+    <Content Include="Views\Lots\Lots.cshtml" />
+    <Content Include="Views\Lots\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -62,5 +62,12 @@ namespace InternetAuction.DAL.Repositories
                 .Include(e => e.Buyer)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
+
+        public override void Update(Lot entity)
+        {
+            _context.Entry(entity).State = EntityState.Modified;
+            _context.Entry(entity.Car).State = EntityState.Modified;
+            _context.Entry(entity.Car.TechnicalPassport).State = EntityState.Modified;
+        }
     }
 }
