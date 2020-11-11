@@ -1,6 +1,7 @@
 ﻿using InternetAuction.BLL.Interfaces;
 using InternetAuction.BLL.Models;
 using InternetAuction.Web.ViewModels;
+using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using System.Linq;
 using System.Threading.Tasks;
@@ -95,6 +96,17 @@ namespace InternetAuction.Web.Controllers
             }
 
             return View(model);
+        }
+
+        public async Task<ActionResult> UserProfile(string id)
+        {
+            id = id ?? User.Identity.GetUserId();
+            UserModel user = await _userService.GetUserModelByIdAsync(id);
+
+            if (user is null)
+                return RedirectToAction("NotFound", "Errors");
+
+            return View(user);
         }
     }
 }

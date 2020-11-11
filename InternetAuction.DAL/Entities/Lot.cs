@@ -17,8 +17,9 @@ namespace InternetAuction.DAL.Entities
         [Required]
         public SaleType SaleType { get; set; }
 
-        [Required]
-        public DateTime AuctionDate { get; set; }
+        public decimal StartPrice { get; set; } = 0;
+
+        public decimal? TurnkeyPrice { get; set; } = null;
 
         public bool IsActive { get; set; }
 

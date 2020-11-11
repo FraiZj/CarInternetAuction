@@ -18,7 +18,7 @@ namespace InternetAuction.DAL
         public ApplicationDbContext(string nameOrConnectionString)
             : base(nameOrConnectionString)
         {
-            Database.SetInitializer(new CreateDatabaseIfNotExists<ApplicationDbContext>());
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

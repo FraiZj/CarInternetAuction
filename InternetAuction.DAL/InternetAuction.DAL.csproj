@@ -108,6 +108,10 @@
     <Compile Include="Migrations\202011100712266_UpdateUserEntity.designer.cs">
       <DependentUpon>202011100712266_UpdateUserEntity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011111052431_UpdateLotEntity.cs" />
+    <Compile Include="Migrations\202011111052431_UpdateLotEntity.designer.cs">
+      <DependentUpon>202011111052431_UpdateLotEntity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Base\Repository.cs" />
@@ -141,6 +145,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011100712266_UpdateUserEntity.resx">
       <DependentUpon>202011100712266_UpdateUserEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011111052431_UpdateLotEntity.resx">
+      <DependentUpon>202011111052431_UpdateLotEntity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

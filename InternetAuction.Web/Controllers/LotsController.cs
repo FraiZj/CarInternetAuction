@@ -10,35 +10,34 @@ namespace InternetAuction.Web.Controllers
     [Authorize]
     public class LotsController : Controller
     {
-        private readonly ILotService lotService;
+        private readonly ILotService _lotService;
 
         public LotsController(ILotService lotService)
         {
-            this.lotService = lotService;
+            this._lotService = lotService;
         }
 
         [AllowAnonymous]
         public ActionResult ActiveLots()
         {
-            var lots = lotService.GetAllActiveLots();
+            var lots = _lotService.GetAllActiveLots();
             return View("Lots", lots);
         }
 
         [Authorize(Roles = "Admin")]
         public ActionResult AllLots()
         {
-            var lots = lotService.GetAll();
+            var lots = _lotService.GetAll();
             return View("Lots", lots);
         }
 
+        [AllowAnonymous]
         public async Task<ActionResult> Details(int id)
         {
-            var lot = await lotService.GetByIdWithDetailsAsync(id);
+            var lot = await _lotService.GetByIdWithDetailsAsync(id);
 
-            ViewBag.UserId = User.Identity.GetUserId();
-
-            //if (lot is null)
-            //    return RedirectToAction("NotFound", "Errors");
+            if (lot is null)
+                return RedirectToAction("NotFound", "Errors");
 
             return View(lot);
         }
@@ -56,7 +55,7 @@ namespace InternetAuction.Web.Controllers
             if (ModelState.IsValid)
             {
                 model.SellerId = User.Identity.GetUserId();
-                var result = await lotService.AddAsync(model);
+                var result = await _lotService.AddAsync(model);
 
                 if (result.Succedeed)
                 {
@@ -75,7 +74,7 @@ namespace InternetAuction.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            var lot = await lotService.GetByIdWithDetailsAsync(id);
+            var lot = await _lotService.GetByIdWithDetailsAsync(id);
 
             if (lot is null)
                 return RedirectToAction("NotFound", "Errors");
@@ -92,7 +91,7 @@ namespace InternetAuction.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await lotService.UpdateAsync(model);
+                var result = await _lotService.UpdateAsync(model);
 
                 if (result.Succedeed)
                 {
@@ -108,11 +107,20 @@ namespace InternetAuction.Web.Controllers
             return View(model);
         }
 
-        //[Authorize]
-        //public async Task<ActionResult> BuyLot(int lotId)
-        //{
+        [HttpPost]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var lot = await _lotService.GetByIdWithDetailsAsync(id);
 
-        //    lotService.UpdateAsync();
-        //}
+            if (lot is null)
+                return RedirectToAction("NotFound", "Errors");
+
+            if (!User.IsInRole("Admin")
+                && User.Identity.GetUserId() != lot.SellerId)
+                return RedirectToAction("Forbidden", "Errors");
+
+            await _lotService.DeleteByIdAsync(id);
+            return RedirectToAction("ActiveLots", "Lots");
+        }
     }
 }
