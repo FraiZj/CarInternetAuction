@@ -251,9 +251,11 @@ namespace InternetAuction.BLL.Services
 
             validationResult = modelValidationResult.Concat(carValidationResult).Concat(technicalPassportValidationResult).ToList();
 
-            if (model.AuctionDate.Date < DateTime.UtcNow.Date
-                    || DateTime.UtcNow.Month - model.AuctionDate.ToUniversalTime().Month > 1)
-                validationResult.Add(new ValidationResult("Invalid Auction Date", new List<string> { "AuctionDate" }));
+            if (model.StartPrice < 0)
+                validationResult.Add(new ValidationResult("Invalid Start Price", new List<string> { "StartPrice" }));
+
+            if (model.TurnkeyPrice < 0)
+                validationResult.Add(new ValidationResult("Invalid Turnkey Price", new List<string> { "TurnkeyPrice" }));
 
             if (model.Car.Year > DateTime.UtcNow.Year)
                 validationResult.Add(new ValidationResult("Invalid Car Year", new List<string> { "Car", "Year" }));

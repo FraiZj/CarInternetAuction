@@ -15,7 +15,7 @@ namespace InternetAuction.BLL.Models
         [Display(Name = "Bet Date")]
         public DateTime BetDate { get; set; }
 
-        [Required]
+        [Required, Display(Name = "Sum($)")]
         public decimal Sum { get; set; }
     }
 }

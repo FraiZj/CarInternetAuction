@@ -1,8 +1,7 @@
 ﻿namespace InternetAuction.DAL.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class UpdateLotEntity : DbMigration
     {
         public override void Up()

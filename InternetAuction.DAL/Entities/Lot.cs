@@ -1,6 +1,5 @@
 ﻿using InternetAuction.DAL.Entities.Base;
 using InternetAuction.DAL.Enums;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,11 +15,8 @@ namespace InternetAuction.DAL.Entities
 
         [Required]
         public SaleType SaleType { get; set; }
-
         public decimal StartPrice { get; set; } = 0;
-
         public decimal? TurnkeyPrice { get; set; } = null;
-
         public bool IsActive { get; set; }
 
         [ForeignKey("SellerId")]

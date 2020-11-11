@@ -1,6 +1,5 @@
 ﻿using InternetAuction.BLL.EnumsDtos;
 using InternetAuction.BLL.Models.Base;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -17,14 +16,17 @@ namespace InternetAuction.BLL.Models
         [Display(Name = "Buyer Id")]
         public string BuyerId { get; set; }
 
-        [Display(Name = "Is Active")]
-        public bool IsActive { get; set; }
+        [Display(Name = "Active")]
+        public bool IsActive { get; set; } = true;
 
         [Required, Display(Name = "Sale Type")]
         public SaleTypeDto SaleType { get; set; }
 
-        [Required, Display(Name = "Auction Date")]
-        public DateTime AuctionDate { get; set; }
+        [Display(Name = "Start Price($)")]
+        public decimal StartPrice { get; set; } = 0;
+
+        [Display(Name = "Turnkey Price($)")]
+        public decimal? TurnkeyPrice { get; set; } = null;
 
         public ICollection<BetModel> Bets { get; set; }
     }
