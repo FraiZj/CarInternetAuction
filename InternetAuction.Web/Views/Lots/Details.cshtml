@@ -1,4 +1,5 @@
-﻿@using InternetAuction.Web.Infrastructure;
+﻿@using InternetAuction.Web.ViewModels;
+@using InternetAuction.Web.Infrastructure;
 @using Microsoft.AspNet.Identity;
 
 @model InternetAuction.BLL.Models.LotModel
@@ -59,7 +60,18 @@
     {
         <img src="@img.Url" alt="@img.Title" />
     }
+
+    @foreach (var bet in Model.Bets)
+    {
+        <p>@bet.Sum<br /></p>
+    }
+
 </div>
+
+<div>
+    @Html.Partial("~/Views/Bet/PlaceBet.cshtml", new BetViewModel() { LotId = Model.Id })
+</div>
+
 <p>
 
     @if (User.IsInRole("Admin") || User.Identity.GetUserId() == Model.SellerId)
@@ -69,3 +81,29 @@
 
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/customScripts")
+    @*<script>
+        $('body').on('submit', '#form', (e) => func(e));
+
+        function func(e) {
+            e.preventDefault();
+
+            var form = $('#form');
+            var url = form.attr('action');
+            var type = form.attr('method');
+
+            $.ajax({
+                type: type,
+                url: url,
+                data: form.serialize(),
+                success: function (data) {
+                    alert(data);
+                    form.parent("div").html(data);
+                }
+            });
+        };
+    </script>*@
+}

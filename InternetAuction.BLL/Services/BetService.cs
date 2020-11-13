@@ -31,6 +31,23 @@ namespace InternetAuction.BLL.Services
                 if (!ValidateBetModel(model, out var validationResults))
                     return new OperationDetails(false, validationResults);
 
+                var lot = await _unitOfWork.LotRepository.GetByIdAsync(model.LotId);
+
+                if (lot is null)
+                    return new OperationDetails(false, new List<ValidationResult> { new ValidationResult($"Lot with Id={model.LotId} does not exist", new List<string> { "LotId" }) });
+
+                if (lot.SellerId == model.UserId)
+                    return new OperationDetails(false, new List<ValidationResult> { new ValidationResult($"User cannot buy his own lot", new List<string> { "UserId" }) });
+
+                var maxBet = lot.Bets.Count != 0 ?
+                    lot.Bets.Max(b => b.Sum)
+                    : 0;
+
+                if (model.Sum < maxBet)
+                    return new OperationDetails(false, new List<ValidationResult> { new ValidationResult("Sum cannot be less than present max bet", new List<string> { "Sum" }) });
+
+                
+
                 var bet = _mapper.Map<Bet>(model);
                 _unitOfWork.BetRepository.Add(bet);
                 await _unitOfWork.SaveAsync();
@@ -118,17 +135,6 @@ namespace InternetAuction.BLL.Services
             var modelValidationResult = Validate(model);
 
             validationResult = modelValidationResult.ToList();
-
-            var lot = _unitOfWork.LotRepository.GetByIdWithDetailsAsync(model.Id).Result;
-
-            if (lot is null)
-            {
-                validationResult = new List<ValidationResult> { new ValidationResult($"Lot with Id={model.Id} does not exist") };
-                return false;
-            }
-
-            if (model.Sum < lot.Bets.Max(b => b.Sum))
-                validationResult.Add(new ValidationResult("Invalid Auction Date", new List<string> { "AuctionDate" }));
 
             return validationResult.Count == 0;
         }
