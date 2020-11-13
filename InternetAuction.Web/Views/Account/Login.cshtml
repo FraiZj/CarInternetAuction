@@ -1,4 +1,4 @@
-﻿@model InternetAuction.Web.Models.LoginViewModel
+﻿@model InternetAuction.Web.ViewModels.LoginViewModel
 
 @{
     ViewBag.Title = "Login";
@@ -7,7 +7,7 @@
 <h2>Login</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Login", "Account", FormMethod.Post)) 
 {
     @Html.AntiForgeryToken()
     

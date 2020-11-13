@@ -1,4 +1,4 @@
-﻿@model InternetAuction.Web.Models.RegisterViewModel
+﻿@model InternetAuction.Web.ViewModels.RegisterViewModel
 
 @{
     ViewBag.Title = "Register";
@@ -7,7 +7,7 @@
 <h2>Register</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Register", "Account", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     

@@ -46,7 +46,7 @@ namespace InternetAuction.Web.Controllers
                         IsPersistent = true,
                     }, claim);
 
-                    return RedirectToAction("Create", "Lots");
+                    return RedirectToAction("ActiveLots", "Lots");
                 }
             }
 
@@ -82,16 +82,22 @@ namespace InternetAuction.Web.Controllers
                 };
 
                 var operationDetails = await _userService.Register(userModel);
+
                 if (operationDetails.Succedeed)
                 {
-                    return View("Login");
-                }
-                else
-                {
-                    foreach (var error in operationDetails.ValidationResults)
+                    var claim = await _userService.Login(userModel);
+                    AuthenticationManager.SignOut();
+                    AuthenticationManager.SignIn(new AuthenticationProperties
                     {
-                        ModelState.AddModelError(error.MemberNames.FirstOrDefault(), error.ErrorMessage);
-                    }
+                        IsPersistent = true,
+                    }, claim);
+
+                    return RedirectToAction("ActiveLots", "Lots");
+                }
+
+                foreach (var error in operationDetails.ValidationResults)
+                {
+                    ModelState.AddModelError(error.MemberNames.FirstOrDefault(), error.ErrorMessage);
                 }
             }
 

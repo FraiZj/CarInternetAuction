@@ -14,6 +14,7 @@ namespace InternetAuction.Web.ViewModels
         public string Email { get; set; }
 
         [Required, Phone]
+        [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
         [Required]
@@ -22,10 +23,12 @@ namespace InternetAuction.Web.ViewModels
 
         [Required]
         [DataType(DataType.Password)]
+        [Display(Name = "Confirm Password")]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
 
         [Required]
+        [Display(Name = "User Name")]
         public string UserName { get; set; }
     }
 }
