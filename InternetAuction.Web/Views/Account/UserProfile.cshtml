@@ -52,7 +52,14 @@
             @Html.DisplayFor(model => model.PhoneNumber)
         </dd>
 
+
+
     </dl>
+
+    @foreach (var lot in Model.SaleLotsIds)
+    {
+        @Html.ActionLink("Lot", "Details", "Lots", new { id = lot }, null)
+    }
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |

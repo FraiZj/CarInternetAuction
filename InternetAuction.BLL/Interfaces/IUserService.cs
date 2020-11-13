@@ -8,7 +8,7 @@ namespace InternetAuction.BLL.Interfaces
 {
     public interface IUserService : IDisposable
     {
-        Task<OperationDetails> Register(UserModel model);
+        Task<OperationDetails> Register(UserModel model, string role = Roles.Client);
 
         Task<ClaimsIdentity> Login(UserModel model);
 

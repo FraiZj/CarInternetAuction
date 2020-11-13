@@ -31,13 +31,13 @@ namespace InternetAuction.BLL.Services
         {
             if(_unitOfWork.ApplicationRoleManager.FindByName("Client") is null)
             {
-                var role = new ApplicationRole { Name = "Client" };
+                var role = new ApplicationRole { Name = Roles.Client };
                 _unitOfWork.ApplicationRoleManager.Create(role);
             }
 
             if (_unitOfWork.ApplicationRoleManager.FindByName("Admin") is null)
             {
-                var role = new ApplicationRole { Name = "Admin" };
+                var role = new ApplicationRole { Name = Roles.Admin };
                 _unitOfWork.ApplicationRoleManager.Create(role);
             }
 
@@ -51,7 +51,7 @@ namespace InternetAuction.BLL.Services
                     UserName = "admin1" 
                 };
                 _unitOfWork.ApplicationUserManager.Create(admin, "admin1");
-                _unitOfWork.ApplicationUserManager.AddToRole(admin.Id, "Admin");
+                _unitOfWork.ApplicationUserManager.AddToRole(admin.Id, Roles.Admin);
             }
         }
 
@@ -79,7 +79,7 @@ namespace InternetAuction.BLL.Services
             return claim;
         }
 
-        public async Task<OperationDetails> Register(UserModel model)
+        public async Task<OperationDetails> Register(UserModel model, string role = Roles.Client)
         {
             try
             {
@@ -107,7 +107,7 @@ namespace InternetAuction.BLL.Services
                     return new OperationDetails(false, validationResults);
                 }
 
-                await _unitOfWork.ApplicationUserManager.AddToRoleAsync(user.Id, "Client");
+                await _unitOfWork.ApplicationUserManager.AddToRoleAsync(user.Id, role);
                 await _unitOfWork.SaveAsync();
 
                 return new OperationDetails(true);

@@ -1,4 +1,5 @@
-﻿using InternetAuction.BLL.Interfaces;
+﻿using InternetAuction.BLL.Infrastructure;
+using InternetAuction.BLL.Interfaces;
 using InternetAuction.BLL.Models;
 using Microsoft.AspNet.Identity;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace InternetAuction.Web.Controllers
             return View("Lots", lots);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Roles.Admin)]
         public ActionResult AllLots()
         {
             var lots = _lotService.GetAll();
