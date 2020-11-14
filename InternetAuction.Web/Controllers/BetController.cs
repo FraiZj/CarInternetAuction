@@ -18,12 +18,6 @@ namespace InternetAuction.Web.Controllers
             _betService = betService;
         }
 
-        //[HttpGet]
-        //public ActionResult PlaceBet()
-        //{
-        //    return PartialView();
-        //}
-
         [HttpPost]
         public async Task<ActionResult> PlaceBet(BetViewModel model)
         { 

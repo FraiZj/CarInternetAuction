@@ -115,6 +115,7 @@
     <Compile Include="Models\CarModel.cs" />
     <Compile Include="Models\ImageModel.cs" />
     <Compile Include="Models\LotModel.cs" />
+    <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Models\TechnicalPassportModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

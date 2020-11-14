@@ -123,7 +123,14 @@ namespace InternetAuction.BLL.Services
             try
             {
                 var lots = _unitOfWork.LotRepository.FindAll().Where(l => l.IsActive).ToList();
-                return _mapper.Map<List<LotModel>>(lots).AsQueryable();
+                var lotsModels = _mapper.Map<List<LotModel>>(lots);
+
+                for (int i = 0; i < lots.Count; i++)
+                {
+                    lotsModels[i].Car.CarImages = GetRetrievedImages(lots[i].Car.CarImages);
+                }
+
+                return lotsModels.AsQueryable();
             }
             catch (Exception ex)
             {

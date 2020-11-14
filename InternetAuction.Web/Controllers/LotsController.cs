@@ -124,5 +124,11 @@ namespace InternetAuction.Web.Controllers
             await _lotService.DeleteByIdAsync(id);
             return RedirectToAction("ActiveLots", "Lots");
         }
+
+        [HttpPost]
+        public async Task<ActionResult> Search(SearchModel model)
+        {
+            return PartialView("SearchPartial");
+        }
     }
 }

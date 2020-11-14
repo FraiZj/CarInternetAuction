@@ -1,34 +1,61 @@
-﻿@model IEnumerable<InternetAuction.BLL.Models.LotModel>
+﻿@using InternetAuction.Web.Infrastructure;
+
+@model IEnumerable<InternetAuction.BLL.Models.LotModel>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.SellerId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TurnkeyPrice)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) 
+@section sidebar
 {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.SellerId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TurnkeyPrice)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+        sdfsdafasd
 }
 
-</table>
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-6 col-md-6 mb-4">
+            <div class="card h-100">
+                @if (item.Car.CarImages is null || item.Car.CarImages.Count == 0)
+                {
+                    <a href="#">
+                        @*<img class="card-img-top" src="null"
+                             alt="null">*@
+                    </a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Details", "Lots", new { id = item.Id })" style="background-image: @item.Car.CarImages.First().Url">
+                        <img class="card-img-top" height="350" 
+                             src="@item.Car.CarImages.First().Url"
+                             alt="@item.Car.CarImages.First().Title" 
+                             @if (!item.IsActive) { <text>style="filter: grayscale(100%);"</text>}>
+
+                    </a>
+                }
+
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <a href="@Url.Action("Details", "Lots", new { id = item.Id })" class="text-dark">@item.Car.Brand @item.Car.Model</a>
+                    </h4>
+                    <p class="card-text text-muted">2015 | 37803 Km | Disel | Automatic | Sedan</p>
+                </div>
+                <div class="card-footer">
+                    <span class="text-muted">
+                        @if (item.Bets.Count == 0)
+                        {
+                            <text>No bet yet</text>
+                        }
+                        else
+                        {
+                            <text>Current bet - @item.Bets.Max(b => b.Sum) $</text>
+                                                    }
+                    </span>
+                    <a href="@Url.Action("Details", "Lots", new { id = item.Id })" class="btn btn-dark float-right">Details</a>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
