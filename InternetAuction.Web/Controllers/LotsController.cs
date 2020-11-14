@@ -126,8 +126,17 @@ namespace InternetAuction.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Search(SearchModel model)
+        public ActionResult Search(SearchModel model)
         {
+            if (model is null)
+                ModelState.AddModelError("", "Invalid search parameters");
+
+            if (ModelState.IsValid)
+            {
+                var lots = _lotService.SearchLotModels(model);
+                return View("Lots", lots);
+            }
+
             return PartialView("SearchPartial");
         }
     }

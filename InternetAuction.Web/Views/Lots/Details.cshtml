@@ -4,72 +4,70 @@
 
 @model InternetAuction.BLL.Models.LotModel
 
+@section sidebar
+{
+    <div>
+        @Html.Partial("~/Views/Bet/PlaceBet.cshtml", new BetViewModel() { LotId = Model.Id })
+    </div>    
+}
+
 <div>
-    <h4>LotModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.SaleType)
-        </dt>
 
-        <dd>
-            @Model.SaleType.GetDisplayName()
-        </dd>
+    <h1>
+        @Html.DisplayFor(model => model.Car.Year) 
+        @Html.DisplayFor(model => model.Car.Brand) 
+        @Html.DisplayFor(model => model.Car.Model)
+    </h1>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsActive)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TurnkeyPrice)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TurnkeyPrice)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Car.Brand)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Car.Brand)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Car.TechnicalPassport.BodyType)
-        </dt>
-
-        <dd>
-            @Model.Car.TechnicalPassport.BodyType.GetDisplayName()
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Car.TechnicalPassport.HasKeys)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Car.TechnicalPassport.HasKeys)
-        </dd>
-    </dl>
-    @foreach (var img in Model.Car.CarImages)
-    {
-        <img src="@img.Url" alt="@img.Title" />
-    }
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            @foreach (var img in Model.Car.CarImages)
+            {
+                <div class="carousel-item active">
+                    <img class="d-block w-100" src="@img.Url" alt="@img.Title">
+                </div>
+            }
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <div class="container d-flex justify-content-center">
+        <table class="table w-75">
+            <thead>
+                <tr>
+                    <th scope="col">Parameter</th>
+                    <th scope="col">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.Car.EngineType)</td>
+                    <td>@Html.DisplayFor(m => m.Car.EngineType)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.Car.Mileage)</td>
+                    <td>@Html.DisplayFor(m => m.Car.Mileage)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.Car.Year)</td>
+                    <td>@Html.DisplayFor(m => m.Car.Year)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
 
     @foreach (var bet in Model.Bets)
     {
         <p>@bet.Sum<br /></p>
     }
 
-</div>
-
-<div>
-    @Html.Partial("~/Views/Bet/PlaceBet.cshtml", new BetViewModel() { LotId = Model.Id })
 </div>
 
 <p>
@@ -79,31 +77,10 @@
         @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
     }
 
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Lots")
 </p>
 
 @section scripts
 {
     @Scripts.Render("~/Scripts/customScripts")
-    @*<script>
-        $('body').on('submit', '#form', (e) => func(e));
-
-        function func(e) {
-            e.preventDefault();
-
-            var form = $('#form');
-            var url = form.attr('action');
-            var type = form.attr('method');
-
-            $.ajax({
-                type: type,
-                url: url,
-                data: form.serialize(),
-                success: function (data) {
-                    alert(data);
-                    form.parent("div").html(data);
-                }
-            });
-        };
-    </script>*@
 }

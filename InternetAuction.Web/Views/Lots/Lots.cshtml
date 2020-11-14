@@ -1,15 +1,15 @@
-﻿@using InternetAuction.Web.Infrastructure;
+﻿@using InternetAuction.BLL.Models;
 
 @model IEnumerable<InternetAuction.BLL.Models.LotModel>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-
 @section sidebar
 {
-        sdfsdafasd
+    <div class="row">
+        @Html.Partial("SearchPartial", new SearchModel())
+    </div>
 }
+
+<h1>Active Lots</h1>
 
 <div class="row">
 
@@ -21,16 +21,16 @@
                 {
                     <a href="#">
                         @*<img class="card-img-top" src="null"
-                             alt="null">*@
+                            alt="null">*@
                     </a>
                 }
                 else
                 {
                     <a href="@Url.Action("Details", "Lots", new { id = item.Id })" style="background-image: @item.Car.CarImages.First().Url">
-                        <img class="card-img-top" height="350" 
+                        <img class="card-img-top" height="350"
                              src="@item.Car.CarImages.First().Url"
-                             alt="@item.Car.CarImages.First().Title" 
-                             @if (!item.IsActive) { <text>style="filter: grayscale(100%);"</text>}>
+                             alt="@item.Car.CarImages.First().Title"
+                             @if (!item.IsActive) { <text> style="filter: grayscale(100%);" </text> }>
 
                     </a>
                 }
@@ -50,7 +50,7 @@
                         else
                         {
                             <text>Current bet - @item.Bets.Max(b => b.Sum) $</text>
-                                                    }
+                        }
                     </span>
                     <a href="@Url.Action("Details", "Lots", new { id = item.Id })" class="btn btn-dark float-right">Details</a>
                 </div>

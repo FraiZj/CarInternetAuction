@@ -4,6 +4,7 @@ namespace InternetAuction.BLL.EnumsDtos
 {
     public enum SaleTypeDto
     {
+        None,
         Other,
         [Display(Name = "Brand new")]
         BrandNew,

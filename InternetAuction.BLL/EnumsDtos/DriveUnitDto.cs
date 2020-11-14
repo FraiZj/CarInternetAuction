@@ -4,6 +4,7 @@ namespace InternetAuction.BLL.EnumsDtos
 {
     public enum DriveUnitDto
     {
+        None,
         Other,
         [Display(Name = "Front-wheel drive")]
         FrontWheelDrive,

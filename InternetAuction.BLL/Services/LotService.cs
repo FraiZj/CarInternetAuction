@@ -35,8 +35,10 @@ namespace InternetAuction.BLL.Services
 
             foreach (var file in files)
             {
-                var img = new CarImage();
-                img.Title = file.FileName;
+                var img = new CarImage
+                {
+                    Title = file.FileName
+                };
 
                 using (var ms = new MemoryStream())
                 {
@@ -276,6 +278,49 @@ namespace InternetAuction.BLL.Services
                 validationResult.Add(new ValidationResult("Invalid Car Year", new List<string> { "Car", "Year" }));
 
             return validationResult.Count == 0;
+        }
+
+        public IQueryable<LotModel> SearchLotModels(SearchModel model)
+        {
+            try
+            {
+                Func<Lot, bool> brandComparison = l => l.Car.Brand == model.Brand;
+                Func<Lot, bool> modelComparison = l => l.Car.Model == model.CarModel;
+                Func<Lot, bool> bodyTypeComparison = l => l.Car.TechnicalPassport.BodyType.ToString() == model.BodyType.ToString();
+                Func<Lot, bool> deiveUnitComparison = l => l.Car.TechnicalPassport.DriveUnit.ToString() == model.DriveUnit.ToString();
+
+                Func<Lot, bool> predicate = l => true;
+
+                if (!string.IsNullOrWhiteSpace(model.Brand))
+                    predicate += brandComparison;
+
+                if (!string.IsNullOrWhiteSpace(model.CarModel))
+                    predicate += modelComparison;
+
+                if (model.BodyType != EnumsDtos.BodyTypeDto.None)
+                    predicate += bodyTypeComparison;
+
+                if (model.DriveUnit != EnumsDtos.DriveUnitDto.None)
+                    predicate += deiveUnitComparison;
+
+                if (model.MaxPrice >= model.MinPrice)
+                    predicate += l => l.StartPrice >= model.MinPrice 
+                                    || l.StartPrice <= model.MaxPrice;
+
+                var lots = _unitOfWork.LotRepository.FindAll().Where(predicate).ToList();
+                var lotsModels = _mapper.Map<List<LotModel>>(lots);
+
+                for (int i = 0; i < lots.Count; i++)
+                {
+                    lotsModels[i].Car.CarImages = GetRetrievedImages(lots[i].Car.CarImages);
+                }
+
+                return lotsModels.AsQueryable();
+            }
+            catch (Exception ex)
+            {
+                throw new InternetAuctionException("An error occured while searching lots", ex.InnerException);
+            }
         }
     }
 }

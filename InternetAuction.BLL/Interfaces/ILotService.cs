@@ -1,5 +1,4 @@
-﻿using InternetAuction.BLL.Infrastructure;
-using InternetAuction.BLL.Models;
+﻿using InternetAuction.BLL.Models;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -34,5 +33,7 @@ namespace InternetAuction.BLL.Interfaces
         /// <param name="id"></param>
         /// <returns></returns>
         Task<LotModel> GetByIdWithDetailsAsync(int id);
+
+        IQueryable<LotModel> SearchLotModels(SearchModel model);
     }
 }

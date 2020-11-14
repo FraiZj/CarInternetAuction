@@ -7,21 +7,19 @@ namespace InternetAuction.BLL.Models
     {
         public string Brand { get; set; }
 
-        public string Model { get; set; }
-
-        [Display(Name = "Sale Type")]
-        public SaleTypeDto? SaleType { get; set; }
-
-        public TransmissionDto? Transmission { get; set; }
+        [Display(Name = "Car Model")]
+        public string CarModel { get; set; }
 
         [Display(Name = "Drive Unit")]
-        public DriveUnitDto? DriveUnit { get; set; }
+        public DriveUnitDto DriveUnit { get; set; }
 
         [Display(Name = "Body Type")]
-        public BodyTypeDto? BodyType { get; set; }
+        public BodyTypeDto BodyType { get; set; }
 
-        public decimal? MinPrice { get; set; }
+        [Display(Name = "Min Price")]
+        public decimal MinPrice { get; set; }
 
-        public decimal? MaxPrice { get; set; }
+        [Display(Name = "Max Price")]
+        public decimal MaxPrice { get; set; } = 1000000;
     }
 }

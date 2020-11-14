@@ -4,6 +4,7 @@ namespace InternetAuction.BLL.EnumsDtos
 {
     public enum TransmissionDto
     {
+        None,
         Other,
         [Display(Name = "Automatic Transmission (AT)")]
         AT,
