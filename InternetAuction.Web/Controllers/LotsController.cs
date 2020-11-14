@@ -126,6 +126,7 @@ namespace InternetAuction.Web.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult Search(SearchModel model)
         {
             if (model is null)

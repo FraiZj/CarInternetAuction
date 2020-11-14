@@ -4,6 +4,7 @@ using InternetAuction.BLL.Interfaces;
 using InternetAuction.BLL.Models;
 using InternetAuction.BLL.Validation;
 using InternetAuction.DAL.Entities;
+using InternetAuction.DAL.Enums;
 using InternetAuction.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -284,28 +285,23 @@ namespace InternetAuction.BLL.Services
         {
             try
             {
-                Func<Lot, bool> brandComparison = l => l.Car.Brand == model.Brand;
-                Func<Lot, bool> modelComparison = l => l.Car.Model == model.CarModel;
-                Func<Lot, bool> bodyTypeComparison = l => l.Car.TechnicalPassport.BodyType.ToString() == model.BodyType.ToString();
-                Func<Lot, bool> deiveUnitComparison = l => l.Car.TechnicalPassport.DriveUnit.ToString() == model.DriveUnit.ToString();
-
                 Func<Lot, bool> predicate = l => true;
 
                 if (!string.IsNullOrWhiteSpace(model.Brand))
-                    predicate += brandComparison;
+                    predicate += l => l.Car.Brand == model.Brand;
 
                 if (!string.IsNullOrWhiteSpace(model.CarModel))
-                    predicate += modelComparison;
+                    predicate += l => l.Car.Model == model.CarModel;
 
                 if (model.BodyType != EnumsDtos.BodyTypeDto.None)
-                    predicate += bodyTypeComparison;
+                    predicate += l => l.Car.TechnicalPassport.BodyType == _mapper.Map<BodyType>(model.BodyType);
 
                 if (model.DriveUnit != EnumsDtos.DriveUnitDto.None)
-                    predicate += deiveUnitComparison;
+                    predicate += l => l.Car.TechnicalPassport.DriveUnit == _mapper.Map<DriveUnit>(model.DriveUnit);
 
                 if (model.MaxPrice >= model.MinPrice)
                     predicate += l => l.StartPrice >= model.MinPrice 
-                                    || l.StartPrice <= model.MaxPrice;
+                                    && l.StartPrice <= model.MaxPrice;
 
                 var lots = _unitOfWork.LotRepository.FindAll().Where(predicate).ToList();
                 var lotsModels = _mapper.Map<List<LotModel>>(lots);

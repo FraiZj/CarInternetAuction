@@ -14,16 +14,19 @@
 <div>
 
     <h1>
-        @Html.DisplayFor(model => model.Car.Year) 
-        @Html.DisplayFor(model => model.Car.Brand) 
+        @Html.DisplayFor(model => model.Car.Year)
+        @Html.DisplayFor(model => model.Car.Brand)
         @Html.DisplayFor(model => model.Car.Model)
     </h1>
 
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <div id="carouselExampleIndicators" class="carousel slide" data-interval="false" data-ride="carousel">
         <div class="carousel-inner">
+            @{ var i = 0; }
             @foreach (var img in Model.Car.CarImages)
             {
-                <div class="carousel-item active">
+                i++;
+                var active = i == 1 ? "active" : "";
+                <div class="carousel-item @active">
                     <img class="d-block w-100" src="@img.Url" alt="@img.Title">
                 </div>
             }
@@ -37,6 +40,24 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
+
+    @if (User.Identity.GetUserId() == Model.SellerId || User.IsInRole("Admin"))
+    {
+        <div class="container p-2">
+            <div class="row">
+                <div class="col-3">
+                    @Html.ActionLink("Edit", "Edit", "Lots", new { id = Model.Id }, new { @class = "btn btn-success col-12" })
+                </div>
+                <div class="col-3">
+                    @using (Html.BeginForm("Delete", "Lots", FormMethod.Post))
+                    {
+                        <input type="submit" name="Delete" value="Delete" class="btn btn-danger col-12" />
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
     <div class="container d-flex justify-content-center">
         <table class="table w-75">
             <thead>
@@ -61,7 +82,7 @@
             </tbody>
         </table>
     </div>
-    
+
 
     @foreach (var bet in Model.Bets)
     {

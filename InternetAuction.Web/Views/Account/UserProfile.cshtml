@@ -56,6 +56,11 @@
 
     </dl>
 
+    @using(Html.BeginForm("Logout", "Account", FormMethod.Post))
+    {
+    <input type="submit" name="Logout" value="Logout" class="btn btn-danger"/>
+    }
+
     @foreach (var lot in Model.SaleLotsIds)
     {
         @Html.ActionLink("Lot", "Details", "Lots", new { id = lot }, null)
