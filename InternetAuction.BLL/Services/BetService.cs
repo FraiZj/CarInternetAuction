@@ -34,17 +34,17 @@ namespace InternetAuction.BLL.Services
                 var lot = await _unitOfWork.LotRepository.GetByIdAsync(model.LotId);
 
                 if (lot is null)
-                    return new OperationDetails(false, new List<ValidationResult> { new ValidationResult($"Lot with Id={model.LotId} does not exist", new List<string> { "LotId" }) });
+                    return new OperationDetails(false, new List<ValidationResult> { new ValidationResult($"Lot with Id={model.LotId} does not exist", new List<string> { "Sum" }) });
 
                 if (lot.SellerId == model.UserId)
-                    return new OperationDetails(false, new List<ValidationResult> { new ValidationResult($"User cannot buy his own lot", new List<string> { "UserId" }) });
+                    return new OperationDetails(false, new List<ValidationResult> { new ValidationResult($"User cannot place be on his own lot", new List<string> { "Sum" }) });
 
                 var maxBet = lot.Bets.Count != 0 ?
                     lot.Bets.Max(b => b.Sum)
                     : 0;
 
-                if (model.Sum < maxBet)
-                    return new OperationDetails(false, new List<ValidationResult> { new ValidationResult("Sum cannot be less than present max bet", new List<string> { "Sum" }) });
+                if (model.Sum <= maxBet)
+                    return new OperationDetails(false, new List<ValidationResult> { new ValidationResult("Sum cannot be equal or less than present max bet", new List<string> { "Sum" }) });
 
                 
 

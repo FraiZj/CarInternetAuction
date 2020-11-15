@@ -20,8 +20,8 @@
                 @if (item.Car.CarImages is null || item.Car.CarImages.Count == 0)
                 {
                     <a href="#">
-                        @*<img class="card-img-top" src="null"
-                            alt="null">*@
+                        <img class="card-img-top" src="~/Content/images/default-car.png"
+                            alt="car">
                     </a>
                 }
                 else
@@ -49,7 +49,7 @@
                         }
                         else
                         {
-                            <text>Current bet - @item.Bets.Max(b => b.Sum) $</text>
+                            <span class="font-weight-bold">Current bet - @item.Bets.Max(b => b.Sum) $</span>
                         }
                     </span>
                     <a href="@Url.Action("Details", "Lots", new { id = item.Id })" class="btn btn-dark float-right">Details</a>

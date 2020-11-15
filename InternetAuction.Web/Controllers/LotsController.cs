@@ -1,7 +1,10 @@
 ﻿using InternetAuction.BLL.Infrastructure;
 using InternetAuction.BLL.Interfaces;
 using InternetAuction.BLL.Models;
+using InternetAuction.Web.Infrastructure;
+using InternetAuction.Web.ViewModels;
 using Microsoft.AspNet.Identity;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -16,6 +19,24 @@ namespace InternetAuction.Web.Controllers
         public LotsController(ILotService lotService)
         {
             this._lotService = lotService;
+        }
+
+        private LotViewModel CreateLotViewModel(IEnumerable<LotModel> lots, int page)
+        {
+            var pageSize = 4;
+            var lotsPerPage = lots.Skip((page - 1) * pageSize).Take(pageSize);
+            var pageInfo = new PageInfo
+            {
+                PageNumber = page,
+                PageSize = pageSize,
+                TotalItems = lots.Count()
+            };
+
+            return new LotViewModel
+            {
+                Lots = lotsPerPage,
+                PageInfo = pageInfo
+            };
         }
 
         [AllowAnonymous]
@@ -90,6 +111,10 @@ namespace InternetAuction.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(LotModel model)
         {
+            if (!User.IsInRole("Admin")
+                && User.Identity.GetUserId() != model.SellerId)
+                return RedirectToAction("Forbidden", "Errors");
+
             // TODO: add images editing
             if (ModelState.IsValid)
             {
@@ -139,6 +164,15 @@ namespace InternetAuction.Web.Controllers
             }
 
             return PartialView("SearchPartial");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Buy(int lotId, string userId)
+        {
+
+            await _lotService.BuyLot(lotId, userId);
+
+            return RedirectToAction("Details", "Lots", new { id = lotId });
         }
     }
 }

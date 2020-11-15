@@ -4,9 +4,10 @@ namespace InternetAuction.Web.ViewModels
 {
     public class BetViewModel
     {
+        [Required]
         public int LotId { get; set; }
 
-        [Required]
+        [Required, Display(Name = "Sum($)")]
         public decimal Sum { get; set; }
     }
 }

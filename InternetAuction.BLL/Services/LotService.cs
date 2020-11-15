@@ -336,5 +336,36 @@ namespace InternetAuction.BLL.Services
                 throw new InternetAuctionException("An error occured while searching lots", ex.InnerException);
             }
         }
+
+        public async Task<OperationDetails> BuyLot(int lotId, string userId)
+        {
+            try
+            {
+                var lot = await _unitOfWork.LotRepository.GetByIdAsync(lotId);
+
+                if (lot is null)
+                {
+                    return new OperationDetails(false, new List<ValidationResult> { new ValidationResult($"Lot with Id={lotId} does not exist") });
+                }
+
+                var user = await _unitOfWork.ApplicationUserManager.FindByIdAsync(userId);
+
+                if (user is null)
+                {
+                    return new OperationDetails(false, new List<ValidationResult> { new ValidationResult($"User with Id={lotId} does not exist") });
+                }
+
+                lot.BuyerId = userId;
+                lot.IsActive = false;
+
+                _unitOfWork.LotRepository.Update(lot);
+                await _unitOfWork.SaveAsync();
+                return new OperationDetails(true, returnValue: lot.Id);
+            }
+            catch (Exception ex)
+            {
+                throw new InternetAuctionException("An error occured while updating lot", ex.InnerException);
+            }
+        }
     }
 }

@@ -1,14 +1,66 @@
 ﻿@using InternetAuction.Web.ViewModels;
-@using InternetAuction.Web.Infrastructure;
 @using Microsoft.AspNet.Identity;
+@using System.Globalization;
+@using InternetAuction.Web.Infrastructure;
 
 @model InternetAuction.BLL.Models.LotModel
 
 @section sidebar
 {
-    <div>
-        @Html.Partial("~/Views/Bet/PlaceBet.cshtml", new BetViewModel() { LotId = Model.Id })
-    </div>    
+    <div class="container">
+
+        <h3>Lot Info:</h3>
+        <table class="table w-100 p-0">
+            <tbody>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.SaleType)</td>
+                    <td class="font-weight-bold">@Model.SaleType.GetDisplayName()</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.StartPrice)</td>
+                    <td class="font-weight-bold">@string.Format(new CultureInfo("en-US", false), "{0:c0}", Model.StartPrice)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.TurnkeyPrice)</td>
+                    <td class="font-weight-bold">@string.Format(new CultureInfo("en-US", false), "{0:c0}", Model.TurnkeyPrice)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        @if (Model.IsActive)
+        {
+            if (User.Identity.IsAuthenticated
+            && User.Identity.GetUserId() != Model.SellerId)
+            {
+                @Html.Partial("~/Views/Bet/PlaceBet.cshtml", new BetViewModel() { LotId = Model.Id })
+            }
+
+            if (User.Identity.GetUserId() == Model.SellerId)
+            {
+
+
+                <h3>Current bet:</h3>
+
+                var bet = Model.Bets.OrderByDescending(b => b.Sum).FirstOrDefault();
+
+                if (bet is null)
+                {
+                    <p>No bet yet</p>
+                }
+                else
+                {
+                    using (Html.BeginForm("Buy", "Lots", new { lotId = bet.LotId, userId = bet.UserId }, FormMethod.Post, new { @class = "" }))
+                    {
+                        <div class="form-group ">
+                            @Html.Label(string.Format(new CultureInfo("en-US", false), "{0:c0}", bet.Sum), htmlAttributes: new { @class = "control-label col-lg-12" })
+                            @*@Html.ActionLink("Sold", "Buy", "Lots", new { id = bet.Id }, new { type = "submit", @class = "btn btn-success col-lg-12" })*@
+                            <button type="submit" value="Sold" class="btn btn-success col-lg-12">Sold</button>
+                        </div>
+                    }
+                }
+            }
+        }
+    </div>
 }
 
 <div>
@@ -45,13 +97,13 @@
     {
         <div class="container p-2">
             <div class="row">
-                <div class="col-3">
-                    @Html.ActionLink("Edit", "Edit", "Lots", new { id = Model.Id }, new { @class = "btn btn-success col-12" })
+                <div class="col-6 col-lg-3">
+                    @Html.ActionLink("Edit", "Edit", "Lots", new { id = Model.Id }, new { @class = "btn btn-success col-xs-12 col-lg-12" })
                 </div>
-                <div class="col-3">
-                    @using (Html.BeginForm("Delete", "Lots", FormMethod.Post))
+                <div class="col-6 col-lg-3">
+                    @using (Html.BeginForm("Delete", "Lots", new { id = Model.Id }, FormMethod.Post, new { @class = "col-xs-12 col-lg-12 p-0" }))
                     {
-                        <input type="submit" name="Delete" value="Delete" class="btn btn-danger col-12" />
+                        <input type="submit" name="Delete" value="Delete" class="btn btn-danger col-xs-12 col-lg-12" />
                     }
                 </div>
             </div>

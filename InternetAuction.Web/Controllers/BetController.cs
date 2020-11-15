@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace InternetAuction.Web.Controllers
 {
+    [Authorize]
     public class BetController : Controller
     {
         private readonly IBetService _betService;
@@ -49,5 +50,15 @@ namespace InternetAuction.Web.Controllers
 
             return PartialView();
         }
+
+        //[HttpGet]
+        //public ActionResult Bets(LotModel model)
+        //{
+        //    if (!User.IsInRole("Admin")
+        //        && User.Identity.GetUserId() != model.SellerId)
+        //        return RedirectToAction("Forbidden", "Errors");
+
+
+        //}
     }
 }

@@ -19,18 +19,12 @@ namespace InternetAuction.BLL
         {
             CreateMap<ApplicationUser, UserModel>()
                 .ForMember(u => u.BetsIds, opt => opt.MapFrom(appUser => appUser.Bets.Select(b => b.Id)))
-                .ForMember(u => u.SaleLotsIds, opt => opt.MapFrom(appUser => appUser.SaleLots.Select(l => l.Id)))
-                .ForMember(u => u.PurchasedLotsIds, opt => opt.MapFrom(appUser => appUser.PurchasedLots.Select(l => l.Id)))
                 .ReverseMap();
 
             CreateMap<Lot, LotModel>()
-                .ForMember(l => l.SellerId, opt => opt.MapFrom(lot => lot.SellerId))
-                .ForMember(l => l.BuyerId, opt => opt.MapFrom(lot => lot.BuyerId))
                 .ReverseMap();
 
             CreateMap<Bet, BetModel>()
-                .ForMember(b => b.UserId, opt => opt.MapFrom(bet => bet.UserId))
-                .ForMember(b => b.LotId, opt => opt.MapFrom(bet => bet.LotId))
                 .ReverseMap();
 
             CreateMap<Car, CarModel>()
