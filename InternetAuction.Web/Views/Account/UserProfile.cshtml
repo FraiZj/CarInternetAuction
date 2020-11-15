@@ -1,72 +1,40 @@
 ﻿@model InternetAuction.BLL.Models.UserModel
 
 <div>
-    <h4>UserModel</h4>
+    <h2>@Model.FirstName @Model.LastName</h2>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
+    @Html.ActionLink("Sold Lots", "SoldLots", "Lots", new { userId = Model.Id }, new { @class = "btn btn-warning" })
+    @Html.ActionLink("Purchased Lots", "PurchasedLots", "Lots", new { userId = Model.Id }, new { @class = "btn btn-warning" })
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
+    <table class="table w-50 p-0 mt-3">
+        <tbody>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.Email)</td>
+                <td class="font-weight-bold">@Html.DisplayFor(m => m.Email)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.UserName)</td>
+                <td class="font-weight-bold">@Html.DisplayFor(m => m.UserName)</td>
+            </tr>
+            <tr class="border-bottom">
+                <td>@Html.DisplayNameFor(m => m.PhoneNumber)</td>
+                <td class="font-weight-bold">@Html.DisplayFor(m => m.PhoneNumber)</td>
+            </tr>
+        </tbody>
+    </table>
 
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Password)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Password)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
-
-
-
-    </dl>
-
-    @using(Html.BeginForm("Logout", "Account", FormMethod.Post))
+    @using (Html.BeginForm("Logout", "Account", FormMethod.Post))
     {
-    <input type="submit" name="Logout" value="Logout" class="btn btn-danger"/>
+        <input type="submit" name="Logout" value="Logout" class="btn btn-danger" />
     }
 
-    @foreach (var lot in Model.SaleLotsIds)
+    @foreach (var lot in Model.SaleLots)
     {
-        @Html.ActionLink("Lot", "Details", "Lots", new { id = lot }, null)
+        @Html.ActionLink("Lot", "Details", "Lots", new { id = lot.Id }, null)
     }
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Lots", "Lots")
 </p>

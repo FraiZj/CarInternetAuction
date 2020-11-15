@@ -1,6 +1,8 @@
 ﻿@using InternetAuction.BLL.Models;
+@using InternetAuction.Web.ViewModels;
+@using InternetAuction.Web.Helpers
 
-@model IEnumerable<InternetAuction.BLL.Models.LotModel>
+@model LotViewModel
 
 @section sidebar
 {
@@ -13,7 +15,7 @@
 
 <div class="row">
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.Lots)
     {
         <div class="col-lg-6 col-md-6 mb-4">
             <div class="card h-100">
@@ -21,7 +23,7 @@
                 {
                     <a href="#">
                         <img class="card-img-top" src="~/Content/images/default-car.png"
-                            alt="car">
+                             alt="car">
                     </a>
                 }
                 else
@@ -42,14 +44,14 @@
                     <p class="card-text text-muted">2015 | 37803 Km | Disel | Automatic | Sedan</p>
                 </div>
                 <div class="card-footer">
-                    <span class="text-muted">
+                    <span class="font-weight-bold">
                         @if (item.Bets.Count == 0)
                         {
                             <text>No bet yet</text>
                         }
                         else
                         {
-                            <span class="font-weight-bold">Current bet - @item.Bets.Max(b => b.Sum) $</span>
+                            <text>Current bet - @item.Bets.Max(b => b.Sum) $</text>
                         }
                     </span>
                     <a href="@Url.Action("Details", "Lots", new { id = item.Id })" class="btn btn-dark float-right">Details</a>
@@ -57,5 +59,9 @@
             </div>
         </div>
     }
-
 </div>
+
+<div class="btn-group">
+    @Html.PageLinks(Model.PageInfo, page => Url.Action(ViewBag.Query, new { userId = ViewBag.UserId, page }))
+</div>
+

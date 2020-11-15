@@ -4,6 +4,7 @@ using InternetAuction.BLL.Models;
 using InternetAuction.Web.Infrastructure;
 using InternetAuction.Web.ViewModels;
 using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,13 +19,18 @@ namespace InternetAuction.Web.Controllers
 
         public LotsController(ILotService lotService)
         {
-            this._lotService = lotService;
+            _lotService = lotService;
         }
 
         private LotViewModel CreateLotViewModel(IEnumerable<LotModel> lots, int page)
         {
-            var pageSize = 4;
+            var pageSize = 6;
+
+            if (Math.Ceiling((double)lots.Count() / pageSize) < page || page < 1) 
+                page = 1;
+
             var lotsPerPage = lots.Skip((page - 1) * pageSize).Take(pageSize);
+
             var pageInfo = new PageInfo
             {
                 PageNumber = page,
@@ -40,17 +46,38 @@ namespace InternetAuction.Web.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult ActiveLots()
+        public ActionResult ActiveLots(int page = 1)
         {
-            var lots = _lotService.GetAllActiveLots();
-            return View("Lots", lots);
+            ViewBag.Query = "ActiveLots";
+            var lotViewModel = CreateLotViewModel(_lotService.GetAllActiveLots(), page);
+            return View("Lots", lotViewModel);
         }
 
         [Authorize(Roles = Roles.Admin)]
-        public ActionResult AllLots()
+        public ActionResult AllLots(int page = 1)
         {
-            var lots = _lotService.GetAll();
-            return View("Lots", lots);
+            ViewBag.Query = "AllLots";
+            var lotViewModel = CreateLotViewModel(_lotService.GetAll(), page);
+            return View("Lots", lotViewModel);
+        }
+
+        [Authorize]
+        public ActionResult SoldLots(string userId, int page = 1)
+        {
+            ViewBag.Query = "SoldLots";
+            ViewBag.UserId = userId;
+            var lotViewModel = CreateLotViewModel(_lotService.GetAll().Where(l => l.SellerId == userId), page);
+            return View("Lots", lotViewModel);
+        }
+
+        [Authorize]
+        public ActionResult PurchasedLots(string userId, int page = 1)
+        {
+            ViewBag.Query = "PurchasedLots";
+            ViewBag.UserId = userId;
+
+            var lotViewModel = CreateLotViewModel(_lotService.GetAll().Where(l => l.BuyerId == userId), page);
+            return View("Lots", lotViewModel);
         }
 
         [AllowAnonymous]
@@ -152,15 +179,18 @@ namespace InternetAuction.Web.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Search(SearchModel model)
+        public ActionResult Search(SearchModel model, int page = 1)
         {
             if (model is null)
                 ModelState.AddModelError("", "Invalid search parameters");
 
             if (ModelState.IsValid)
             {
-                var lots = _lotService.SearchLotModels(model);
-                return View("Lots", lots);
+                ViewBag.Query = "Search";
+                ViewBag.SearchModel = model;
+
+                var lotViewModel = CreateLotViewModel(_lotService.SearchLotModels(model), page);
+                return View("Lots", lotViewModel);
             }
 
             return PartialView("SearchPartial");

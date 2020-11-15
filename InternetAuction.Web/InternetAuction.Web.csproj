@@ -192,6 +192,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\PaginingHelper.cs" />
     <Compile Include="Infrastructure\EnumExtensions.cs" />
     <Compile Include="Infrastructure\PageInfo.cs" />
     <Compile Include="ViewModels\BetViewModel.cs" />
@@ -352,6 +353,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="fonts\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

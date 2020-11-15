@@ -116,7 +116,14 @@ namespace InternetAuction.BLL.Services
             try
             {
                 var lots = _unitOfWork.LotRepository.FindAll().ToList();
-                return _mapper.Map<List<LotModel>>(lots).AsQueryable();
+                var lotsModels = _mapper.Map<List<LotModel>>(lots);
+
+                for (int i = 0; i < lots.Count; i++)
+                {
+                    lotsModels[i].Car.CarImages = GetRetrievedImages(lots[i].Car.CarImages);
+                }
+
+                return lotsModels.AsQueryable();
             }
             catch (Exception ex)
             {
@@ -148,8 +155,15 @@ namespace InternetAuction.BLL.Services
         {
             try
             {
-                var lots = _unitOfWork.LotRepository.FindAll().Where(l => l.IsActive);
-                return _mapper.Map<IQueryable<LotModel>>(lots);
+                var lots = _unitOfWork.LotRepository.FindAllWithDetails().Where(l => l.IsActive).ToList();
+                var lotsModels = _mapper.Map<List<LotModel>>(lots);
+
+                for (int i = 0; i < lots.Count; i++)
+                {
+                    lotsModels[i].Car.CarImages = GetRetrievedImages(lots[i].Car.CarImages);
+                }
+
+                return lotsModels.AsQueryable();
             }
             catch (Exception ex)
             {
@@ -161,8 +175,15 @@ namespace InternetAuction.BLL.Services
         {
             try
             {
-                var lots = _unitOfWork.LotRepository.FindAllWithDetails();
-                return _mapper.Map<IQueryable<LotModel>>(lots);
+                var lots = _unitOfWork.LotRepository.FindAllWithDetails().ToList();
+                var lotsModels = _mapper.Map<List<LotModel>>(lots);
+
+                for (int i = 0; i < lots.Count; i++)
+                {
+                    lotsModels[i].Car.CarImages = GetRetrievedImages(lots[i].Car.CarImages);
+                }
+
+                return lotsModels.AsQueryable();
             }
             catch (Exception ex)
             {
@@ -215,29 +236,6 @@ namespace InternetAuction.BLL.Services
                 throw new InternetAuctionException("An error occured while updating lot", ex.InnerException);
             }
         }
-
-        //public async Task<OperationDetails> CloseLotAsync(int lotId, string buyerId, decimal sum)
-        //{
-        //    try
-        //    {
-        //        var lot = await GetByIdWithDetailsAsync(lotId);
-
-        //        if (!ValidateLotModel(lot, out var validationResult))
-        //            return new OperationDetails(false, validationResult);
-
-        //        lot.BuyerId = buyerId;
-        //        //TODO: implement 
-        //        //lot.Bets.Add(new Bet { });
-
-        //        _unitOfWork.LotRepository.Update(lot);
-        //        await _unitOfWork.SaveAsync();
-        //        return new OperationDetails(true);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new InternetAuctionException("An error occured while updating lot", ex.InnerException);
-        //    }
-        //}
 
         private ICollection<ValidationResult> Validate(object model)
         {

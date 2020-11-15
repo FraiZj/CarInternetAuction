@@ -29,10 +29,10 @@ namespace InternetAuction.BLL.Models
         public ICollection<int> BetsIds { get; set; }
 
         [Display(Name = "Sale Lots Ids")]
-        public ICollection<LotModel> SaleLotsIds { get; set; }
+        public ICollection<LotModel> SaleLots { get; set; }
 
         [Display(Name = "Purchased Lots Ids")]
-        public ICollection<LotModel> PurchasedLotsIds { get; set; }
+        public ICollection<LotModel> PurchasedLots { get; set; }
 
     }
 }
