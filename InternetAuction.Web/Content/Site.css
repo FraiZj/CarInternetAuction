@@ -1,10 +1,25 @@
 ﻿html {
     overflow-x: hidden;
+    height: 100%;
 }
 
 body {
     padding-top: 100px;
     overflow-x: hidden;
+    height: 100%;
+}
+
+body > div.container {
+    position: relative;
+    height: auto !important; /* real browsers */
+    height: 100%; /* IE6: treaded as min-height*/
+    min-height: calc(100% - 150px);
+}
+
+footer {
+    position: relative;
+    width: 100%;
+    bottom: 0;
 }
 
 #search {

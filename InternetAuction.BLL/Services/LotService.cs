@@ -31,11 +31,14 @@ namespace InternetAuction.BLL.Services
         {
             var carImages = new List<CarImage>();
 
-            if (files is null)
+            if (files is null || files.Count == 0)
                 return carImages;
 
             foreach (var file in files)
             {
+                if (file is null)
+                    continue;
+
                 var img = new CarImage
                 {
                     Title = file.FileName
@@ -276,7 +279,19 @@ namespace InternetAuction.BLL.Services
                 validationResult.Add(new ValidationResult("Invalid Turnkey Price", new List<string> { "TurnkeyPrice" }));
 
             if (model.Car.Year > DateTime.UtcNow.Year)
-                validationResult.Add(new ValidationResult("Invalid Car Year", new List<string> { "Car", "Year" }));
+                validationResult.Add(new ValidationResult("Invalid Car Year", new List<string> { "Year" }));
+
+            if (model.SaleType == 0)
+                validationResult.Add(new ValidationResult("Specify Sale Type", new List<string> { "SaleType" }));
+
+            if (model.Car.TechnicalPassport.BodyType == 0)
+                validationResult.Add(new ValidationResult("Specify Body Type", new List<string> { "BodyType" }));
+
+            if (model.Car.TechnicalPassport.DriveUnit == 0)
+                validationResult.Add(new ValidationResult("Specify Drive Unit", new List<string> { "DriveUnit" }));
+
+            if (model.Car.TechnicalPassport.Transmission == 0)
+                validationResult.Add(new ValidationResult("Specify Transmission", new List<string> { "Transmission" }));
 
             return validationResult.Count == 0;
         }
@@ -285,25 +300,28 @@ namespace InternetAuction.BLL.Services
         {
             try
             {
-                Func<Lot, bool> predicate = l => true;
+                var lots = _unitOfWork.LotRepository.FindAll().ToList();
+                var carBrand = model.Brand?.Trim().ToUpper();
 
-                if (!string.IsNullOrWhiteSpace(model.Brand))
-                    predicate += l => l.Car.Brand == model.Brand;
+                if (!string.IsNullOrWhiteSpace(carBrand))
+                    lots = lots.Where(l => l.Car.Brand.Trim().ToUpper().Contains(carBrand)).ToList();
 
-                if (!string.IsNullOrWhiteSpace(model.CarModel))
-                    predicate += l => l.Car.Model == model.CarModel;
+                var carModel = model.CarModel?.Trim().ToUpper();
+                if (!string.IsNullOrWhiteSpace(carModel))
+                    lots = lots.Where(l => l.Car.Model.Trim().ToUpper().Contains(carModel)).ToList();
 
-                if (model.BodyType != EnumsDtos.BodyTypeDto.None)
-                    predicate += l => l.Car.TechnicalPassport.BodyType == _mapper.Map<BodyType>(model.BodyType);
+                var selectedBodyType = _mapper.Map<BodyType>(model.BodyType);
+                if (model.BodyType != 0)
+                    lots = lots.Where(l => l.Car.TechnicalPassport.BodyType == selectedBodyType).ToList();
 
-                if (model.DriveUnit != EnumsDtos.DriveUnitDto.None)
-                    predicate += l => l.Car.TechnicalPassport.DriveUnit == _mapper.Map<DriveUnit>(model.DriveUnit);
+                var selectedDriveUnit = _mapper.Map<DriveUnit>(model.DriveUnit);
+                if (model.DriveUnit != 0)
+                    lots = lots.Where(l => l.Car.TechnicalPassport.DriveUnit == selectedDriveUnit).ToList();
 
                 if (model.MaxPrice >= model.MinPrice)
-                    predicate += l => l.StartPrice >= model.MinPrice 
-                                    && l.StartPrice <= model.MaxPrice;
+                    lots = lots.Where(l => l.StartPrice >= model.MinPrice
+                                    && l.StartPrice <= model.MaxPrice).ToList();
 
-                var lots = _unitOfWork.LotRepository.FindAll().Where(predicate).ToList();
                 var lotsModels = _mapper.Map<List<LotModel>>(lots);
 
                 for (int i = 0; i < lots.Count; i++)

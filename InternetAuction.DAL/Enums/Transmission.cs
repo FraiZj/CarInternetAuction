@@ -2,7 +2,7 @@
 {
     public enum Transmission
     {
-        Other,
+        Other = 1,
         AT,
         MT,
         AM,

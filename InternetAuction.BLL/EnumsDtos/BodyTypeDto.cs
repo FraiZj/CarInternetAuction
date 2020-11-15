@@ -4,7 +4,8 @@ namespace InternetAuction.BLL.EnumsDtos
 {
     public enum BodyTypeDto
     {
-        None,
+        [Display(Name = "Not Specified")]
+        NotSpecified,
         Other,
         Hatch,
         SUV,

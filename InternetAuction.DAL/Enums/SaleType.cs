@@ -2,7 +2,7 @@
 {
     public enum SaleType
     {
-        Other,
+        Other = 1,
         BrandNew,
         ExDemonstrator,
         PressVehicle,

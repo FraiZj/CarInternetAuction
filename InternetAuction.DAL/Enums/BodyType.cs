@@ -2,7 +2,7 @@
 {
     public enum BodyType
     {
-        Other,
+        Other = 1,
         Hatch,
         SUV,
         Sedan,

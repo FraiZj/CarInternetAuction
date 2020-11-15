@@ -2,7 +2,7 @@
 {
     public enum DriveUnit
     {
-        Other,
+        Other = 1,
         FrontWheelDrive,
         RearWheelDrive,
         FourWheelDrive,

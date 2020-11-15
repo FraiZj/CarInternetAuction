@@ -17,9 +17,9 @@ namespace InternetAuction.BLL.Models
         public BodyTypeDto BodyType { get; set; }
 
         [Display(Name = "Min Price")]
-        public decimal MinPrice { get; set; }
+        public int MinPrice { get; set; }
 
         [Display(Name = "Max Price")]
-        public decimal MaxPrice { get; set; } = 1000000;
+        public int MaxPrice { get; set; } = 1000000;
     }
 }
