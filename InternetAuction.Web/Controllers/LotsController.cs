@@ -48,7 +48,7 @@ namespace InternetAuction.Web.Controllers
         [AllowAnonymous]
         public ActionResult ActiveLots(int page = 1)
         {
-            ViewBag.Query = "ActiveLots";
+            ViewBag.Title = "Active Lots";
             var lotViewModel = CreateLotViewModel(_lotService.GetAllActiveLots(), page);
             return View("Lots", lotViewModel);
         }
@@ -56,15 +56,27 @@ namespace InternetAuction.Web.Controllers
         [Authorize(Roles = Roles.Admin)]
         public ActionResult AllLots(int page = 1)
         {
-            ViewBag.Query = "AllLots";
+            ViewBag.Title = "All Lots";
             var lotViewModel = CreateLotViewModel(_lotService.GetAll(), page);
+            return View("Lots", lotViewModel);
+        }
+
+        [Authorize(Roles = Roles.Admin)]
+        public ActionResult ArchiveLots(int page = 1)
+        {
+            ViewBag.Title = "Archive Lots";
+            var lotViewModel = CreateLotViewModel(_lotService.GetAll().Where(l => !l.IsActive), page);
             return View("Lots", lotViewModel);
         }
 
         [Authorize]
         public ActionResult SoldLots(string userId, int page = 1)
         {
-            ViewBag.Query = "SoldLots";
+            if (!User.IsInRole("Admin")
+                && User.Identity.GetUserId() != userId)
+                return RedirectToAction("Forbidden", "Errors");
+
+            ViewBag.Title = "Sold Lots";
             ViewBag.UserId = userId;
             var lotViewModel = CreateLotViewModel(_lotService.GetAll().Where(l => l.SellerId == userId), page);
             return View("Lots", lotViewModel);
@@ -73,7 +85,11 @@ namespace InternetAuction.Web.Controllers
         [Authorize]
         public ActionResult PurchasedLots(string userId, int page = 1)
         {
-            ViewBag.Query = "PurchasedLots";
+            if (!User.IsInRole("Admin")
+                && User.Identity.GetUserId() != userId)
+                return RedirectToAction("Forbidden", "Errors");
+
+            ViewBag.Title = "Purchased Lots";
             ViewBag.UserId = userId;
 
             var lotViewModel = CreateLotViewModel(_lotService.GetAll().Where(l => l.BuyerId == userId), page);

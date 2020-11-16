@@ -46,10 +46,10 @@ namespace InternetAuction.Web.Controllers
                         IsPersistent = true,
                     }, claim);
 
-                    if (string.IsNullOrWhiteSpace(returnUrl))
-                        return RedirectToAction("ActiveLots", "Lots");
-                    else
+                    if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
                         return Redirect(returnUrl);
+
+                    return RedirectToAction("ActiveLots", "Lots");
                 }
             }
 
@@ -117,6 +117,12 @@ namespace InternetAuction.Web.Controllers
                 return RedirectToAction("NotFound", "Errors");
 
             return View(user);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _userService.Dispose();
+            base.Dispose(disposing);
         }
     }
 }
