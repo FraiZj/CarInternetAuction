@@ -177,7 +177,7 @@ namespace InternetAuction.Web.Controllers
             return RedirectToAction("ActiveLots", "Lots");
         }
 
-        [HttpPost]
+        [HttpGet]
         [AllowAnonymous]
         public ActionResult Search(SearchModel model, int page = 1)
         {

@@ -4,6 +4,10 @@
 
 @model LotViewModel
 
+@{ 
+    ViewBag.Title = "Lots";
+}
+
 @section sidebar
 {
     <div class="row">
@@ -11,7 +15,7 @@
     </div>
 }
 
-<h1>Active Lots</h1>
+<h1>@ViewBag.Title</h1>
 
 <div class="row">
 
@@ -19,27 +23,30 @@
     {
         <div class="col-lg-6 col-md-6 mb-4">
             <div class="card h-100">
-                @if (item.Car.CarImages is null || item.Car.CarImages.Count == 0)
-                {
-                    <a href="#">
+                <a href="@Url.Action("Details", "Lots", new { id = item.Id })">
+                    @if (item.Car.CarImages is null || item.Car.CarImages.Count == 0)
+                    {
+
                         <img class="card-img-top" src="~/Content/images/default-car.png"
-                             alt="car">
-                    </a>
-                }
-                else
-                {
-                    <a href="@Url.Action("Details", "Lots", new { id = item.Id })" style="background-image: @item.Car.CarImages.First().Url">
+                             alt="car"
+                             @if (!item.IsActive) { <text> style="filter: grayscale(100%);" </text> }>
+
+                    }
+                    else
+                    {
                         <img class="card-img-top" height="350"
                              src="@item.Car.CarImages.First().Url"
                              alt="@item.Car.CarImages.First().Title"
                              @if (!item.IsActive) { <text> style="filter: grayscale(100%);" </text> }>
-
-                    </a>
-                }
-
+                    }
+                </a>
                 <div class="card-body">
                     <h4 class="card-title">
                         <a href="@Url.Action("Details", "Lots", new { id = item.Id })" class="text-dark">@item.Car.Brand @item.Car.Model</a>
+                        @if (!item.IsActive)
+                        {
+                            <span class="text-warning">Inactive lot</span>
+                        }
                     </h4>
                     <p class="card-text text-muted">2015 | 37803 Km | Disel | Automatic | Sedan</p>
                 </div>
@@ -61,7 +68,35 @@
     }
 </div>
 
+@{ 
+    Func<int, string> func = page => Url.Action(
+        Request.RequestContext.RouteData.Values["action"].ToString(), 
+        new
+        {
+            userId = ViewBag.UserId,
+            page = page
+        }); 
+}
+
+@if (ViewBag.Query == "Search")
+{
+    func = page => Url.Action(
+        Request.RequestContext.RouteData.Values["action"].ToString(),
+        new
+        {
+            Brand = Request.QueryString["Brand"],
+            CarModel = Request.QueryString["CarModel"],
+            DriveUnit = Request.QueryString["DriveUnit"],
+            BodyType = Request.QueryString["BodyType"],
+            MinPrice = Request.QueryString["MinPrice"],
+            MaxPrice = Request.QueryString["MaxPrice"],
+            userId = ViewBag.UserId,
+            page = page
+        });
+}
+
 <div class="btn-group">
-    @Html.PageLinks(Model.PageInfo, page => Url.Action(ViewBag.Query, new { userId = ViewBag.UserId, page }))
+    @Html.PageLinks(Model.PageInfo, func)
+    @*page => Url.Action(ViewBag.Query, new { userId = ViewBag.UserId, page })*@
 </div>
 

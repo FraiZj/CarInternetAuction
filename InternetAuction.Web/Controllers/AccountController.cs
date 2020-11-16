@@ -27,7 +27,7 @@ namespace InternetAuction.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Login(LoginViewModel model)
+        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -46,7 +46,10 @@ namespace InternetAuction.Web.Controllers
                         IsPersistent = true,
                     }, claim);
 
-                    return RedirectToAction("ActiveLots", "Lots");
+                    if (string.IsNullOrWhiteSpace(returnUrl))
+                        return RedirectToAction("ActiveLots", "Lots");
+                    else
+                        return Redirect(returnUrl);
                 }
             }
 
@@ -104,6 +107,7 @@ namespace InternetAuction.Web.Controllers
             return View(model);
         }
 
+        [Authorize]
         public async Task<ActionResult> UserProfile(string id)
         {
             id = id ?? User.Identity.GetUserId();
