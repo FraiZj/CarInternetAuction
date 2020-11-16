@@ -1,4 +1,5 @@
-﻿using InternetAuction.BLL.Interfaces;
+﻿using InternetAuction.BLL.Infrastructure;
+using InternetAuction.BLL.Interfaces;
 using InternetAuction.BLL.Models;
 using InternetAuction.Web.ViewModels;
 using Microsoft.AspNet.Identity;
@@ -117,6 +118,13 @@ namespace InternetAuction.Web.Controllers
                 return RedirectToAction("NotFound", "Errors");
 
             return View(user);
+        }
+
+        [Authorize(Roles = Roles.Admin)]
+        public ActionResult Users()
+        {
+            var users = _userService.GetAll();
+            return View(users);
         }
 
         protected override void Dispose(bool disposing)

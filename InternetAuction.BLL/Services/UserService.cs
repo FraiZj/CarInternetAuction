@@ -27,56 +27,33 @@ namespace InternetAuction.BLL.Services
             SetInitialData();
         }
 
-        private void SetInitialData()
-        {
-            if(_unitOfWork.ApplicationRoleManager.FindByName("Client") is null)
-            {
-                var role = new ApplicationRole { Name = Roles.Client };
-                _unitOfWork.ApplicationRoleManager.Create(role);
-            }
-
-            if (_unitOfWork.ApplicationRoleManager.FindByName("Admin") is null)
-            {
-                var role = new ApplicationRole { Name = Roles.Admin };
-                _unitOfWork.ApplicationRoleManager.Create(role);
-            }
-
-            if (_unitOfWork.ApplicationUserManager.FindByEmail("admin1") is null)
-            {
-                var admin = new ApplicationUser 
-                { 
-                    FirstName = "AdminOne", 
-                    LastName = "AdminOne",
-                    Email = "admin1", 
-                    UserName = "admin1" 
-                };
-                _unitOfWork.ApplicationUserManager.Create(admin, "admin1");
-                _unitOfWork.ApplicationUserManager.AddToRole(admin.Id, Roles.Admin);
-            }
-        }
-
-
         public async Task<UserModel> GetUserModelByIdAsync(string id)
         {
             try
             {
                 var user = await _unitOfWork.ApplicationUserManager.FindByIdAsync(id);
-
                 return _mapper.Map<UserModel>(user);
             }
             catch (Exception ex)
             {
-                throw new InternetAuctionException("An error occured while searching a user", ex.InnerException);
+                throw new InternetAuctionException("An error occured while searching a user", ex);
             }
         }
 
         public async Task<ClaimsIdentity> Login(UserModel model)
         {
-            ClaimsIdentity claim = null;
-            ApplicationUser user = await _unitOfWork.ApplicationUserManager.FindAsync(model.Email, model.Password);
-            if (user != null)
-                claim = await _unitOfWork.ApplicationUserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
-            return claim;
+            try
+            {
+                ClaimsIdentity claim = null;
+                ApplicationUser user = await _unitOfWork.ApplicationUserManager.FindAsync(model.Email, model.Password);
+                if (user != null)
+                    claim = await _unitOfWork.ApplicationUserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+                return claim;
+            }
+            catch (Exception ex)
+            {
+                throw new InternetAuctionException("An error occured while login", ex);
+            }
         }
 
         public async Task<OperationDetails> Register(UserModel model, string role = Roles.Client)
@@ -114,13 +91,63 @@ namespace InternetAuction.BLL.Services
             }
             catch (Exception ex)
             {
-                throw new InternetAuctionException("An error occured while regitestering user", ex.InnerException);
+                throw new InternetAuctionException("An error occured while regitestering user", ex);
+            }
+        }
+
+        public IEnumerable<UserModel> GetAll()
+        {
+            try
+            {
+                var users = _unitOfWork.ApplicationUserManager.Users.ToList();
+                var usersModels = _mapper.Map<IEnumerable<UserModel>>(users);
+
+                return usersModels;
+            }
+            catch (Exception ex)
+            {
+                throw new InternetAuctionException("An error occured while searching all users", ex);
             }
         }
 
         public void Dispose()
         {
             _unitOfWork.Dispose();
+        }
+
+        private void SetInitialData()
+        {
+            try
+            {
+                if (_unitOfWork.ApplicationRoleManager.FindByName("Client") is null)
+                {
+                    var role = new ApplicationRole { Name = Roles.Client };
+                    _unitOfWork.ApplicationRoleManager.Create(role);
+                }
+
+                if (_unitOfWork.ApplicationRoleManager.FindByName("Admin") is null)
+                {
+                    var role = new ApplicationRole { Name = Roles.Admin };
+                    _unitOfWork.ApplicationRoleManager.Create(role);
+                }
+
+                if (_unitOfWork.ApplicationUserManager.FindByEmail("admin1") is null)
+                {
+                    var admin = new ApplicationUser
+                    {
+                        FirstName = "AdminOne",
+                        LastName = "AdminOne",
+                        Email = "admin1",
+                        UserName = "admin1"
+                    };
+                    _unitOfWork.ApplicationUserManager.Create(admin, "admin1");
+                    _unitOfWork.ApplicationUserManager.AddToRole(admin.Id, Roles.Admin);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new InternetAuctionException("An error occured while setting initila data", ex);
+            }
         }
 
         private IEnumerable<ValidationResult> CreateValidationResults(string error, string memberName)

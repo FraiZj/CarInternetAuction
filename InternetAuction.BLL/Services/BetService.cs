@@ -33,20 +33,18 @@ namespace InternetAuction.BLL.Services
 
                 var lot = await _unitOfWork.LotRepository.GetByIdAsync(model.LotId);
 
-                if (lot is null)
-                    return new OperationDetails(false, new List<ValidationResult> { new ValidationResult($"Lot with Id={model.LotId} does not exist", new List<string> { "Sum" }) });
+                if (lot is null) 
+                    return new OperationDetails(false, CreateValidationResults($"Lot with Id = {model.LotId} does not exist", "Sum"));
 
-                if (lot.SellerId == model.UserId)
-                    return new OperationDetails(false, new List<ValidationResult> { new ValidationResult($"User cannot place be on his own lot", new List<string> { "Sum" }) });
+                if (lot.SellerId == model.UserId) 
+                    return new OperationDetails(false, CreateValidationResults($"User cannot place be on his own lot", "Sum"));
 
-                var maxBet = lot.Bets.Count != 0 ?
+                var currentBet = lot.Bets.Count != 0 ?
                     lot.Bets.Max(b => b.Sum)
-                    : 0;
+                    : lot.StartPrice;
 
-                if (model.Sum <= maxBet)
-                    return new OperationDetails(false, new List<ValidationResult> { new ValidationResult("Sum cannot be equal or less than present max bet", new List<string> { "Sum" }) });
-
-                
+                if (model.Sum <= currentBet)
+                    return new OperationDetails(false, CreateValidationResults($"Sum cannot be equal or less than current bet", "Sum"));
 
                 var bet = _mapper.Map<Bet>(model);
                 _unitOfWork.BetRepository.Add(bet);
@@ -115,6 +113,16 @@ namespace InternetAuction.BLL.Services
             {
                 throw new InternetAuctionException("An error occured while updating a bet", ex.InnerException);
             }
+        }
+
+        public void Dispose()
+        {
+            _unitOfWork.Dispose();
+        }
+
+        private IEnumerable<ValidationResult> CreateValidationResults(string error, string memberName)
+        {
+            return new List<ValidationResult> { new ValidationResult(error, new List<string> { memberName }) };
         }
 
         private ICollection<ValidationResult> Validate(object model)

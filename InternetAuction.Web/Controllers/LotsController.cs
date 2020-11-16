@@ -49,7 +49,7 @@ namespace InternetAuction.Web.Controllers
         public ActionResult ActiveLots(int page = 1)
         {
             ViewBag.Title = "Active Lots";
-            var lotViewModel = CreateLotViewModel(_lotService.GetAllActiveLots(), page);
+            var lotViewModel = CreateLotViewModel(_lotService.GetAllWithDetails().Where(l => l.IsActive), page);
             return View("Lots", lotViewModel);
         }
 
@@ -213,10 +213,9 @@ namespace InternetAuction.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Buy(int lotId, string userId)
+        public async Task<ActionResult> Sell(int lotId, string userId)
         {
-
-            await _lotService.BuyLot(lotId, userId);
+            await _lotService.SellLot(lotId, userId);
 
             return RedirectToAction("Details", "Lots", new { id = lotId });
         }

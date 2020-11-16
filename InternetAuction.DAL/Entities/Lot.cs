@@ -15,8 +15,13 @@ namespace InternetAuction.DAL.Entities
 
         [Required]
         public SaleType SaleType { get; set; }
-        public decimal StartPrice { get; set; } = 0;
-        public decimal? TurnkeyPrice { get; set; } = null;
+
+        [Required]
+        public decimal StartPrice { get; set; }
+
+        [Required]
+        public decimal TurnkeyPrice { get; set; }
+
         public bool IsActive { get; set; }
 
         [ForeignKey("SellerId")]

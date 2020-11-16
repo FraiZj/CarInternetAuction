@@ -131,46 +131,6 @@ namespace InternetAuction.BLL.Services
             }
         }
 
-        public IQueryable<LotModel> GetAllActiveLots()
-        {
-            try
-            {
-                var lots = _unitOfWork.LotRepository.FindAll().Where(l => l.IsActive).ToList();
-                var lotsModels = _mapper.Map<List<LotModel>>(lots);
-
-                for (int i = 0; i < lots.Count; i++)
-                {
-                    lotsModels[i].Car.CarImages = GetRetrievedImages(lots[i].Car.CarImages);
-                }
-
-                return lotsModels.AsQueryable();
-            }
-            catch (Exception ex)
-            {
-                throw new InternetAuctionException("An error occured while searching lots", ex.InnerException);
-            }
-        }
-
-        public IQueryable<LotModel> GetAllActiveLotsWithDetails()
-        {
-            try
-            {
-                var lots = _unitOfWork.LotRepository.FindAllWithDetails().Where(l => l.IsActive).ToList();
-                var lotsModels = _mapper.Map<List<LotModel>>(lots);
-
-                for (int i = 0; i < lots.Count; i++)
-                {
-                    lotsModels[i].Car.CarImages = GetRetrievedImages(lots[i].Car.CarImages);
-                }
-
-                return lotsModels.AsQueryable();
-            }
-            catch (Exception ex)
-            {
-                throw new InternetAuctionException("An error occured while searching lots", ex.InnerException);
-            }
-        }
-
         public IQueryable<LotModel> GetAllWithDetails()
         {
             try
@@ -196,7 +156,9 @@ namespace InternetAuction.BLL.Services
             try
             {
                 var lot = await _unitOfWork.LotRepository.GetByIdAsync(id);
-                return _mapper.Map<LotModel>(lot);
+                var lotModel = _mapper.Map<LotModel>(lot);
+                lotModel.Car.CarImages = GetRetrievedImages(lot.Car.CarImages);
+                return lotModel;
             }
             catch (Exception ex)
             {
@@ -235,6 +197,83 @@ namespace InternetAuction.BLL.Services
             {
                 throw new InternetAuctionException("An error occured while updating lot", ex.InnerException);
             }
+        }
+
+        public IQueryable<LotModel> SearchLotModels(SearchModel model)
+        {
+            try
+            {
+                var lots = _unitOfWork.LotRepository.FindAll().ToList();
+                var carBrand = model.Brand?.Trim().ToUpper();
+
+                if (!string.IsNullOrWhiteSpace(carBrand))
+                    lots = lots.Where(l => l.Car.Brand.Trim().ToUpper().Contains(carBrand)).ToList();
+
+                var carModel = model.CarModel?.Trim().ToUpper();
+                if (!string.IsNullOrWhiteSpace(carModel))
+                    lots = lots.Where(l => l.Car.Model.Trim().ToUpper().Contains(carModel)).ToList();
+
+                var selectedBodyType = _mapper.Map<BodyType>(model.BodyType);
+                if (model.BodyType != 0)
+                    lots = lots.Where(l => l.Car.TechnicalPassport.BodyType == selectedBodyType).ToList();
+
+                var selectedDriveUnit = _mapper.Map<DriveUnit>(model.DriveUnit);
+                if (model.DriveUnit != 0)
+                    lots = lots.Where(l => l.Car.TechnicalPassport.DriveUnit == selectedDriveUnit).ToList();
+
+                if (model.MaxPrice >= model.MinPrice)
+                    lots = lots.Where(l => l.StartPrice >= model.MinPrice
+                                    && l.StartPrice <= model.MaxPrice).ToList();
+
+                var lotsModels = _mapper.Map<List<LotModel>>(lots);
+
+                for (int i = 0; i < lots.Count; i++)
+                {
+                    lotsModels[i].Car.CarImages = GetRetrievedImages(lots[i].Car.CarImages);
+                }
+
+                return lotsModels.AsQueryable();
+            }
+            catch (Exception ex)
+            {
+                throw new InternetAuctionException("An error occured while searching lots", ex.InnerException);
+            }
+        }
+
+        public async Task<OperationDetails> SellLot(int lotId, string userId)
+        {
+            try
+            {
+                var lot = await _unitOfWork.LotRepository.GetByIdAsync(lotId);
+
+                if (lot is null)
+                {
+                    return new OperationDetails(false, new List<ValidationResult> { new ValidationResult($"Lot with Id={lotId} does not exist") });
+                }
+
+                var user = await _unitOfWork.ApplicationUserManager.FindByIdAsync(userId);
+
+                if (user is null)
+                {
+                    return new OperationDetails(false, new List<ValidationResult> { new ValidationResult($"User with Id={lotId} does not exist") });
+                }
+
+                lot.BuyerId = userId;
+                lot.IsActive = false;
+
+                _unitOfWork.LotRepository.Update(lot);
+                await _unitOfWork.SaveAsync();
+                return new OperationDetails(true, returnValue: lot.Id);
+            }
+            catch (Exception ex)
+            {
+                throw new InternetAuctionException("An error occured while updating lot", ex.InnerException);
+            }
+        }
+
+        public void Dispose()
+        {
+            _unitOfWork.Dispose();
         }
 
         private ICollection<ValidationResult> Validate(object model)
@@ -292,78 +331,6 @@ namespace InternetAuction.BLL.Services
                 validationResult.Add(new ValidationResult("Specify Transmission", new List<string> { "Transmission" }));
 
             return validationResult.Count == 0;
-        }
-
-        public IQueryable<LotModel> SearchLotModels(SearchModel model)
-        {
-            try
-            {
-                var lots = _unitOfWork.LotRepository.FindAll().ToList();
-                var carBrand = model.Brand?.Trim().ToUpper();
-
-                if (!string.IsNullOrWhiteSpace(carBrand))
-                    lots = lots.Where(l => l.Car.Brand.Trim().ToUpper().Contains(carBrand)).ToList();
-
-                var carModel = model.CarModel?.Trim().ToUpper();
-                if (!string.IsNullOrWhiteSpace(carModel))
-                    lots = lots.Where(l => l.Car.Model.Trim().ToUpper().Contains(carModel)).ToList();
-
-                var selectedBodyType = _mapper.Map<BodyType>(model.BodyType);
-                if (model.BodyType != 0)
-                    lots = lots.Where(l => l.Car.TechnicalPassport.BodyType == selectedBodyType).ToList();
-
-                var selectedDriveUnit = _mapper.Map<DriveUnit>(model.DriveUnit);
-                if (model.DriveUnit != 0)
-                    lots = lots.Where(l => l.Car.TechnicalPassport.DriveUnit == selectedDriveUnit).ToList();
-
-                if (model.MaxPrice >= model.MinPrice)
-                    lots = lots.Where(l => l.StartPrice >= model.MinPrice
-                                    && l.StartPrice <= model.MaxPrice).ToList();
-
-                var lotsModels = _mapper.Map<List<LotModel>>(lots);
-
-                for (int i = 0; i < lots.Count; i++)
-                {
-                    lotsModels[i].Car.CarImages = GetRetrievedImages(lots[i].Car.CarImages);
-                }
-
-                return lotsModels.AsQueryable();
-            }
-            catch (Exception ex)
-            {
-                throw new InternetAuctionException("An error occured while searching lots", ex.InnerException);
-            }
-        }
-
-        public async Task<OperationDetails> BuyLot(int lotId, string userId)
-        {
-            try
-            {
-                var lot = await _unitOfWork.LotRepository.GetByIdAsync(lotId);
-
-                if (lot is null)
-                {
-                    return new OperationDetails(false, new List<ValidationResult> { new ValidationResult($"Lot with Id={lotId} does not exist") });
-                }
-
-                var user = await _unitOfWork.ApplicationUserManager.FindByIdAsync(userId);
-
-                if (user is null)
-                {
-                    return new OperationDetails(false, new List<ValidationResult> { new ValidationResult($"User with Id={lotId} does not exist") });
-                }
-
-                lot.BuyerId = userId;
-                lot.IsActive = false;
-
-                _unitOfWork.LotRepository.Update(lot);
-                await _unitOfWork.SaveAsync();
-                return new OperationDetails(true, returnValue: lot.Id);
-            }
-            catch (Exception ex)
-            {
-                throw new InternetAuctionException("An error occured while updating lot", ex.InnerException);
-            }
         }
     }
 }

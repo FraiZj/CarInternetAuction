@@ -23,10 +23,12 @@ namespace InternetAuction.BLL.Models
         public SaleTypeDto SaleType { get; set; }
 
         [Display(Name = "Start Price($)")]
-        public decimal StartPrice { get; set; } = 0;
+        [Required]
+        public decimal StartPrice { get; set; }
 
         [Display(Name = "Turnkey Price($)")]
-        public decimal? TurnkeyPrice { get; set; } = null;
+        [Required]
+        public decimal TurnkeyPrice { get; set; }
 
         public ICollection<BetModel> Bets { get; set; }
     }

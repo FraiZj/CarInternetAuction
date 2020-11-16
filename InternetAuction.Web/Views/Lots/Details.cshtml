@@ -49,11 +49,10 @@
                 }
                 else
                 {
-                    using (Html.BeginForm("Buy", "Lots", new { lotId = bet.LotId, userId = bet.UserId }, FormMethod.Post, new { @class = "" }))
+                    using (Html.BeginForm("Sell", "Lots", new { lotId = bet.LotId, userId = bet.UserId }, FormMethod.Post, new { @class = "" }))
                     {
                         <div class="form-group ">
                             @Html.Label(string.Format(new CultureInfo("en-US", false), "{0:c0}", bet.Sum), htmlAttributes: new { @class = "control-label col-lg-12" })
-                            @*@Html.ActionLink("Sold", "Buy", "Lots", new { id = bet.Id }, new { type = "submit", @class = "btn btn-success col-lg-12" })*@
                             <button type="submit" value="Sold" class="btn btn-success col-lg-12">Sold</button>
                         </div>
                     }

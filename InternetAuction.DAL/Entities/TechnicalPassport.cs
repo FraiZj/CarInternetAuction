@@ -9,7 +9,8 @@ namespace InternetAuction.DAL.Entities
         [Key, ForeignKey("Car")]
         public int CarId { get; set; }
 
-        [Required, StringLength(17), RegularExpression(@"^[a-zA-Z0-9]+$")]
+        [Required, RegularExpression(@"^[a-zA-Z0-9]+$")]
+        [MinLength(17), MaxLength(17)]
         public string VIN { get; set; }
 
         [Required]

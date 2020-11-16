@@ -6,10 +6,10 @@ namespace InternetAuction.DAL.Entities
 {
     public class ApplicationUser : IdentityUser
     {
-        [Required, RegularExpression(@"^[a-zA-Z_-]+$")]
+        [Required, RegularExpression(@"^[a-zA-Z-_ ]+$")]
         public string FirstName { get; set; }
 
-        [Required, RegularExpression(@"^[a-zA-Z_-]+$")]
+        [Required, RegularExpression(@"^[a-zA-Z-_ ]+$")]
         public string LastName { get; set; }
 
         public virtual ICollection<Lot> SaleLots { get; set; } 

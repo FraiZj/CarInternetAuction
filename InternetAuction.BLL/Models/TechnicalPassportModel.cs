@@ -7,8 +7,8 @@ namespace InternetAuction.BLL.Models
     {
         public int CarId { get; set; }
 
-        //TODO: length = 17
-        [Required, StringLength(17), RegularExpression(@"^[a-zA-Z0-9]+$")]
+        [Required, RegularExpression(@"^[a-zA-Z0-9]+$")]
+        [MinLength(17), MaxLength(17)]
         public string VIN { get; set; }
 
         [Required]

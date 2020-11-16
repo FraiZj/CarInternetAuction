@@ -111,7 +111,6 @@
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
     <Compile Include="Models\BetModel.cs" />
-    <Compile Include="Models\CarImageModel.cs" />
     <Compile Include="Models\CarModel.cs" />
     <Compile Include="Models\ImageModel.cs" />
     <Compile Include="Models\LotModel.cs" />

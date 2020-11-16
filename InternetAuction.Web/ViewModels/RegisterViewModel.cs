@@ -4,10 +4,10 @@ namespace InternetAuction.Web.ViewModels
 {
     public class RegisterViewModel
     {
-        [Required, RegularExpression(@"^[a-zA-Z_-]+$"), Display(Name = "First Name")]
+        [Required, RegularExpression(@"^[a-zA-Z-_ ]+$"), Display(Name = "First Name")]
         public string FirstName { get; set; }
 
-        [Required, RegularExpression(@"^[a-zA-Z_-]+$"), Display(Name = "Last Name")]
+        [Required, RegularExpression(@"^[a-zA-Z-_ ]+$"), Display(Name = "Last Name")]
         public string LastName { get; set; }
 
         [Required, EmailAddress]
@@ -28,7 +28,7 @@ namespace InternetAuction.Web.ViewModels
         public string ConfirmPassword { get; set; }
 
         [Required]
-        [Display(Name = "User Name")]
+        [Display(Name = "User Name"), RegularExpression(@"^[a-zA-Z0-9-_]+$")]
         public string UserName { get; set; }
     }
 }

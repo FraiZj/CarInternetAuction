@@ -125,6 +125,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
                 TurnkeyPrice = 5000,
                 SellerId = "1",
                 SaleType = SaleTypeDto.BrandNew,
+                StartPrice = 1000,
                 Car = new CarModel
                 {
                     Brand = "CarBrand",
@@ -235,26 +236,6 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
                 Assert.AreEqual(expected[i].IsActive, actual[i].IsActive);
             }
 
-        }
-
-        [Test]
-        public void LotService_GetAllActiveLots_ReturnsAllActiveLots()
-        {
-            var expected = GetTestLotsModels().Where(l => l.IsActive).ToList();
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-            mockUnitOfWork.Setup(m => m.LotRepository.FindAll()).Returns(GetTestLotsEntities());
-            var lotService = new LotService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile());
-
-            var actual = lotService.GetAllActiveLots().ToList();
-
-            Assert.AreEqual(expected.Count, actual.Count);
-            for (int i = 0; i < expected.Count; i++)
-            {
-                Assert.AreEqual(expected[i].Id, actual[i].Id);
-                Assert.AreEqual(expected[i].SaleType, actual[i].SaleType);
-                Assert.AreEqual(expected[i].TurnkeyPrice, actual[i].TurnkeyPrice);
-                Assert.AreEqual(expected[i].IsActive, actual[i].IsActive);
-            }
         }
 
         [Test]
