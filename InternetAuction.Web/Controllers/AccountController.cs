@@ -107,6 +107,11 @@ namespace InternetAuction.Web.Controllers
             return View(model);
         }
 
+        public JsonResult IsEmailAvailable(string email)
+        {
+            return Json(!_userService.GetAll().Any(u => u.Email == email), JsonRequestBehavior.AllowGet);
+        }
+
         [Authorize]
         public async Task<ActionResult> UserProfile(string id)
         {

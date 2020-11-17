@@ -205,7 +205,10 @@ namespace InternetAuction.Web.Controllers
                 ViewBag.Query = "Search";
                 ViewBag.SearchModel = model;
 
-                var lotViewModel = CreateLotViewModel(_lotService.SearchLotModels(model), page);
+                var lotViewModel = User.IsInRole(Roles.Admin) ?
+                    CreateLotViewModel(_lotService.SearchLotModels(model), page)
+                    : CreateLotViewModel(_lotService.SearchLotModels(model).Where(l => l.IsActive), page);
+
                 return View("Lots", lotViewModel);
             }
 

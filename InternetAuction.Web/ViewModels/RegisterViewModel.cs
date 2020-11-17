@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
+using ComparePassword = System.ComponentModel.DataAnnotations.CompareAttribute;
 
 namespace InternetAuction.Web.ViewModels
 {
@@ -11,6 +13,7 @@ namespace InternetAuction.Web.ViewModels
         public string LastName { get; set; }
 
         [Required, EmailAddress]
+        [Remote("IsEmailAvailable", "Account", ErrorMessage = "Email already in use")]
         public string Email { get; set; }
 
         [Required, Phone]
@@ -24,7 +27,7 @@ namespace InternetAuction.Web.ViewModels
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Confirm Password")]
-        [Compare("Password")]
+        [ComparePassword("Password")]
         public string ConfirmPassword { get; set; }
     }
 }
