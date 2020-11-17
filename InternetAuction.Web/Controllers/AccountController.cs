@@ -81,7 +81,6 @@ namespace InternetAuction.Web.Controllers
                     LastName = model.LastName,
                     Email = model.Email,
                     PhoneNumber = model.PhoneNumber,
-                    UserName = model.UserName,
                     Password = model.Password
                 };
 

@@ -70,7 +70,7 @@ namespace InternetAuction.BLL.Services
                     LastName = model.LastName,
                     Email = model.Email,
                     PhoneNumber = model.PhoneNumber,
-                    UserName = model.UserName
+                    UserName = model.Email
                 };
                 var result = await _unitOfWork.ApplicationUserManager.CreateAsync(user, model.Password);
 

@@ -26,9 +26,5 @@ namespace InternetAuction.Web.ViewModels
         [Display(Name = "Confirm Password")]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
-
-        [Required]
-        [Display(Name = "User Name"), RegularExpression(@"^[a-zA-Z0-9-_]+$")]
-        public string UserName { get; set; }
     }
 }

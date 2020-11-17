@@ -16,9 +16,6 @@ namespace InternetAuction.BLL.Models
         [Required, EmailAddress]
         public string Email { get; set; }
 
-        [Required, Display(Name = "User Name"), RegularExpression(@"^[a-zA-Z0-9-_]+$")]
-        public string UserName { get; set; }
-
         [Required]
         public string Password { get; set; }
 
