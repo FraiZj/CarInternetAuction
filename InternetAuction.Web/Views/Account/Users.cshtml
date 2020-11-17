@@ -1,4 +1,6 @@
-﻿@model IEnumerable<InternetAuction.BLL.Models.UserModel>
+﻿@using AppRoles = InternetAuction.BLL.Infrastructure.Roles;
+
+@model IEnumerable<InternetAuction.BLL.Models.UserModel>
 
 @{
     ViewBag.Title = "Users";
@@ -6,36 +8,20 @@
 
 <h2>Users</h2>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.UserName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Profile", "UserProfile", new { id=item.Id })
-            </td>
-        </tr>
-    }
-
-</table>
+@foreach (var item in Model)
+{
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">@item.FirstName</h5>
+            <p class="card-text">
+                Email - @item.Email<br />
+                Phone - @item.PhoneNumber<br />
+            </p>
+            <div>
+                <a href="@Url.Action("UserProfile", new { id = item.Id })" class="btn btn-dark">Profile</a>
+                <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-primary">Edit</a>
+                <a href="@Url.Action("Delete", new { id = item.Id })" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+}

@@ -119,6 +119,75 @@ namespace InternetAuction.Web.Controllers
             return View(user);
         }
 
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult> Edit(string id)
+        {
+            if (!User.IsInRole("Admin")
+                && User.Identity.GetUserId() != id)
+                return RedirectToAction("Forbidden", "Errors");
+
+            var user = await _userService.GetUserModelByIdAsync(id);
+
+            if (user is null)
+                return RedirectToAction("NotFound", "Errors");
+
+            var editViewModel = new EditUserViewModel
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber,
+                Email = user.Email,
+                Password = user.Password
+            };
+
+            return View(editViewModel);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<ActionResult> Edit(EditUserViewModel model)
+        {
+            if (!User.IsInRole("Admin")
+                && User.Identity.GetUserId() != model.Id)
+                return RedirectToAction("Forbidden", "Errors");
+
+            if (ModelState.IsValid)
+            {
+                var userModel = new UserModel
+                {
+                    Id = model.Id,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    PhoneNumber = model.PhoneNumber,
+                    Email = model.Email,
+                    Password = model.Password
+                };
+
+                var result = await _userService.Update(userModel);
+
+                if (result.Succedeed)
+                {
+                    return RedirectToAction("UserProfile", new { id = model.Id });
+                }
+
+                foreach (var error in result.ValidationResults)
+                {
+                    ModelState.AddModelError(error.ErrorMessage, error.MemberNames.First());
+                }
+            }
+
+            return View(model);
+        }
+
+        [Authorize(Roles = Roles.Admin)]
+        public async Task<ActionResult> Delete(string id)
+        {
+            await _userService.Delete(id);
+            return RedirectToAction("Users");
+        }
+
         [Authorize(Roles = Roles.Admin)]
         public ActionResult Users()
         {

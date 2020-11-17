@@ -196,6 +196,7 @@
     <Compile Include="Infrastructure\EnumExtensions.cs" />
     <Compile Include="Infrastructure\PageInfo.cs" />
     <Compile Include="ViewModels\BetViewModel.cs" />
+    <Compile Include="ViewModels\EditUserViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\LotViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
@@ -351,6 +352,7 @@
     <Content Include="Views\Bet\PlaceBet.cshtml" />
     <Content Include="Views\Lots\SearchPartial.cshtml" />
     <Content Include="Views\Account\Users.cshtml" />
+    <Content Include="Views\Account\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

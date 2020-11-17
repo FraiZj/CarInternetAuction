@@ -16,5 +16,9 @@ namespace InternetAuction.BLL.Interfaces
         Task<UserModel> GetUserModelByIdAsync(string id);
 
         IEnumerable<UserModel> GetAll();
+
+        Task<OperationDetails> Update(UserModel model);
+
+        Task<OperationDetails> Delete(string id);
     }
 }

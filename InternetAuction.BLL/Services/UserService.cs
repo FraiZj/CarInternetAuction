@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace InternetAuction.BLL.Services
@@ -107,6 +108,68 @@ namespace InternetAuction.BLL.Services
             catch (Exception ex)
             {
                 throw new InternetAuctionException("An error occured while searching all users", ex);
+            }
+        }
+
+        public async Task<OperationDetails> Update(UserModel model)
+        {
+            try
+            {
+                if (model is null)
+                    return new OperationDetails(false, CreateValidationResults("User cannot be null", "Model"));
+
+                var validationResult = new List<ValidationResult>();
+
+                if (!Regex.IsMatch(model.FirstName, @"^[a-zA-Z-_ ]+$"))
+                    validationResult.AddRange(CreateValidationResults("Invalid first name", "FirstName"));
+
+                if (!Regex.IsMatch(model.LastName, @"^[a-zA-Z-_ ]+$"))
+                    validationResult.AddRange(CreateValidationResults("Invalid Last Name", "LastName"));
+
+                if (!Regex.IsMatch(model.PhoneNumber, @"^\s*\+?\s*([0-9][\s-]*){9,}$"))
+                    validationResult.AddRange(CreateValidationResults("Invalid Phone Number", "PhoneNumber"));
+
+                if (!Regex.IsMatch(model.Email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
+                    validationResult.AddRange(CreateValidationResults("Invalid Email", "Email"));
+
+                if (validationResult.Any())
+                    return new OperationDetails(false, validationResult);
+
+                var user = await _unitOfWork.ApplicationUserManager.FindByIdAsync(model.Id);
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.Email = model.Email;
+                user.PhoneNumber = model.PhoneNumber;
+
+                await _unitOfWork.ApplicationUserManager.UpdateAsync(user);
+                await _unitOfWork.SaveAsync();
+                return new OperationDetails(true);
+            }
+            catch (Exception ex)
+            {
+                throw new InternetAuctionException("An error occured while updating user", ex);
+            }
+        }
+
+        public async Task<OperationDetails> Delete(string id)
+        {
+            try
+            {
+                var user = await _unitOfWork.ApplicationUserManager.FindByIdAsync(id);
+
+                if (user is null)
+                    return new OperationDetails(false, CreateValidationResults("id", $"User with Id = {id} does not exist"));
+
+                var result = await _unitOfWork.ApplicationUserManager.DeleteAsync(user);
+
+                if (result.Succeeded)
+                    return new OperationDetails(true);
+
+                return new OperationDetails(false, CreateValidationResults("id", result.Errors.First()));
+            }
+            catch (Exception ex)
+            {
+                throw new InternetAuctionException("An error occured while deleting user", ex);
             }
         }
 

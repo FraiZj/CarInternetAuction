@@ -1,10 +1,12 @@
-﻿@model InternetAuction.BLL.Models.UserModel
+﻿﻿@using Microsoft.AspNet.Identity
+
+@model InternetAuction.BLL.Models.UserModel
 
 <div>
     <h2>@Model.FirstName @Model.LastName</h2>
     <hr />
 
-    @Html.ActionLink("Sold Lots", "SoldLots", "Lots", new { userId = Model.Id }, new { @class = "btn btn-warning" })
+    @Html.ActionLink("Sale Lots", "SoldLots", "Lots", new { userId = Model.Id }, new { @class = "btn btn-warning" })
     @Html.ActionLink("Purchased Lots", "PurchasedLots", "Lots", new { userId = Model.Id }, new { @class = "btn btn-warning" })
 
     <table class="table w-50 p-0 mt-3">
@@ -20,17 +22,19 @@
         </tbody>
     </table>
 
-    @using (Html.BeginForm("Logout", "Account", FormMethod.Post))
+    @if (User.Identity.GetUserId() == Model.Id)
     {
-        <input type="submit" name="Logout" value="Logout" class="btn btn-danger" />
+        <div class="row">
+            <div class="col-lg-2">
+                @Html.ActionLink("Edit", "Edit", "Account", new { id = Model.Id }, new { @class = "btn btn-primary col-lg-12 mb-2" })
+            </div>
+            <div class="col-lg-2">
+                @using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { @class = "col-lg-12 p-0 mb-2" }))
+                {
+                    <input type="submit" name="Logout" value="Logout" class="btn btn-danger col-lg-12" />
+                }
+            </div>
+        </div>  
     }
 
-    @foreach (var lot in Model.SaleLots)
-    {
-        @Html.ActionLink("Lot", "Details", "Lots", new { id = lot.Id }, null)
-    }
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Lots", "Lots")
-</p>

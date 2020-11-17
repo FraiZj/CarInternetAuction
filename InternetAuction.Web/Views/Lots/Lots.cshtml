@@ -1,10 +1,12 @@
 ﻿@using InternetAuction.BLL.Models;
 @using InternetAuction.Web.ViewModels;
 @using InternetAuction.Web.Helpers
+@using System.Globalization;
+@using InternetAuction.Web.Infrastructure;
 
 @model LotViewModel
 
-@{ 
+@{
     ViewBag.Title = "Lots";
 }
 
@@ -48,7 +50,14 @@
                             <span class="text-warning">Inactive lot</span>
                         }
                     </h4>
-                    <p class="card-text text-muted">2015 | 37803 Km | Disel | Automatic | Sedan</p>
+                    <p class="card-text text-muted">
+                        @item.Car.Year |
+                        @item.Car.Mileage Km |
+                        @item.Car.EngineType |
+                        @item.Car.TechnicalPassport.Transmission.GetDisplayName() |
+                        @item.Car.TechnicalPassport.BodyType.GetDisplayName() |
+                        @item.Car.TechnicalPassport.DriveUnit.GetDisplayName()
+                    </p>
                 </div>
                 <div class="card-footer">
                     <span class="font-weight-bold">
@@ -58,7 +67,7 @@
                         }
                         else
                         {
-                            <text>Current bet - @item.Bets.Max(b => b.Sum) $</text>
+                            <text>Current bet - @string.Format(new CultureInfo("en-US", false), "{0:c0}", item.Bets.Max(b => b.Sum))</text>
                         }
                     </span>
                     <a href="@Url.Action("Details", "Lots", new { id = item.Id })" class="btn btn-dark float-right">Details</a>
@@ -68,14 +77,14 @@
     }
 </div>
 
-@{ 
+@{
     Func<int, string> func = page => Url.Action(
-        Request.RequestContext.RouteData.Values["action"].ToString(), 
+        Request.RequestContext.RouteData.Values["action"].ToString(),
         new
         {
             userId = ViewBag.UserId,
             page = page
-        }); 
+        });
 }
 
 @if (ViewBag.Query == "Search")
