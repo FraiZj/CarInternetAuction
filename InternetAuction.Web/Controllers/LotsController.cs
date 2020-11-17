@@ -46,31 +46,31 @@ namespace InternetAuction.Web.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult ActiveLots(int page = 1)
+        public ActionResult ActiveLots(SearchModel searchModel, int page = 1)
         {
             ViewBag.Title = "Active Lots";
-            var lotViewModel = CreateLotViewModel(_lotService.GetAll().Where(l => l.IsActive), page);
+            var lotViewModel = CreateLotViewModel(_lotService.SearchLotModels(searchModel).Where(l => l.IsActive), page);
             return View("Lots", lotViewModel);
         }
 
         [Authorize(Roles = Roles.Admin)]
-        public ActionResult AllLots(int page = 1)
+        public ActionResult AllLots(SearchModel searchModel, int page = 1)
         {
             ViewBag.Title = "All Lots";
-            var lotViewModel = CreateLotViewModel(_lotService.GetAll(), page);
+            var lotViewModel = CreateLotViewModel(_lotService.SearchLotModels(searchModel), page);
             return View("Lots", lotViewModel);
         }
 
         [Authorize(Roles = Roles.Admin)]
-        public ActionResult ArchiveLots(int page = 1)
+        public ActionResult ArchiveLots(SearchModel searchModel, int page = 1)
         {
             ViewBag.Title = "Archive Lots";
-            var lotViewModel = CreateLotViewModel(_lotService.GetAll().Where(l => !l.IsActive), page);
+            var lotViewModel = CreateLotViewModel(_lotService.SearchLotModels(searchModel).Where(l => !l.IsActive), page);
             return View("Lots", lotViewModel);
         }
 
         [Authorize]
-        public ActionResult SoldLots(string userId, int page = 1)
+        public ActionResult SoldLots(string userId, SearchModel searchModel, int page = 1)
         {
             if (!User.IsInRole("Admin")
                 && User.Identity.GetUserId() != userId)
@@ -78,12 +78,13 @@ namespace InternetAuction.Web.Controllers
 
             ViewBag.Title = "Sold Lots";
             ViewBag.UserId = userId;
-            var lotViewModel = CreateLotViewModel(_lotService.GetAll().Where(l => l.SellerId == userId), page);
+
+            var lotViewModel = CreateLotViewModel(_lotService.SearchLotModels(searchModel).Where(l => l.SellerId == userId), page);
             return View("Lots", lotViewModel);
         }
 
         [Authorize]
-        public ActionResult PurchasedLots(string userId, int page = 1)
+        public ActionResult PurchasedLots(SearchModel searchModel, string userId, int page = 1)
         {
             if (!User.IsInRole("Admin")
                 && User.Identity.GetUserId() != userId)
@@ -92,7 +93,7 @@ namespace InternetAuction.Web.Controllers
             ViewBag.Title = "Purchased Lots";
             ViewBag.UserId = userId;
 
-            var lotViewModel = CreateLotViewModel(_lotService.GetAll().Where(l => l.BuyerId == userId), page);
+            var lotViewModel = CreateLotViewModel(_lotService.SearchLotModels(searchModel).Where(l => l.BuyerId == userId), page);
             return View("Lots", lotViewModel);
         }
 
@@ -191,28 +192,6 @@ namespace InternetAuction.Web.Controllers
 
             await _lotService.DeleteByIdAsync(id);
             return RedirectToAction("ActiveLots", "Lots");
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public ActionResult Search(SearchModel model, int page = 1)
-        {
-            if (model is null)
-                ModelState.AddModelError("", "Invalid search parameters");
-
-            if (ModelState.IsValid)
-            {
-                ViewBag.Query = "Search";
-                ViewBag.SearchModel = model;
-
-                var lotViewModel = User.IsInRole(Roles.Admin) ?
-                    CreateLotViewModel(_lotService.SearchLotModels(model), page)
-                    : CreateLotViewModel(_lotService.SearchLotModels(model).Where(l => l.IsActive), page);
-
-                return View("Lots", lotViewModel);
-            }
-
-            return PartialView("SearchPartial");
         }
 
         [HttpPost]

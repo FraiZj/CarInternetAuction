@@ -7,13 +7,27 @@
 @model LotViewModel
 
 @{
-    ViewBag.Title = "Lots";
+    ViewBag.Title = ViewBag.Title;
+
+    Func<int, string> func = page => Url.Action(
+        Request.RequestContext.RouteData.Values["action"].ToString(),
+        new
+        {
+            Brand = Request.QueryString["Brand"],
+            CarModel = Request.QueryString["CarModel"],
+            DriveUnit = Request.QueryString["DriveUnit"],
+            BodyType = Request.QueryString["BodyType"],
+            MinPrice = Request.QueryString["MinPrice"],
+            MaxPrice = Request.QueryString["MaxPrice"],
+            userId = ViewBag.UserId,
+            page = page
+        });
 }
 
 @section sidebar
 {
     <div class="row">
-        @Html.Partial("SearchPartial", new SearchModel())
+        @Html.Partial("SearchPartial", new SearchModel(), new ViewDataDictionary { { "userId", ViewBag.UserId } })
     </div>
 }
 
@@ -77,35 +91,7 @@
     }
 </div>
 
-@{
-    Func<int, string> func = page => Url.Action(
-        Request.RequestContext.RouteData.Values["action"].ToString(),
-        new
-        {
-            userId = ViewBag.UserId,
-            page = page
-        });
-}
-
-@if (ViewBag.Query == "Search")
-{
-    func = page => Url.Action(
-        Request.RequestContext.RouteData.Values["action"].ToString(),
-        new
-        {
-            Brand = Request.QueryString["Brand"],
-            CarModel = Request.QueryString["CarModel"],
-            DriveUnit = Request.QueryString["DriveUnit"],
-            BodyType = Request.QueryString["BodyType"],
-            MinPrice = Request.QueryString["MinPrice"],
-            MaxPrice = Request.QueryString["MaxPrice"],
-            userId = ViewBag.UserId,
-            page = page
-        });
-}
-
 <div class="btn-group">
     @Html.PageLinks(Model.PageInfo, func)
-    @*page => Url.Action(ViewBag.Query, new { userId = ViewBag.UserId, page })*@
 </div>
 
