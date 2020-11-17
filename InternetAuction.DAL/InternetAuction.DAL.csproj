@@ -116,6 +116,14 @@
     <Compile Include="Migrations\202011161303301_FixLotEntity.designer.cs">
       <DependentUpon>202011161303301_FixLotEntity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011170821012_UpdateRelations.cs" />
+    <Compile Include="Migrations\202011170821012_UpdateRelations.designer.cs">
+      <DependentUpon>202011170821012_UpdateRelations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011170840520_UpdateSellerIdConstraint.cs" />
+    <Compile Include="Migrations\202011170840520_UpdateSellerIdConstraint.designer.cs">
+      <DependentUpon>202011170840520_UpdateSellerIdConstraint.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Base\Repository.cs" />
@@ -155,6 +163,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011161303301_FixLotEntity.resx">
       <DependentUpon>202011161303301_FixLotEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011170821012_UpdateRelations.resx">
+      <DependentUpon>202011170821012_UpdateRelations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011170840520_UpdateSellerIdConstraint.resx">
+      <DependentUpon>202011170840520_UpdateSellerIdConstraint.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
