@@ -77,7 +77,7 @@ namespace InternetAuction.BLL.Services
             try
             {
                 var bets = _unitOfWork.BetRepository.FindAllWithDetails();
-                return _mapper.Map<IQueryable<BetModel>>(bets);
+                return _mapper.Map<List<BetModel>>(bets).AsQueryable();
             }
             catch (Exception ex)
             {

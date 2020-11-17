@@ -78,6 +78,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL.Tests\ServicesTests\BetServiceTests.cs" />
     <Compile Include="BLL.Tests\ServicesTests\LotServiceTests.cs" />
     <Compile Include="DAL.Tests\RepositoriesTests\BetRepositoryTests.cs" />
     <Compile Include="DAL.Tests\RepositoriesTests\CarRepositoryTests.cs" />

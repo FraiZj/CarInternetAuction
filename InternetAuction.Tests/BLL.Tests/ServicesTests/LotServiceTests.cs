@@ -39,6 +39,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
                     SellerId = "2",
                     SaleType = SaleTypeDto.BrandNew,
                     IsActive = true,
+                    StartPrice = 2000,
                     TurnkeyPrice = 8000,
                     Car = new CarModel
                     {
@@ -53,6 +54,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
                     SellerId = "3",
                     SaleType = SaleTypeDto.BrandNew,
                     IsActive = true,
+                    StartPrice = 1000,
                     TurnkeyPrice = 3000,
                     Car = new CarModel
                     {
@@ -89,6 +91,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
                     SellerId = "2",
                     SaleType = SaleType.BrandNew,
                     IsActive = true,
+                    StartPrice = 2000,
                     Car = new Car
                     {
                         Brand = "CarBrand2",
@@ -103,6 +106,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
                     SellerId = "3",
                     SaleType = SaleType.BrandNew,
                     IsActive = true,
+                    StartPrice = 1000,
                     Car = new Car
                     {
                         Brand = "CarBrand3",
@@ -222,7 +226,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
         {
             var expected = GetTestLotsModels().ToList();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
-            mockUnitOfWork.Setup(m => m.LotRepository.FindAll()).Returns(GetTestLotsEntities());
+            mockUnitOfWork.Setup(m => m.LotRepository.FindAllWithDetails()).Returns(GetTestLotsEntities());
             var lotService = new LotService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile());
 
             var actual = lotService.GetAll().ToList();
@@ -235,7 +239,6 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
                 Assert.AreEqual(expected[i].TurnkeyPrice, actual[i].TurnkeyPrice);
                 Assert.AreEqual(expected[i].IsActive, actual[i].IsActive);
             }
-
         }
 
         [Test]
@@ -254,6 +257,57 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
             Assert.AreEqual(expected.SaleType, actual.SaleType);
             Assert.AreEqual(expected.TurnkeyPrice, actual.TurnkeyPrice);
             Assert.AreEqual(expected.IsActive, actual.IsActive);
+        }
+
+        [Test]
+        public void LotService_SearchLotModels_ReturnsProperLots()
+        {
+            var minPrice = 500;
+            var maxPrice = 3000;
+            var expected = GetTestLotsModels().Where(l => l.StartPrice > minPrice && l.StartPrice < maxPrice).ToList();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            mockUnitOfWork.Setup(m => m.LotRepository.FindAll()).Returns(GetTestLotsEntities());
+            var lotService = new LotService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile());
+            var searchModel = new SearchModel
+            {
+                MinPrice = minPrice,
+                MaxPrice = maxPrice
+            };
+
+            var actual = lotService.SearchLotModels(searchModel).ToList();
+
+            Assert.AreEqual(expected.Count, actual.Count);
+            for (int i = 0; i < expected.Count; i++)
+            {
+                Assert.AreEqual(expected[i].Id, actual[i].Id);
+                Assert.AreEqual(expected[i].SaleType, actual[i].SaleType);
+                Assert.AreEqual(expected[i].TurnkeyPrice, actual[i].TurnkeyPrice);
+                Assert.AreEqual(expected[i].IsActive, actual[i].IsActive);
+            }
+        }
+
+        [Test]
+        public async Task LotService_SellLot_UpdatesLot()
+        {
+            var user = new ApplicationUser() { Id = "1" };
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            mockUnitOfWork.Setup(m => m.LotRepository.Update(It.IsAny<Lot>()));
+            mockUnitOfWork
+                .Setup(m => m.ApplicationUserManager.FindByIdAsync(It.IsAny<string>()))
+                .ReturnsAsync(user);
+            var lotService = new LotService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile());
+
+            var result = await lotService.SellLot(1, user.Id);
+
+            Assert.IsTrue(result.Succedeed);
+            mockUnitOfWork.Verify(
+                m => m.LotRepository.Update(It.Is<Lot>(
+                    l => l.BuyerId == user.Id
+                    && !l.IsActive)),
+                Times.Once);
+            mockUnitOfWork.Verify(
+               m => m.SaveAsync(),
+               Times.Once);
         }
 
         [Test]
