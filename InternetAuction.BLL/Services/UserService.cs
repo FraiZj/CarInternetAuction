@@ -20,6 +20,7 @@ namespace InternetAuction.BLL.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private bool isDisposed;
 
         public UserService(IUnitOfWork unitOfWork, IMapper mapper)
         {
@@ -175,7 +176,20 @@ namespace InternetAuction.BLL.Services
 
         public void Dispose()
         {
-            _unitOfWork.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (isDisposed) return;
+
+            if (disposing)
+            {
+                _unitOfWork.Dispose();
+            }
+
+            isDisposed = true;
         }
 
         private void SetInitialData()

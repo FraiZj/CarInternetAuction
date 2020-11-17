@@ -248,7 +248,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
                 .ReturnsAsync(GetTestLotsEntities().First());
             var lotService = new LotService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile());
 
-            var actual = await lotService.GetByIdWithDetailsAsync(expected.Id);
+            var actual = await lotService.GetByIdAsync(expected.Id);
 
             Assert.AreEqual(expected.Id, actual.Id);
             Assert.AreEqual(expected.SaleType, actual.SaleType);

@@ -1,11 +1,7 @@
-﻿using InternetAuction.DAL.Entities;
-using Moq;
-using System;
-using System.Collections.Generic;
+﻿using Moq;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using InternetAuction.DAL.Enums;
 using AutoMapper;
 using InternetAuction.BLL;
 using InternetAuction.Tests.DAL.Tests;

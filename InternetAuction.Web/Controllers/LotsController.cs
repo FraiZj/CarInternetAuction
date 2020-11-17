@@ -49,7 +49,7 @@ namespace InternetAuction.Web.Controllers
         public ActionResult ActiveLots(int page = 1)
         {
             ViewBag.Title = "Active Lots";
-            var lotViewModel = CreateLotViewModel(_lotService.GetAllWithDetails().Where(l => l.IsActive), page);
+            var lotViewModel = CreateLotViewModel(_lotService.GetAll().Where(l => l.IsActive), page);
             return View("Lots", lotViewModel);
         }
 
@@ -99,7 +99,7 @@ namespace InternetAuction.Web.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Details(int id)
         {
-            var lot = await _lotService.GetByIdWithDetailsAsync(id);
+            var lot = await _lotService.GetByIdAsync(id);
 
             if (lot is null)
                 return RedirectToAction("NotFound", "Errors");
@@ -139,7 +139,7 @@ namespace InternetAuction.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            var lot = await _lotService.GetByIdWithDetailsAsync(id);
+            var lot = await _lotService.GetByIdAsync(id);
 
             if (lot is null)
                 return RedirectToAction("NotFound", "Errors");
@@ -180,7 +180,7 @@ namespace InternetAuction.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Delete(int id)
         {
-            var lot = await _lotService.GetByIdWithDetailsAsync(id);
+            var lot = await _lotService.GetByIdAsync(id);
 
             if (lot is null)
                 return RedirectToAction("NotFound", "Errors");

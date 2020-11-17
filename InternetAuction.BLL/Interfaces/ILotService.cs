@@ -11,18 +11,6 @@ namespace InternetAuction.BLL.Interfaces
     /// </summary>
     public interface ILotService : ICrud<LotModel>, IDisposable
     {
-        /// <summary>
-        /// Returns all lots with details
-        /// </summary>
-        /// <returns></returns>
-        IQueryable<LotModel> GetAllWithDetails();
-
-        /// <summary>
-        /// Returns lot with details by id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        Task<LotModel> GetByIdWithDetailsAsync(int id);
 
         /// <summary>
         /// Returns lots by search model

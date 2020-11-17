@@ -21,10 +21,7 @@ namespace InternetAuction.Web.Controllers
 
         [HttpPost]
         public async Task<ActionResult> PlaceBet(BetViewModel model)
-        { 
-            if (model is null)
-                ModelState.AddModelError("model", "Bet cannot be null");
-
+        {
             if (ModelState.IsValid)
             {
                 var betModel = new BetModel
@@ -48,17 +45,7 @@ namespace InternetAuction.Web.Controllers
                 }
             }
 
-            return PartialView();
+            return PartialView("PlaceBetPartial");
         }
-
-        //[HttpGet]
-        //public ActionResult Bets(LotModel model)
-        //{
-        //    if (!User.IsInRole("Admin")
-        //        && User.Identity.GetUserId() != model.SellerId)
-        //        return RedirectToAction("Forbidden", "Errors");
-
-
-        //}
     }
 }

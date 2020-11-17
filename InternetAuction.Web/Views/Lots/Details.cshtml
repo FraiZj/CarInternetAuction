@@ -32,7 +32,7 @@
             if (User.Identity.IsAuthenticated
             && User.Identity.GetUserId() != Model.SellerId)
             {
-                @Html.Partial("~/Views/Bet/PlaceBet.cshtml", new BetViewModel() { LotId = Model.Id })
+                @Html.Partial("~/Views/Bet/PlaceBetPartial.cshtml", new BetViewModel() { LotId = Model.Id })
             }
 
             if (User.Identity.GetUserId() == Model.SellerId)

@@ -349,14 +349,13 @@
     <Content Include="Views\Lots\Lots.cshtml" />
     <Content Include="Views\Lots\Edit.cshtml" />
     <Content Include="Views\Account\UserProfile.cshtml" />
-    <Content Include="Views\Bet\PlaceBet.cshtml" />
+    <Content Include="Views\Bet\PlaceBetPartial.cshtml" />
     <Content Include="Views\Lots\SearchPartial.cshtml" />
     <Content Include="Views\Account\Users.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="fonts\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

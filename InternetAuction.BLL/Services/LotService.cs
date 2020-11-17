@@ -20,61 +20,12 @@ namespace InternetAuction.BLL.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private bool isDisposed;
 
         public LotService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-        }
-
-        private ICollection<CarImage> GetUploadedImages(ICollection<HttpPostedFileBase> files)
-        {
-            var carImages = new List<CarImage>();
-
-            if (files is null || files.Count == 0)
-                return carImages;
-
-            foreach (var file in files)
-            {
-                if (file is null)
-                    continue;
-
-                var img = new CarImage
-                {
-                    Title = file.FileName
-                };
-
-                using (var ms = new MemoryStream())
-                {
-                    file.InputStream.CopyTo(ms);
-                    img.Data = ms.ToArray();
-                    ms.Close();
-                }
-
-                carImages.Add(img);
-            }
-
-            return carImages;
-        }
-
-        private ICollection<ImageModel> GetRetrievedImages(ICollection<CarImage> carImages)
-        {
-            var imageModels = new List<ImageModel>();
-
-            if (carImages is null)
-                return imageModels;
-
-            foreach (var image in carImages)
-            {
-                var imageModel = new ImageModel
-                {
-                    Url = $"data:image/jpg;base64,{Convert.ToBase64String(image.Data)}",
-                    Title = image.Title
-                };
-                imageModels.Add(imageModel);
-            }
-
-            return imageModels;
         }
 
         public async Task<OperationDetails> AddAsync(LotModel model)
@@ -115,26 +66,6 @@ namespace InternetAuction.BLL.Services
         {
             try
             {
-                var lots = _unitOfWork.LotRepository.FindAll().ToList();
-                var lotsModels = _mapper.Map<List<LotModel>>(lots);
-
-                for (int i = 0; i < lots.Count; i++)
-                {
-                    lotsModels[i].Car.CarImages = GetRetrievedImages(lots[i].Car.CarImages);
-                }
-
-                return lotsModels.AsQueryable();
-            }
-            catch (Exception ex)
-            {
-                throw new InternetAuctionException("An error occured while searching lots", ex.InnerException);
-            }
-        }
-
-        public IQueryable<LotModel> GetAllWithDetails()
-        {
-            try
-            {
                 var lots = _unitOfWork.LotRepository.FindAllWithDetails().ToList();
                 var lotsModels = _mapper.Map<List<LotModel>>(lots);
 
@@ -155,22 +86,11 @@ namespace InternetAuction.BLL.Services
         {
             try
             {
-                var lot = await _unitOfWork.LotRepository.GetByIdAsync(id);
-                var lotModel = _mapper.Map<LotModel>(lot);
-                lotModel.Car.CarImages = GetRetrievedImages(lot.Car.CarImages);
-                return lotModel;
-            }
-            catch (Exception ex)
-            {
-                throw new InternetAuctionException("An error occured while searching the lot", ex.InnerException);
-            }
-        }
-
-        public async Task<LotModel> GetByIdWithDetailsAsync(int id)
-        {
-            try
-            {
                 var lot = await _unitOfWork.LotRepository.GetByIdWithDetailsAsync(id);
+
+                if (lot is null)
+                    return null;
+
                 var lotModel = _mapper.Map<LotModel>(lot);
                 lotModel.Car.CarImages = GetRetrievedImages(lot.Car.CarImages);
                 return lotModel;
@@ -273,7 +193,70 @@ namespace InternetAuction.BLL.Services
 
         public void Dispose()
         {
-            _unitOfWork.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (isDisposed) return;
+
+            if (disposing)
+            {
+                _unitOfWork.Dispose();
+            }
+
+            isDisposed = true;
+        }
+
+        private ICollection<CarImage> GetUploadedImages(ICollection<HttpPostedFileBase> files)
+        {
+            var carImages = new List<CarImage>();
+
+            if (files is null || files.Count == 0)
+                return carImages;
+
+            foreach (var file in files)
+            {
+                if (file is null)
+                    continue;
+
+                var img = new CarImage
+                {
+                    Title = file.FileName
+                };
+
+                using (var ms = new MemoryStream())
+                {
+                    file.InputStream.CopyTo(ms);
+                    img.Data = ms.ToArray();
+                    ms.Close();
+                }
+
+                carImages.Add(img);
+            }
+
+            return carImages;
+        }
+
+        private ICollection<ImageModel> GetRetrievedImages(ICollection<CarImage> carImages)
+        {
+            var imageModels = new List<ImageModel>();
+
+            if (carImages is null)
+                return imageModels;
+
+            foreach (var image in carImages)
+            {
+                var imageModel = new ImageModel
+                {
+                    Url = $"data:image/jpg;base64,{Convert.ToBase64String(image.Data)}",
+                    Title = image.Title
+                };
+                imageModels.Add(imageModel);
+            }
+
+            return imageModels;
         }
 
         private ICollection<ValidationResult> Validate(object model)
