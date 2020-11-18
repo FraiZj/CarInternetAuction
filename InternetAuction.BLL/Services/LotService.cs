@@ -160,23 +160,44 @@ namespace InternetAuction.BLL.Services
             }
         }
 
-        public async Task<OperationDetails> SellLot(int lotId, string userId)
+        public async Task<OperationDetails> SellLot(int lotId, int betId)
+        {
+            try
+            {
+                var bet = await _unitOfWork.BetRepository.GetByIdAsync(betId);
+
+                if (bet is null)
+                    return new OperationDetails(false, new List<ValidationResult> { new ValidationResult($"Bet with Id = {betId} does not exist") });
+
+                var lot = await _unitOfWork.LotRepository.GetByIdAsync(lotId);
+
+                if (lot is null)
+                    return new OperationDetails(false, new List<ValidationResult> { new ValidationResult($"Lot with Id = {lotId} does not exist") });
+
+                if (lot.Id != bet.LotId)
+                    return new OperationDetails(false, new List<ValidationResult> { new ValidationResult($"The bet does not match the lot") });
+
+                lot.BuyerId = bet.UserId;
+                lot.IsActive = false;
+
+                _unitOfWork.LotRepository.Update(lot);
+                await _unitOfWork.SaveAsync();
+                return new OperationDetails(true, returnValue: lot.Id);
+            }
+            catch (Exception ex)
+            {
+                throw new InternetAuctionException("An error occured while selling lot", ex);
+            }
+        }
+
+        public async Task<OperationDetails> BuyLot(int lotId, string userId)
         {
             try
             {
                 var lot = await _unitOfWork.LotRepository.GetByIdAsync(lotId);
 
                 if (lot is null)
-                {
-                    return new OperationDetails(false, new List<ValidationResult> { new ValidationResult($"Lot with Id={lotId} does not exist") });
-                }
-
-                var user = await _unitOfWork.ApplicationUserManager.FindByIdAsync(userId);
-
-                if (user is null)
-                {
-                    return new OperationDetails(false, new List<ValidationResult> { new ValidationResult($"User with Id={lotId} does not exist") });
-                }
+                    return new OperationDetails(false, new List<ValidationResult> { new ValidationResult($"Lot with Id = {lotId} does not exist") });
 
                 lot.BuyerId = userId;
                 lot.IsActive = false;
@@ -187,7 +208,7 @@ namespace InternetAuction.BLL.Services
             }
             catch (Exception ex)
             {
-                throw new InternetAuctionException("An error occured while updating lot", ex.InnerException);
+                throw new InternetAuctionException("An error occured while buying lot", ex);
             }
         }
 

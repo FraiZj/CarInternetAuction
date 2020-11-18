@@ -1,10 +1,10 @@
 ﻿@model InternetAuction.BLL.Models.SearchModel
 
-<div id="search" class="col-12 mb-2">
-    <input type="button" name="Filters" value="Filters" id="searchButton" class="btn btn-warning col-12 font-weight-bold" />
+<div class="col-12 mb-2">
+    <input type="button" id="showFiltersButton" name="Filters" value="Filters" class="btn btn-warning col-12 font-weight-bold" />
 </div>
 
-<div id="searchForm" class="col-lg-12 p-lg-0">
+<div id="filtersBlock" class="col-lg-12 p-lg-0">
     @using (Html.BeginForm(
         Request.RequestContext.RouteData.Values["action"].ToString(),
         Request.RequestContext.RouteData.Values["controller"].ToString(),
@@ -71,14 +71,3 @@
         </div>
     }
 </div>
-
-<script>
-    document.getElementById('searchButton').addEventListener('click', () => {
-        document.getElementById('searchForm').style.display = document.getElementById('searchForm').style.display == 'none' ? 'block' : 'none';
-    });
-</script>
-
-@section scripts
-{
-
-}

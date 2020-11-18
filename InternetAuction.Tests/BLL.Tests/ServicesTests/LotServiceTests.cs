@@ -289,20 +289,20 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
         [Test]
         public async Task LotService_SellLot_UpdatesLot()
         {
-            var user = new ApplicationUser() { Id = "1" };
+            var bet = new Bet() { Id = 1, UserId = "1", LotId = 1 };
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             mockUnitOfWork.Setup(m => m.LotRepository.Update(It.IsAny<Lot>()));
             mockUnitOfWork
-                .Setup(m => m.ApplicationUserManager.FindByIdAsync(It.IsAny<string>()))
-                .ReturnsAsync(user);
+                .Setup(m => m.BetRepository.GetByIdWithDetailsAsync(It.IsAny<int>()))
+                .ReturnsAsync(bet);
             var lotService = new LotService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile());
 
-            var result = await lotService.SellLot(1, user.Id);
+            var result = await lotService.SellLot(1, bet.Id);
 
             Assert.IsTrue(result.Succedeed);
             mockUnitOfWork.Verify(
                 m => m.LotRepository.Update(It.Is<Lot>(
-                    l => l.BuyerId == user.Id
+                    l => l.BuyerId == bet.UserId
                     && !l.IsActive)),
                 Times.Once);
             mockUnitOfWork.Verify(

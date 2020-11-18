@@ -13,12 +13,20 @@ using System.Threading.Tasks;
 
 namespace InternetAuction.BLL.Services
 {
+    /// <summary>
+    /// Represents bet service class
+    /// </summary>
     public class BetService : IBetService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private bool isDisposed;
 
+        /// <summary>
+        /// Initializes bet service with unit of work and mapper
+        /// </summary>
+        /// <param name="unitOfWork"></param>
+        /// <param name="mapper"></param>
         public BetService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;

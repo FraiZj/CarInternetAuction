@@ -9,6 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>@ViewBag.Title</title>
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -42,8 +43,7 @@
                         @Html.ActionLink("Users", "Users", "Account", null, htmlAttributes: new { @class = "nav-link  ml-3" })
                     </div>
                 </div>
-            </li>
-}
+            </li>}
                     </ul>
                     @Html.Partial("_LoginPartial")
                 </div>
@@ -74,7 +74,7 @@
 
     <footer class="py-5 bg-dark">
         <div class="container">
-            <p class="m-1 text-center text-white">Copyright &copy; Your Website 2020</p>
+            <p class="m-1 text-center text-white">Copyright &copy; Internet Auction, 2020</p>
             <p class="m-1 text-center text-white">
                 Icons made by
                 <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a>
@@ -86,6 +86,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/customScripts")
     @RenderSection("scripts", required: false)
 </body>
 </html>

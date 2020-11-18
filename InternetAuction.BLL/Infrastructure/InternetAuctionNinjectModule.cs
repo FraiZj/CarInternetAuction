@@ -8,10 +8,17 @@ using Ninject.Modules;
 
 namespace InternetAuction.BLL.Infrastructure
 {
+    /// <summary>
+    /// Represents DI module
+    /// </summary>
     public class InternetAuctionNinjectModule : NinjectModule
     {
         private readonly string nameOrConnectionStringForContext;
 
+        /// <summary>
+        /// Initializes module with connection string
+        /// </summary>
+        /// <param name="nameOrConnectionStringForContext"></param>
         public InternetAuctionNinjectModule(string nameOrConnectionStringForContext)
         {
             this.nameOrConnectionStringForContext = nameOrConnectionStringForContext;

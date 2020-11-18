@@ -11,8 +11,8 @@ body {
 
 body > div.container {
     position: relative;
-    height: auto !important; /* real browsers */
-    height: 100%; /* IE6: treaded as min-height*/
+    height: auto !important;
+    height: 100%; 
     min-height: calc(100% - 150px);
 }
 
@@ -22,11 +22,13 @@ footer {
     bottom: 0;
 }
 
-#search {
+#showInfoButton,
+#showFiltersButton {
     display: none;
 }
 
-#searchForm {
+#InfoBlock,
+#filtersBlock {
     display: block;
 }
 
@@ -35,11 +37,13 @@ footer {
         padding-top: 70px;
     }
 
-    #search {
+    #showInfoButton,
+    #showFiltersButton {
         display: inline-block;
     }
 
-    #searchForm {
+    #InfoBlock,
+    #filtersBlock {
         display: none;
     }
 }

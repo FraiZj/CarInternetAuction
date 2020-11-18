@@ -69,7 +69,6 @@ namespace InternetAuction.Web.Controllers
             return View("Lots", lotViewModel);
         }
 
-        [Authorize]
         public ActionResult SoldLots(string userId, SearchModel searchModel, int page = 1)
         {
             if (!User.IsInRole("Admin")
@@ -83,7 +82,6 @@ namespace InternetAuction.Web.Controllers
             return View("Lots", lotViewModel);
         }
 
-        [Authorize]
         public ActionResult PurchasedLots(SearchModel searchModel, string userId, int page = 1)
         {
             if (!User.IsInRole("Admin")
@@ -195,10 +193,32 @@ namespace InternetAuction.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Sell(int lotId, string userId)
+        public async Task<ActionResult> Sell(int lotId, int betId)
         {
-            await _lotService.SellLot(lotId, userId);
+            var result = await _lotService.SellLot(lotId, betId);
 
+            if (!result.Succedeed)
+            {
+                TempData["Error"] = "Lot not sold";
+                return View("NotFound", "Error");
+            }
+
+            TempData["Success"] = "Lot sold successfully";
+            return RedirectToAction("Details", "Lots", new { id = lotId });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Buy(int lotId)
+        {
+            var result = await _lotService.BuyLot(lotId, User.Identity.GetUserId());
+
+            if (!result.Succedeed)
+            {
+                TempData["Error"] = "Lot not purchased";
+                return View("NotFound", "Error");
+            }
+
+            TempData["Success"] = "Lot purchased successfully";
             return RedirectToAction("Details", "Lots", new { id = lotId });
         }
     }

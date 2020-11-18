@@ -20,11 +20,19 @@ namespace InternetAuction.BLL.Interfaces
         IQueryable<LotModel> SearchLotModels(SearchModel model);
 
         /// <summary>
-        /// Marks the lot as sold
+        /// Sells lot for a bet sum
         /// </summary>
         /// <param name="lotId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<OperationDetails> SellLot(int lotId, string userId);
+        Task<OperationDetails> SellLot(int lotId, int betId);
+
+        /// <summary>
+        /// Sells lot for a turnkey price
+        /// </summary>
+        /// <param name="lotId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<OperationDetails> BuyLot(int lotId, string userId);
     }
 }

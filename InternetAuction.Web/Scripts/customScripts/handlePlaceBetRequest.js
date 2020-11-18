@@ -1,6 +1,6 @@
-﻿$('body').on('submit', '#form', (e) => func(e));
+﻿$('body').on('submit', '#form', (e) => handlePlaceBetRequest(e));
 
-function func(e) {
+function handlePlaceBetRequest(e) {
     e.preventDefault();
     var form = $('#form');
     var url = form.attr('action');
