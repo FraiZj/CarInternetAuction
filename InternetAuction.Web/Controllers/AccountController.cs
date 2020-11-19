@@ -1,9 +1,12 @@
 ﻿using InternetAuction.BLL.Infrastructure;
 using InternetAuction.BLL.Interfaces;
 using InternetAuction.BLL.Models;
+using InternetAuction.Web.Infrastructure;
 using InternetAuction.Web.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -196,10 +199,33 @@ namespace InternetAuction.Web.Controllers
         }
 
         [Authorize(Roles = Roles.Admin)]
-        public ActionResult Users(UserSearchModel model)
+        public ActionResult Users(UserSearchModel model, int page = 1)
         {
-            var users = _userService.SearchUsers(model);
-            return View(users);
+            var userViewModel = CreateUserViewModel(_userService.SearchUsers(model), page);
+            return View(userViewModel);
+        }
+
+        private UserViewModel CreateUserViewModel(IEnumerable<UserModel> users, int page)
+        {
+            var pageSize = 3;
+
+            if (Math.Ceiling((double)users.Count() / pageSize) < page || page < 1)
+                page = 1;
+
+            var lotsPerPage = users.Skip((page - 1) * pageSize).Take(pageSize);
+            
+            var pageInfo = new PageInfo
+            {
+                PageNumber = page,
+                PageSize = pageSize,
+                TotalItems = users.Count()
+            };
+
+            return new UserViewModel
+            {
+                Users = lotsPerPage,
+                PageInfo = pageInfo
+            };
         }
 
         protected override void Dispose(bool disposing)

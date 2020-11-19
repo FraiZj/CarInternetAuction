@@ -1,7 +1,7 @@
 ﻿@using InternetAuction.BLL.Models;
-@using AppRoles = InternetAuction.BLL.Infrastructure.Roles;
+@using InternetAuction.Web.Helpers
 
-@model IEnumerable<InternetAuction.BLL.Models.UserModel>
+@model InternetAuction.Web.ViewModels.UserViewModel
 
 @{
     ViewBag.Title = "Users";
@@ -9,12 +9,14 @@
 
 @section sidebar
 {
-    @Html.Partial("UserSearchPartial", new UserSearchModel())
+    <div class="row">
+        @Html.Partial("UserSearchPartial", new UserSearchModel())
+    </div>
 }
 
 <h2>Users</h2>
-
-@foreach (var item in Model)
+<hr /> 
+@foreach (var item in Model.Users)
 {
     <div class="card mb-3">
         <div class="card-body">
@@ -31,3 +33,9 @@
         </div>
     </div>
 }
+
+<div class="btn-group">
+    @Html.PageLinks(Model.PageInfo, page => Url.Action(
+        Request.RequestContext.RouteData.Values["action"].ToString(),
+        new { page = page }))
+</div>
