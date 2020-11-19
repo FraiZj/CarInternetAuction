@@ -1,9 +1,15 @@
-﻿@using AppRoles = InternetAuction.BLL.Infrastructure.Roles;
+﻿@using InternetAuction.BLL.Models;
+@using AppRoles = InternetAuction.BLL.Infrastructure.Roles;
 
 @model IEnumerable<InternetAuction.BLL.Models.UserModel>
 
 @{
     ViewBag.Title = "Users";
+}
+
+@section sidebar
+{
+    @Html.Partial("UserSearchPartial", new UserSearchModel())
 }
 
 <h2>Users</h2>

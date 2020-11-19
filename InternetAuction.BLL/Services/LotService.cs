@@ -124,8 +124,8 @@ namespace InternetAuction.BLL.Services
             try
             {
                 var lots = _unitOfWork.LotRepository.FindAll().ToList();
-                var carBrand = model.Brand?.Trim().ToUpper();
 
+                var carBrand = model.Brand?.Trim().ToUpper();
                 if (!string.IsNullOrWhiteSpace(carBrand))
                     lots = lots.Where(l => l.Car.Brand.Trim().ToUpper().Contains(carBrand)).ToList();
 

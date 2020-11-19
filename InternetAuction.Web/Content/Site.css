@@ -1,4 +1,14 @@
-﻿html {
+﻿::-moz-selection {
+    background-color: #808080;
+    color: #FFC107;
+}
+
+::selection {
+    background-color: #636161;
+    color: #fff;
+}
+
+html {
     overflow-x: hidden;
     height: 100%;
 }
@@ -22,11 +32,13 @@ footer {
     bottom: 0;
 }
 
+#showUserSearchButton,
 #showInfoButton,
 #showFiltersButton {
     display: none;
 }
 
+#userSearchBlock,
 #InfoBlock,
 #filtersBlock {
     display: block;
@@ -42,11 +54,13 @@ input.largeCheckbox {
         padding-top: 70px;
     }
 
+    #showUserSearchButton,
     #showInfoButton,
     #showFiltersButton {
         display: inline-block;
     }
 
+    #userSearchBlock,
     #InfoBlock,
     #filtersBlock {
         display: none;

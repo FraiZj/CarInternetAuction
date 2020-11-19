@@ -7,8 +7,9 @@ namespace InternetAuction.BLL.Models
     {
         public int CarId { get; set; }
 
-        [Required, RegularExpression(@"^[a-zA-Z0-9]+$")]
-        [MinLength(17), MaxLength(17)]
+        [Required, RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessage = "Invalid VIN format")]
+        [MinLength(17, ErrorMessage = "VIN length must be 17")]
+        [MaxLength(17, ErrorMessage = "VIN length must be 17")]
         public string VIN { get; set; }
 
         [Required]

@@ -196,9 +196,9 @@ namespace InternetAuction.Web.Controllers
         }
 
         [Authorize(Roles = Roles.Admin)]
-        public ActionResult Users()
+        public ActionResult Users(UserSearchModel model)
         {
-            var users = _userService.GetAll();
+            var users = _userService.SearchUsers(model);
             return View(users);
         }
 

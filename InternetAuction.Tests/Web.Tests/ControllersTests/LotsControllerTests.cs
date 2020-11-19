@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using InternetAuction.BLL.EnumsDtos;
 using InternetAuction.Web.ViewModels;
-using Microsoft.AspNetCore.Http;
 
 namespace InternetAuction.Tests.Web.Tests.ControllersTests
 {

@@ -6,10 +6,12 @@ namespace InternetAuction.Web.ViewModels
 {
     public class RegisterViewModel
     {
-        [Required, RegularExpression(@"^[a-zA-Z-_ ]+$"), Display(Name = "First Name")]
+        [Required, RegularExpression(@"^[a-zA-Z-_ ]+$", ErrorMessage = "Invalid first name format")]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
-        [Required, RegularExpression(@"^[a-zA-Z-_ ]+$"), Display(Name = "Last Name")]
+        [Required, RegularExpression(@"^[a-zA-Z-_ ]+$", ErrorMessage = "Invalid last name format")]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
         [Required, EmailAddress]

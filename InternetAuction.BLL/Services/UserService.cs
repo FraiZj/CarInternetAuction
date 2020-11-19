@@ -38,7 +38,7 @@ namespace InternetAuction.BLL.Services
             }
             catch (Exception ex)
             {
-                throw new InternetAuctionException("An error occured while searching a user", ex);
+                throw new InternetAuctionException("An error occurred while searching for a user", ex);
             }
         }
 
@@ -54,7 +54,7 @@ namespace InternetAuction.BLL.Services
             }
             catch (Exception ex)
             {
-                throw new InternetAuctionException("An error occured while login", ex);
+                throw new InternetAuctionException("An error occurred while login", ex);
             }
         }
 
@@ -93,7 +93,7 @@ namespace InternetAuction.BLL.Services
             }
             catch (Exception ex)
             {
-                throw new InternetAuctionException("An error occured while regitestering user", ex);
+                throw new InternetAuctionException("An error occurred while regitestering user", ex);
             }
         }
 
@@ -108,7 +108,35 @@ namespace InternetAuction.BLL.Services
             }
             catch (Exception ex)
             {
-                throw new InternetAuctionException("An error occured while searching all users", ex);
+                throw new InternetAuctionException("An error occurred while searching for users", ex);
+            }
+        }
+
+        public IEnumerable<UserModel> SearchUsers(UserSearchModel model)
+        {
+            try
+            {
+                var users = _unitOfWork.ApplicationUserManager.Users.ToList();
+
+                var firstName = model.FirstName?.Trim().ToUpper();
+                if (!string.IsNullOrWhiteSpace(firstName))
+                    users = users.Where(u => u.FirstName.Trim().ToUpper().Contains(firstName)).ToList();
+
+                var lastName = model.LastName?.Trim().ToUpper();
+                if (!string.IsNullOrWhiteSpace(lastName))
+                    users = users.Where(u => u.LastName.Trim().ToUpper().Contains(lastName)).ToList();
+
+                var email = model.Email?.Trim().ToUpper();
+                if (!string.IsNullOrWhiteSpace(email))
+                    users = users.Where(u => u.Email.Trim().ToUpper().Contains(email)).ToList();
+
+                var usersModels = _mapper.Map<IEnumerable<UserModel>>(users);
+
+                return usersModels.AsQueryable();
+            }
+            catch (Exception ex)
+            {
+                throw new InternetAuctionException("An error occurred while searching for users", ex);
             }
         }
 
@@ -148,7 +176,7 @@ namespace InternetAuction.BLL.Services
             }
             catch (Exception ex)
             {
-                throw new InternetAuctionException("An error occured while updating user", ex);
+                throw new InternetAuctionException("An error occurred while updating user", ex);
             }
         }
 
@@ -170,7 +198,7 @@ namespace InternetAuction.BLL.Services
             }
             catch (Exception ex)
             {
-                throw new InternetAuctionException("An error occured while deleting user", ex);
+                throw new InternetAuctionException("An error occurred while deleting user", ex);
             }
         }
 

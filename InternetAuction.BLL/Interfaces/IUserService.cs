@@ -38,6 +38,13 @@ namespace InternetAuction.BLL.Interfaces
         IEnumerable<UserModel> GetAll();
 
         /// <summary>
+        /// Searches and returns user by filters
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        IEnumerable<UserModel> SearchUsers(UserSearchModel model);
+
+        /// <summary>
         /// Updates user
         /// </summary>
         /// <param name="model"></param>
