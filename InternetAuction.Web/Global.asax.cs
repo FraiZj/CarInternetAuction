@@ -3,13 +3,14 @@ using Ninject;
 using Ninject.Modules;
 using Ninject.Web.Mvc;
 using System.Configuration;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
 namespace InternetAuction.Web
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
         protected void Application_Start()
         {
