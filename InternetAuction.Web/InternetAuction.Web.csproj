@@ -188,11 +188,12 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BetController.cs" />
-    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\ErrorsController.cs" />
     <Compile Include="Controllers\LotsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AlertHelper.cs" />
     <Compile Include="Helpers\PaginingHelper.cs" />
     <Compile Include="Infrastructure\EnumExtensions.cs" />
     <Compile Include="Infrastructure\PageInfo.cs" />
@@ -356,8 +357,9 @@
     <Content Include="Views\Lots\SearchPartial.cshtml" />
     <Content Include="Views\Account\Users.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
-    <Content Include="Views\Error\NotFound.cshtml" />
-    <Content Include="Views\Error\InternalError.cshtml" />
+    <Content Include="Views\Shared\NotFound.cshtml" />
+    <Content Include="Views\Shared\InternalError.cshtml" />
+    <Content Include="Views\Shared\Forbidden.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

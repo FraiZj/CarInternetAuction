@@ -32,6 +32,11 @@ footer {
     display: block;
 }
 
+input.largeCheckbox {
+    width: 20px;
+    height: 20px;
+}
+
 @media screen and (max-width: 992px) {
     body {
         padding-top: 70px;

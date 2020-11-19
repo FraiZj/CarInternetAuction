@@ -36,6 +36,7 @@ namespace InternetAuction.Web.Controllers
 
                 if (result.Succedeed)
                 {
+                    TempData["BetAccepted"] = "Your bet has been accepted";
                     return RedirectToAction("Details", "Lots", new { id = model.LotId });
                 }
 
@@ -46,6 +47,12 @@ namespace InternetAuction.Web.Controllers
             }
 
             return PartialView("PlaceBetPartial");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _betService.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

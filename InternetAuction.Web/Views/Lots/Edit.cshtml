@@ -1,12 +1,13 @@
 ﻿@model InternetAuction.BLL.Models.LotModel
 
+<h2>Edit</h2>
+<hr />
 @using (Html.BeginForm("Edit", "Lots", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>LotModel</h4>
-        <hr />
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         @Html.HiddenFor(model => model.Id)
@@ -14,7 +15,7 @@
         @Html.HiddenFor(model => model.Car.TechnicalPassport.CarId)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.StartPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.StartPrice, htmlAttributes: new { @class = "control-label col-md-2", type = "number" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.StartPrice, null, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.StartPrice, null, new { @class = "text-danger" })
@@ -22,7 +23,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TurnkeyPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.TurnkeyPrice, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.TurnkeyPrice, null, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.TurnkeyPrice, null, new { @class = "text-danger" })
@@ -38,10 +39,11 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.IsActive, null, new { htmlAttributes = new { @class = "form-control" } })
+            <div class="form-check ml-3">
+                @Html.EditorFor(model => model.IsActive, null, new { htmlAttributes = new { type = "checkbox", @class = "form-check-input largeCheckbox" } })
                 @Html.ValidationMessageFor(model => model.IsActive, null, new { @class = "text-danger" })
+                @Html.LabelFor(model => model.IsActive, new { @class = "form-check-label ml-2" })
+
             </div>
         </div>
 
@@ -118,21 +120,18 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Car.TechnicalPassport.HasKeys, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Car.TechnicalPassport.HasKeys, null, new { htmlAttributes = new { @class = "form-control" } })
+            <div class="form-check ml-3">
+                @Html.EditorFor(model => model.Car.TechnicalPassport.HasKeys, null, new { htmlAttributes = new { type = "checkbox", @class = "form-check-input largeCheckbox" } })
                 @Html.ValidationMessageFor(model => model.Car.TechnicalPassport.HasKeys, null, new { @class = "text-danger" })
+                @Html.LabelFor(model => model.Car.TechnicalPassport.HasKeys, new { @class = "form-check-label ml-2" })
+
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+            <div class="col-md-10 col-xs-12">
+                <input type="submit" value="Save Changes" class="btn btn-warning col-lg-3 col-xs-12" />
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>

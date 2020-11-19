@@ -115,7 +115,9 @@ namespace InternetAuction.Web.Controllers
         [Authorize]
         public async Task<ActionResult> UserProfile(string id)
         {
-            id = id ?? User.Identity.GetUserId();
+            id = string.IsNullOrWhiteSpace(id) ? 
+                User.Identity.GetUserId() 
+                : id;
             UserModel user = await _userService.GetUserModelByIdAsync(id);
 
             if (user is null)

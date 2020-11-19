@@ -2,13 +2,14 @@
 @using Microsoft.AspNet.Identity;
 @using System.Globalization;
 @using InternetAuction.Web.Infrastructure;
+@using InternetAuction.Web.Helpers;
 
 @model InternetAuction.BLL.Models.LotModel
 
 @section sidebar
 {
-    <div  class="col-12 mb-2">
-        <input id="showInfoButton" type="button" name="Info" value="Lot Info" class="btn btn-info col-12 font-weight-bold" />
+    <div class="col-12 mb-2">
+        <input id="showInfoButton" type="button" name="Info" value="Lot Info" class="btn btn-warning col-12 font-weight-bold" />
     </div>
 
     <div id="InfoBlock" class="container">
@@ -84,24 +85,17 @@
 }
 
 <div>
-
     @if (TempData["Success"] != null)
     {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>@TempData["Success"]</strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
+        @Html.ShowAlert(TempData["Success"].ToString(), "success")
     }
     else if (TempData["Error"] != null)
     {
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>@TempData["Error"]</strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
+        @Html.ShowAlert(TempData["Error"].ToString(), "danger")
+    }
+    else if (TempData["BetAccepted"] != null)
+    {
+        @Html.ShowAlert(TempData["BetAccepted"].ToString(), "success")
     }
 
     <h1>
@@ -191,3 +185,13 @@
 
     @Html.ActionLink("Back to List", "Lots")
 </p>
+
+@*@helper ShowAlert(string text, string alertColor)
+{
+    <div class="alert alert-@alertColor alert-dismissible fade show" role="alert">
+        <strong>@text</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}*@

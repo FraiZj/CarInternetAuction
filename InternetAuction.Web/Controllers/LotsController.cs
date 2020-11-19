@@ -200,7 +200,7 @@ namespace InternetAuction.Web.Controllers
             if (!result.Succedeed)
             {
                 TempData["Error"] = "Lot not sold";
-                return View("NotFound", "Error");
+                return View("NotFound", "Errors");
             }
 
             TempData["Success"] = "Lot sold successfully";
@@ -215,7 +215,7 @@ namespace InternetAuction.Web.Controllers
             if (!result.Succedeed)
             {
                 TempData["Error"] = "Lot not purchased";
-                return View("NotFound", "Error");
+                return View("NotFound", "Errors");
             }
 
             TempData["Success"] = "Lot purchased successfully";
