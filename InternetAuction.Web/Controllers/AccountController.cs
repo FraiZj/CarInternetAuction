@@ -199,10 +199,23 @@ namespace InternetAuction.Web.Controllers
         }
 
         [Authorize(Roles = Roles.Admin)]
-        public ActionResult Users(UserSearchModel model, int page = 1)
+        public ActionResult Users(UserSearchModel model, string orderBy, int page = 1)
         {
-            var userViewModel = CreateUserViewModel(_userService.SearchUsers(model), page);
+            var users = _userService.SearchUsers(model);
+            var sortedUsers = GetSortedUsers(users, orderBy);
+            var userViewModel = CreateUserViewModel(sortedUsers, page);
             return View(userViewModel);
+        }
+
+        private IEnumerable<UserModel> GetSortedUsers(IEnumerable<UserModel> users, string orderBy)
+        {
+            switch (orderBy)
+            {
+                case "EmailDesc": return users.OrderByDescending(u => u.Email);
+                case "LastName": return users.OrderBy(u => u.LastName);
+                case "LastNameDesc": return users.OrderByDescending(u => u.LastName);
+                default: return users.OrderBy(u => u.Email);
+            }
         }
 
         private UserViewModel CreateUserViewModel(IEnumerable<UserModel> users, int page)

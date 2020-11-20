@@ -9,5 +9,7 @@ namespace InternetAuction.Web.ViewModels
         public IEnumerable<UserModel> Users { get; set; }
 
         public PageInfo PageInfo { get; set; }
+
+        public UserSearchModel UserSearchModel { get; set; }
     }
 }

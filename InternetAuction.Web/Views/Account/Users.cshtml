@@ -1,7 +1,8 @@
 ﻿@using InternetAuction.BLL.Models;
 @using InternetAuction.Web.Helpers
+@using InternetAuction.Web.ViewModels;
 
-@model InternetAuction.Web.ViewModels.UserViewModel
+@model UserViewModel
 
 @{
     ViewBag.Title = "Users";
@@ -14,8 +15,30 @@
     </div>
 }
 
-<h2>Users</h2>
-<hr /> 
+@helper SortLink(string text, string orderBy)
+{
+    @Html.ActionLink(text, Request.RequestContext.RouteData.Values["action"].ToString(),
+        new
+        {
+            Email = Request.QueryString["Email"],
+            FirstName = Request.QueryString["FirstName"],
+            LastName = Request.QueryString["LastName"],
+            orderBy = orderBy
+        },
+        new { @class = "btn btn-outline-dark mb-1" })
+}
+
+<h2 class="font-weight-light">Users</h2>
+
+<div>
+    <span class="h5 font-weight-light mr-1">Order by:</span>
+    @SortLink("Email", "Email")
+    @SortLink("Email Descending", "EmailDesc")
+    @SortLink("Last Name", "LastName")
+    @SortLink("Last Name Descending", "LastNameDesc")
+</div>
+
+<hr />
 @foreach (var item in Model.Users)
 {
     <div class="card mb-3">
@@ -37,5 +60,12 @@
 <div class="btn-group">
     @Html.PageLinks(Model.PageInfo, page => Url.Action(
         Request.RequestContext.RouteData.Values["action"].ToString(),
-        new { page = page }))
+        new
+            {
+                Email = Request.QueryString["Email"],
+            FirstName = Request.QueryString["FirstName"],
+            LastName = Request.QueryString["LastName"],
+            orderBy = Request.QueryString["orderBy"],
+            page = page
+        }))
 </div>

@@ -118,17 +118,20 @@ namespace InternetAuction.BLL.Services
             {
                 var users = _unitOfWork.ApplicationUserManager.Users.ToList();
 
-                var firstName = model.FirstName?.Trim().ToUpper();
-                if (!string.IsNullOrWhiteSpace(firstName))
-                    users = users.Where(u => u.FirstName.Trim().ToUpper().Contains(firstName)).ToList();
+                if (model != null)
+                {
+                    var firstName = model.FirstName?.Trim().ToUpper();
+                    if (!string.IsNullOrWhiteSpace(firstName))
+                        users = users.Where(u => u.FirstName.Trim().ToUpper().Contains(firstName)).ToList();
 
-                var lastName = model.LastName?.Trim().ToUpper();
-                if (!string.IsNullOrWhiteSpace(lastName))
-                    users = users.Where(u => u.LastName.Trim().ToUpper().Contains(lastName)).ToList();
+                    var lastName = model.LastName?.Trim().ToUpper();
+                    if (!string.IsNullOrWhiteSpace(lastName))
+                        users = users.Where(u => u.LastName.Trim().ToUpper().Contains(lastName)).ToList();
 
-                var email = model.Email?.Trim().ToUpper();
-                if (!string.IsNullOrWhiteSpace(email))
-                    users = users.Where(u => u.Email.Trim().ToUpper().Contains(email)).ToList();
+                    var email = model.Email?.Trim().ToUpper();
+                    if (!string.IsNullOrWhiteSpace(email))
+                        users = users.Where(u => u.Email.Trim().ToUpper().Contains(email)).ToList();
+                }
 
                 var usersModels = _mapper.Map<IEnumerable<UserModel>>(users);
 
