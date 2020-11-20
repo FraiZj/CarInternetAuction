@@ -27,12 +27,55 @@
 @section sidebar
 {
     <div class="row">
-        @Html.Partial("SearchPartial", new SearchModel(), new ViewDataDictionary { { "userId", ViewBag.UserId } })
+        @Html.Partial("SearchPartial", Model.SearchModel, new ViewDataDictionary { { "userId", ViewBag.UserId } })
     </div>
 }
 
-<h1>@ViewBag.Title</h1>
+@helper SortLink(string text, string orderBy)
+{
+    @Html.ActionLink(text, Request.RequestContext.RouteData.Values["action"].ToString(),
+        new
+        {
+            Brand = Request.QueryString["Brand"],
+            CarModel = Request.QueryString["CarModel"],
+            DriveUnit = Request.QueryString["DriveUnit"],
+            BodyType = Request.QueryString["BodyType"],
+            MinPrice = Request.QueryString["MinPrice"],
+            MaxPrice = Request.QueryString["MaxPrice"],
+            userId = ViewBag.UserId,
+            orderBy = orderBy
+        },
+        new { @class = "btn btn-outline-dark mb-1" })
+}
+
+@*<div class="row">
+    <div class="col-2 p-1 border">
+        <div class="col-7 border-right float-left">
+            Brand
+        </div>
+        <div class="col-3 float-left" style="">
+            <div class="">
+                <img src="~/Content/images/arrow-top.png" alt="arrow top" width="15" />
+            </div>
+            <div>
+                <img src="~/Content/images/arrow-down.png" alt="arrow down" width="15" />
+            </div>
+        </div>
+    </div>
+</div>*@
+
+<h1 class="font-weight-light">@ViewBag.Title</h1>
+
+<div>
+    <span class="h5 font-weight-light mr-1">Order by:</span>
+    @SortLink("Brand", "Brand")
+    @SortLink("Brand Descending", "BrandDesc")
+    @SortLink("Start Price", "StartPrice")
+    @SortLink("Start Price Descending", "StartPriceDesc")
+</div>
+
 <hr />
+
 <div class="row">
 
     @foreach (var item in Model.Lots)

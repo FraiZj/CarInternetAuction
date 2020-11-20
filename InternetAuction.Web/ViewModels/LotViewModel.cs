@@ -8,5 +8,6 @@ namespace InternetAuction.Web.ViewModels
     {
         public IEnumerable<LotModel> Lots { get; set; }
         public PageInfo PageInfo { get; set; }
+        public SearchModel SearchModel { get; set; }
     }
 }

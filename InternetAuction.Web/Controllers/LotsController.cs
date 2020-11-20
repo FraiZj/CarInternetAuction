@@ -45,31 +45,51 @@ namespace InternetAuction.Web.Controllers
             };
         }
 
+        private IEnumerable<LotModel> GetSortedLots(IEnumerable<LotModel> lots, string orderBy)
+        {
+            switch (orderBy)
+            {
+                case "BrandDesc": return lots.OrderByDescending(l => l.Car.Brand);
+                case "StartPrice": return lots.OrderBy(l => l.StartPrice);
+                case "StartPriceDesc": return lots.OrderByDescending(l => l.StartPrice);
+                default: return lots.OrderBy(l => l.Car.Brand);
+            }
+        }
+
         [AllowAnonymous]
-        public ActionResult ActiveLots(SearchModel searchModel, int page = 1)
+        public ActionResult ActiveLots(SearchModel searchModel, string orderBy, int page = 1)
         {
             ViewBag.Title = "Active Lots";
-            var lotViewModel = CreateLotViewModel(_lotService.SearchLotModels(searchModel).Where(l => l.IsActive), page);
+            var lots = _lotService.SearchLotModels(searchModel).Where(l => l.IsActive);
+            var sortedLots = GetSortedLots(lots, orderBy);
+            var lotViewModel = CreateLotViewModel(sortedLots, page);
+            lotViewModel.SearchModel = searchModel;
             return View("Lots", lotViewModel);
         }
 
         [Authorize(Roles = Roles.Admin)]
-        public ActionResult AllLots(SearchModel searchModel, int page = 1)
+        public ActionResult AllLots(SearchModel searchModel, string orderBy, int page = 1)
         {
             ViewBag.Title = "All Lots";
-            var lotViewModel = CreateLotViewModel(_lotService.SearchLotModels(searchModel), page);
+            var lots = _lotService.SearchLotModels(searchModel);
+            var sortedLots = GetSortedLots(lots, orderBy);
+            var lotViewModel = CreateLotViewModel(sortedLots, page);
+            lotViewModel.SearchModel = searchModel;
             return View("Lots", lotViewModel);
         }
 
         [Authorize(Roles = Roles.Admin)]
-        public ActionResult ArchiveLots(SearchModel searchModel, int page = 1)
+        public ActionResult ArchiveLots(SearchModel searchModel, string orderBy, int page = 1)
         {
             ViewBag.Title = "Archive Lots";
-            var lotViewModel = CreateLotViewModel(_lotService.SearchLotModels(searchModel).Where(l => !l.IsActive), page);
+            var lots = _lotService.SearchLotModels(searchModel).Where(l => !l.IsActive);
+            var sortedLots = GetSortedLots(lots, orderBy);
+            var lotViewModel = CreateLotViewModel(sortedLots, page);
+            lotViewModel.SearchModel = searchModel;
             return View("Lots", lotViewModel);
         }
 
-        public ActionResult SoldLots(string userId, SearchModel searchModel, int page = 1)
+        public ActionResult SoldLots(string userId, SearchModel searchModel, string orderBy, int page = 1)
         {
             if (!User.IsInRole("Admin")
                 && User.Identity.GetUserId() != userId)
@@ -77,12 +97,14 @@ namespace InternetAuction.Web.Controllers
 
             ViewBag.Title = "Sold Lots";
             ViewBag.UserId = userId;
-
-            var lotViewModel = CreateLotViewModel(_lotService.SearchLotModels(searchModel).Where(l => l.SellerId == userId), page);
+            var lots = _lotService.SearchLotModels(searchModel).Where(l => l.SellerId == userId);
+            var sortedLots = GetSortedLots(lots, orderBy);
+            var lotViewModel = CreateLotViewModel(sortedLots, page);
+            lotViewModel.SearchModel = searchModel;
             return View("Lots", lotViewModel);
         }
 
-        public ActionResult PurchasedLots(SearchModel searchModel, string userId, int page = 1)
+        public ActionResult PurchasedLots(SearchModel searchModel, string userId, string orderBy, int page = 1)
         {
             if (!User.IsInRole("Admin")
                 && User.Identity.GetUserId() != userId)
@@ -91,7 +113,10 @@ namespace InternetAuction.Web.Controllers
             ViewBag.Title = "Purchased Lots";
             ViewBag.UserId = userId;
 
-            var lotViewModel = CreateLotViewModel(_lotService.SearchLotModels(searchModel).Where(l => l.BuyerId == userId), page);
+            var lots = _lotService.SearchLotModels(searchModel).Where(l => l.BuyerId == userId);
+            var sortedLots = GetSortedLots(lots, orderBy);
+            var lotViewModel = CreateLotViewModel(sortedLots, page);
+            lotViewModel.SearchModel = searchModel;
             return View("Lots", lotViewModel);
         }
 

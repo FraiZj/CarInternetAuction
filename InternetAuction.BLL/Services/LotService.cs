@@ -125,25 +125,28 @@ namespace InternetAuction.BLL.Services
             {
                 var lots = _unitOfWork.LotRepository.FindAll().ToList();
 
-                var carBrand = model.Brand?.Trim().ToUpper();
-                if (!string.IsNullOrWhiteSpace(carBrand))
-                    lots = lots.Where(l => l.Car.Brand.Trim().ToUpper().Contains(carBrand)).ToList();
+                if (model != null)
+                {
+                    var carBrand = model.Brand?.Trim().ToUpper();
+                    if (!string.IsNullOrWhiteSpace(carBrand))
+                        lots = lots.Where(l => l.Car.Brand.Trim().ToUpper().Contains(carBrand)).ToList();
 
-                var carModel = model.CarModel?.Trim().ToUpper();
-                if (!string.IsNullOrWhiteSpace(carModel))
-                    lots = lots.Where(l => l.Car.Model.Trim().ToUpper().Contains(carModel)).ToList();
+                    var carModel = model.CarModel?.Trim().ToUpper();
+                    if (!string.IsNullOrWhiteSpace(carModel))
+                        lots = lots.Where(l => l.Car.Model.Trim().ToUpper().Contains(carModel)).ToList();
 
-                var selectedBodyType = _mapper.Map<BodyType>(model.BodyType);
-                if (model.BodyType != 0)
-                    lots = lots.Where(l => l.Car.TechnicalPassport.BodyType == selectedBodyType).ToList();
+                    var selectedBodyType = _mapper.Map<BodyType>(model.BodyType);
+                    if (model.BodyType != 0)
+                        lots = lots.Where(l => l.Car.TechnicalPassport.BodyType == selectedBodyType).ToList();
 
-                var selectedDriveUnit = _mapper.Map<DriveUnit>(model.DriveUnit);
-                if (model.DriveUnit != 0)
-                    lots = lots.Where(l => l.Car.TechnicalPassport.DriveUnit == selectedDriveUnit).ToList();
+                    var selectedDriveUnit = _mapper.Map<DriveUnit>(model.DriveUnit);
+                    if (model.DriveUnit != 0)
+                        lots = lots.Where(l => l.Car.TechnicalPassport.DriveUnit == selectedDriveUnit).ToList();
 
-                if (model.MaxPrice >= model.MinPrice)
-                    lots = lots.Where(l => l.StartPrice >= model.MinPrice
-                                    && l.StartPrice <= model.MaxPrice).ToList();
+                    if (model.MaxPrice >= model.MinPrice)
+                        lots = lots.Where(l => l.StartPrice >= model.MinPrice
+                                        && l.StartPrice <= model.MaxPrice).ToList();
+                }
 
                 var lotsModels = _mapper.Map<List<LotModel>>(lots);
 

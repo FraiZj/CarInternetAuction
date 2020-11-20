@@ -9,7 +9,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>@ViewBag.Title</title>
-
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -19,7 +18,8 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div class="container">
                 <a class="navbar-brand" href="@Url.Action("ActiveLots", "Lots")">
-                    <img src="~/Content/images/logo.png" width="50" height="50" class="d-inline-block align-top" alt="logo">
+                    <img src="~/Content/images/logo.png" width="50" height="50" class="d-inline-block" alt="logo">
+                    @*<span class="h4 font-weight-light ml-2">Internet Auction</span>*@
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -34,10 +34,10 @@
                         {
             <li class="nav-item">
                 <div class="dropdown nav-item">
-                    <a class="nav-link" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Admin
                     </a>
-                    <div class="dropdown-menu bg-dark" aria-labelledby="dropdownMenuButton">
+                    <div class="dropdown-menu bg-dark" aria-labelledby="adminDropdown">
                         @Html.ActionLink("All Lots", "AllLots", "Lots", null, htmlAttributes: new { @class = "nav-link  ml-3" })
                         @Html.ActionLink("Archive Lots", "ArchiveLots", "Lots", null, htmlAttributes: new { @class = "nav-link  ml-3" })
                         @Html.ActionLink("Users", "Users", "Account", null, htmlAttributes: new { @class = "nav-link  ml-3" })
@@ -78,6 +78,7 @@
             <p class="m-1 text-center text-white">
                 Icons made by
                 <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a>
+                @*and <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a>*@
                 from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
             </p>
         </div>
