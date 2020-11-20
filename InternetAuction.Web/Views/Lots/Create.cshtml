@@ -95,6 +95,14 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.Car.TechnicalPassport.PrimaryDamage, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Car.TechnicalPassport.PrimaryDamage, null, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Car.TechnicalPassport.PrimaryDamage, null, new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.Car.TechnicalPassport.DriveUnit, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EnumDropDownListFor(model => model.Car.TechnicalPassport.DriveUnit, null, new { htmlAttributes = new { @class = "form-control" } })

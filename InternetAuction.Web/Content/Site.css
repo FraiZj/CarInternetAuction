@@ -32,6 +32,11 @@ footer {
     bottom: 0;
 }
 
+.carouselImage
+{
+    height: 550px;
+}
+
 #showUserSearchButton,
 #showInfoButton,
 #showFiltersButton {
@@ -52,6 +57,10 @@ input.largeCheckbox {
 @media screen and (max-width: 992px) {
     body {
         padding-top: 70px;
+    }
+
+    .carouselImage {
+        height: 200px;
     }
 
     #showUserSearchButton,

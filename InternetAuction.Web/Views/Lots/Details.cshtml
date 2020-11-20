@@ -29,6 +29,17 @@
                     <td>@Html.DisplayNameFor(m => m.TurnkeyPrice)</td>
                     <td class="font-weight-bold">@string.Format(new CultureInfo("en-US", false), "{0:c0}", Model.TurnkeyPrice)</td>
                 </tr>
+                <tr>
+                    <td>Current Bet</td>
+                    @{ 
+                        var currentBet = Model.StartPrice;
+                        if (Model.Bets?.Any() ?? false)
+                        {
+                            currentBet = Model.Bets.Max(b => b.Sum);
+                        }
+                    }
+                    <td class="font-weight-bold">@string.Format(new CultureInfo("en-US", false), "{0:c0}", currentBet)</td>
+                </tr>
             </tbody>
         </table>
 
@@ -81,7 +92,6 @@
             }
         }
     </div>
-
 }
 
 <div>
@@ -103,7 +113,7 @@
         @Html.DisplayFor(model => model.Car.Brand)
         @Html.DisplayFor(model => model.Car.Model)
     </h1>
-
+    <hr />
     @if (Model.Car.CarImages.Count != 0)
     {
         <div id="carouselExampleIndicators" class="carousel slide" data-interval="false" data-ride="carousel">
@@ -114,7 +124,7 @@
                     i++;
                     var active = i == 1 ? "active" : "";
                     <div class="carousel-item @active">
-                        <img class="d-block w-100" src="@img.Url" alt="@img.Title">
+                        <img class="d-block w-100 carouselImage" src="@img.Url" alt="@img.Title">
                     </div>
                 }
             </div>
@@ -156,6 +166,14 @@
             </thead>
             <tbody>
                 <tr>
+                    <td>@Html.DisplayNameFor(m => m.Car.Brand)</td>
+                    <td>@Html.DisplayFor(m => m.Car.Brand)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.Car.Model)</td>
+                    <td>@Html.DisplayFor(m => m.Car.Model)</td>
+                </tr>
+                <tr>
                     <td>@Html.DisplayNameFor(m => m.Car.EngineType)</td>
                     <td>@Html.DisplayFor(m => m.Car.EngineType)</td>
                 </tr>
@@ -167,14 +185,48 @@
                     <td>@Html.DisplayNameFor(m => m.Car.Year)</td>
                     <td>@Html.DisplayFor(m => m.Car.Year)</td>
                 </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.Car.TechnicalPassport.VIN)</td>
+                    <td>@Html.DisplayFor(m => m.Car.TechnicalPassport.VIN)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.Car.TechnicalPassport.DriveUnit)</td>
+                    <td>@Model.Car.TechnicalPassport.DriveUnit.GetDisplayName()</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.Car.TechnicalPassport.BodyType)</td>
+                    <td>@Model.Car.TechnicalPassport.BodyType.GetDisplayName()</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.Car.TechnicalPassport.Transmission)</td>
+                    <td>@Model.Car.TechnicalPassport.Transmission.GetDisplayName()</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.Car.TechnicalPassport.PrimaryDamage)</td>
+                    <td>@Html.DisplayFor(m => m.Car.TechnicalPassport.PrimaryDamage)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.Car.TechnicalPassport.HasKeys)</td>
+                    <td>@Html.DisplayFor(m => m.Car.TechnicalPassport.HasKeys)</td>
+                </tr>
             </tbody>
         </table>
     </div>
 
-
-    @foreach (var bet in Model.Bets)
+    @if (Model.Bets?.Any() ?? false)
     {
-        <p>@bet.Sum<br /></p>
+        <div class="border p-3">
+            <h4>Last Bets:</h4>
+            @{ var bets = Model.Bets.OrderByDescending(b => b.BetDate).Take(4).ToList(); }
+            @for (var i = 0; i < bets.Count; i++)
+            {
+                <div class="card mb-2 bg-light">
+                    <div class="card-body">
+                        <b>#@(i + 1)</b>  | Bet Date - <b>@bets[i].BetDate</b> | Sum - <b>@string.Format(new CultureInfo("en-US", false), "{0:c0}", bets[i].Sum)</b>
+                    </div>
+                </div>
+            }
+        </div>
     }
 
 </div>
