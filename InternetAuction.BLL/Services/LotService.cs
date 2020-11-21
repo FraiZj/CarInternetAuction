@@ -16,18 +16,31 @@ using System.Web;
 
 namespace InternetAuction.BLL.Services
 {
+    /// <summary>
+    /// Represents lot service class
+    /// </summary>
     public class LotService : ILotService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private bool isDisposed;
 
+        /// <summary>
+        /// Initializes lot service with unit of work and mapper
+        /// </summary>
+        /// <param name="unitOfWork"></param>
+        /// <param name="mapper"></param>
         public LotService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Adds a lot model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>ReturnValue type - int</returns>
         public async Task<OperationDetails> AddAsync(LotModel model)
         {
             try
@@ -48,6 +61,11 @@ namespace InternetAuction.BLL.Services
             }
         }
 
+        /// <summary>
+        /// Deletes a bet model by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<OperationDetails> DeleteByIdAsync(int id)
         {
             try
@@ -62,6 +80,10 @@ namespace InternetAuction.BLL.Services
             }
         }
 
+        /// <summary>
+        /// Returns all lots models
+        /// </summary>
+        /// <returns></returns>
         public IQueryable<LotModel> GetAll()
         {
             try
@@ -82,6 +104,11 @@ namespace InternetAuction.BLL.Services
             }
         }
 
+        /// <summary>
+        /// Returns a lot model by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<LotModel> GetByIdAsync(int id)
         {
             try
@@ -101,6 +128,11 @@ namespace InternetAuction.BLL.Services
             }
         }
 
+        /// <summary>
+        /// Updates lot model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task<OperationDetails> UpdateAsync(LotModel model)
         {
             try
@@ -119,6 +151,11 @@ namespace InternetAuction.BLL.Services
             }
         }
 
+        /// <summary>
+        /// Returns lots models by search model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public IQueryable<LotModel> SearchLotModels(SearchModel model)
         {
             try
@@ -163,6 +200,12 @@ namespace InternetAuction.BLL.Services
             }
         }
 
+        /// <summary>
+        /// Sells lot for selected bet
+        /// </summary>
+        /// <param name="lotId"></param>
+        /// <param name="betId"></param>
+        /// <returns></returns>
         public async Task<OperationDetails> SellLot(int lotId, int betId)
         {
             try
@@ -193,6 +236,12 @@ namespace InternetAuction.BLL.Services
             }
         }
 
+        /// <summary>
+        /// Marks the lot as bought by the specified user
+        /// </summary>
+        /// <param name="lotId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public async Task<OperationDetails> BuyLot(int lotId, string userId)
         {
             try
@@ -233,6 +282,11 @@ namespace InternetAuction.BLL.Services
             isDisposed = true;
         }
 
+        /// <summary>
+        /// Transforms Http Posted Files to Car Images
+        /// </summary>
+        /// <param name="files"></param>
+        /// <returns></returns>
         private ICollection<CarImage> GetUploadedImages(ICollection<HttpPostedFileBase> files)
         {
             var carImages = new List<CarImage>();
@@ -263,6 +317,11 @@ namespace InternetAuction.BLL.Services
             return carImages;
         }
 
+        /// <summary>
+        /// Transforms Car Images to Images Models
+        /// </summary>
+        /// <param name="carImages"></param>
+        /// <returns></returns>
         private ICollection<ImageModel> GetRetrievedImages(ICollection<CarImage> carImages)
         {
             var imageModels = new List<ImageModel>();
@@ -283,6 +342,11 @@ namespace InternetAuction.BLL.Services
             return imageModels;
         }
 
+        /// <summary>
+        /// Validates a model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         private ICollection<ValidationResult> Validate(object model)
         {
             var validationResult = new List<ValidationResult>();
@@ -290,6 +354,12 @@ namespace InternetAuction.BLL.Services
             return validationResult;
         }
 
+        /// <summary>
+        /// Validates a lot model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="validationResult"></param>
+        /// <returns></returns>
         private bool ValidateLotModel(LotModel model, out ICollection<ValidationResult> validationResult)
         {
             if (model is null)

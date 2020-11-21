@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace InternetAuction.BLL.Interfaces
 {
+    /// <summary>
+    /// Interface that exposes user service methods
+    /// </summary>
     public interface IUserService : IDisposable
     {
         /// <summary>

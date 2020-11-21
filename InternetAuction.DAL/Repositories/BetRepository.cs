@@ -20,6 +20,10 @@ namespace InternetAuction.DAL.Repositories
             : base(context)
         { }
 
+        /// <summary>
+        /// Returns all bets with details
+        /// </summary>
+        /// <returns></returns>
         public IQueryable<Bet> FindAllWithDetails()
         {
             return _entities
@@ -28,6 +32,11 @@ namespace InternetAuction.DAL.Repositories
                 .AsQueryable();
         }
 
+        /// <summary>
+        /// Returns bet with details by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<Bet> GetByIdWithDetailsAsync(int id)
         {
             return await _entities

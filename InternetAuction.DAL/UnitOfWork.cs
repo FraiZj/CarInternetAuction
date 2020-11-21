@@ -31,18 +31,40 @@ namespace InternetAuction.DAL
             Logger = new Logger(context);
         }
 
+        /// <summary>
+        /// Exposess application user manager
+        /// </summary>
         public ApplicationUserManager ApplicationUserManager { get;  }
 
+        /// <summary>
+        /// Exposess application role manager
+        /// </summary>
         public ApplicationRoleManager ApplicationRoleManager { get; }
 
+        /// <summary>
+        /// Exposess car repository
+        /// </summary>
         public ICarRepository CarRepository { get; }
 
+        /// <summary>
+        /// Exposess lot repository
+        /// </summary>
         public ILotRepository LotRepository { get; }
 
+        /// <summary>
+        /// Exposess bet repository
+        /// </summary>
         public IBetRepository BetRepository { get; }
 
+        /// <summary>
+        /// Exposess logger
+        /// </summary>
         public ILogger Logger { get; }
 
+        /// <summary>
+        /// Saves changes
+        /// </summary>
+        /// <returns></returns>
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();

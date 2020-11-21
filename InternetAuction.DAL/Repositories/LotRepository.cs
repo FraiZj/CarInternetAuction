@@ -53,6 +53,11 @@ namespace InternetAuction.DAL.Repositories
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
+        /// <summary>
+        /// Returns lot with details by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<Lot> GetByIdWithDetailsAsync(int id)
         {
             return await _entities
@@ -63,6 +68,10 @@ namespace InternetAuction.DAL.Repositories
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
+        /// <summary>
+        /// Updates lot
+        /// </summary>
+        /// <param name="entity"></param>
         public override void Update(Lot entity)
         {
             _context.Entry(entity).State = EntityState.Modified;

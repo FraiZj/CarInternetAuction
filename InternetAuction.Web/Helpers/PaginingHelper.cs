@@ -5,8 +5,18 @@ using System.Web.Mvc;
 
 namespace InternetAuction.Web.Helpers
 {
+    /// <summary>
+    /// Represents pagination helper class
+    /// </summary>
     public static class PaginingHelper
     {
+        /// <summary>
+        /// Creates page links
+        /// </summary>
+        /// <param name="html"></param>
+        /// <param name="pageInfo"></param>
+        /// <param name="pageUrl"></param>
+        /// <returns></returns>
         public static MvcHtmlString PageLinks(this HtmlHelper html, PageInfo pageInfo, Func<int, string> pageUrl)
         {
             var result = new StringBuilder();

@@ -16,12 +16,20 @@ using System.Threading.Tasks;
 
 namespace InternetAuction.BLL.Services
 {
+    /// <summary>
+    /// Represents user service class
+    /// </summary>
     public class UserService : IUserService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private bool isDisposed;
 
+        /// <summary>
+        /// Initializes user service with unit of work and mapper
+        /// </summary>
+        /// <param name="unitOfWork"></param>
+        /// <param name="mapper"></param>
         public UserService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
@@ -29,6 +37,11 @@ namespace InternetAuction.BLL.Services
             SetInitialData();
         }
 
+        /// <summary>
+        /// Returns user model by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<UserModel> GetUserModelByIdAsync(string id)
         {
             try
@@ -42,6 +55,11 @@ namespace InternetAuction.BLL.Services
             }
         }
 
+        /// <summary>
+        /// Authenticate user to account
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task<ClaimsIdentity> Login(UserModel model)
         {
             try
@@ -58,6 +76,12 @@ namespace InternetAuction.BLL.Services
             }
         }
 
+        /// <summary>
+        /// Register user account
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="role"></param>
+        /// <returns></returns>
         public async Task<OperationDetails> Register(UserModel model, string role = Roles.Client)
         {
             try
@@ -97,6 +121,10 @@ namespace InternetAuction.BLL.Services
             }
         }
 
+        /// <summary>
+        /// Returns all users models
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<UserModel> GetAll()
         {
             try
@@ -112,6 +140,11 @@ namespace InternetAuction.BLL.Services
             }
         }
 
+        /// <summary>
+        /// Returns users models by user search model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public IEnumerable<UserModel> SearchUsers(UserSearchModel model)
         {
             try
@@ -143,6 +176,11 @@ namespace InternetAuction.BLL.Services
             }
         }
 
+        /// <summary>
+        /// Updates user
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task<OperationDetails> Update(UserModel model)
         {
             try
@@ -183,6 +221,11 @@ namespace InternetAuction.BLL.Services
             }
         }
 
+        /// <summary>
+        /// Deletes user by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<OperationDetails> Delete(string id)
         {
             try
@@ -223,6 +266,9 @@ namespace InternetAuction.BLL.Services
             isDisposed = true;
         }
 
+        /// <summary>
+        /// Sets initial data
+        /// </summary>
         private void SetInitialData()
         {
             try
@@ -258,6 +304,12 @@ namespace InternetAuction.BLL.Services
             }
         }
 
+        /// <summary>
+        /// Creates validation results
+        /// </summary>
+        /// <param name="error"></param>
+        /// <param name="memberName"></param>
+        /// <returns></returns>
         private IEnumerable<ValidationResult> CreateValidationResults(string error, string memberName)
         {
             return new List<ValidationResult> { new ValidationResult(error, new List<string> { memberName }) };

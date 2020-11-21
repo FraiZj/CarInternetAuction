@@ -2,6 +2,9 @@
 
 namespace InternetAuction.Web.Infrastructure
 {
+    /// <summary>
+    /// Represents page info class
+    /// </summary>
     public class PageInfo
     {
         public int PageNumber { get; set; }
@@ -9,5 +12,4 @@ namespace InternetAuction.Web.Infrastructure
         public int TotalItems { get; set; }
         public int TotalPages => (int)Math.Ceiling((double)TotalItems / PageSize);
     }
-
 }

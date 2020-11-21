@@ -3,8 +3,18 @@ using System.Web.Mvc;
 
 namespace InternetAuction.Web.Helpers
 {
+    /// <summary>
+    /// Represents alert helper class
+    /// </summary>
     public static class AlertHelper
     {
+        /// <summary>
+        /// Creates alert block
+        /// </summary>
+        /// <param name="html"></param>
+        /// <param name="text"></param>
+        /// <param name="alertColor"></param>
+        /// <returns></returns>
         public static MvcHtmlString ShowAlert(this HtmlHelper html, string text, string alertColor)
         {
             var div = new TagBuilder("div");
@@ -15,8 +25,10 @@ namespace InternetAuction.Web.Helpers
             };
             div.MergeAttributes(divAttributes);
 
-            var strong = new TagBuilder("strong");
-            strong.InnerHtml = text;
+            var strong = new TagBuilder("strong")
+            {
+                InnerHtml = text
+            };
 
             var button = new TagBuilder("button");
             var buttonAttributes = new Dictionary<string, string>

@@ -20,6 +20,10 @@ namespace InternetAuction.DAL.Repositories
             : base(context)
         { }
 
+        /// <summary>
+        /// Adds technical passport to database
+        /// </summary>
+        /// <param name="technicalPassport"></param>
         public void AddTechnicalPassport(TechnicalPassport technicalPassport)
         {
             _context.TechnicalPassports.Add(technicalPassport);
@@ -62,6 +66,10 @@ namespace InternetAuction.DAL.Repositories
                 .AsQueryable();
         }
 
+        /// <summary>
+        /// Returns all cars with details
+        /// </summary>
+        /// <returns></returns>
         public IQueryable<Car> FindAllWithDetails()
         {
             return _entities
@@ -82,6 +90,11 @@ namespace InternetAuction.DAL.Repositories
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
+        /// <summary>
+        /// Returns car with details by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<Car> GetByIdWithDetails(int id)
         {
             return await _entities
@@ -90,6 +103,10 @@ namespace InternetAuction.DAL.Repositories
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
+        /// <summary>
+        /// Updates technical passport
+        /// </summary>
+        /// <param name="technicalPassport"></param>
         public void UpdateTechnicalPassport(TechnicalPassport technicalPassport)
         {
             _context.TechnicalPassports.Attach(technicalPassport);

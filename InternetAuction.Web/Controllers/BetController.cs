@@ -9,16 +9,28 @@ using System.Web.Mvc;
 
 namespace InternetAuction.Web.Controllers
 {
+    /// <summary>
+    /// Represents bet controller class
+    /// </summary>
     [Authorize]
     public class BetController : Controller
     {
         private readonly IBetService _betService;
 
+        /// <summary>
+        /// Initializes an instance of the bet controller with bet service
+        /// </summary>
+        /// <param name="betService"></param>
         public BetController(IBetService betService)
         {
             _betService = betService;
         }
 
+        /// <summary>
+        /// Adds a bet
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> PlaceBet(BetViewModel model)
         {

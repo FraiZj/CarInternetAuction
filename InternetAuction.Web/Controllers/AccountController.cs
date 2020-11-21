@@ -14,22 +14,39 @@ using System.Web.Mvc;
 
 namespace InternetAuction.Web.Controllers
 {
+    /// <summary>
+    /// Represents the account controller class
+    /// </summary>
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
+        /// <summary>
+        /// Initializes an instance of the user controller class with user service
+        /// </summary>
+        /// <param name="userService"></param>
         public AccountController(IUserService userService)
         {
             _userService = userService;
         }
 
+        /// <summary>
+        /// Returns login view
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult Login()
         {
             return View();
         }
 
+        /// <summary>
+        /// Authenticates the user
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
@@ -60,6 +77,10 @@ namespace InternetAuction.Web.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Logs out user account
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Logout()
         {
@@ -67,12 +88,21 @@ namespace InternetAuction.Web.Controllers
             return RedirectToAction("ActiveLots", "Lots");
         }
 
+        /// <summary>
+        /// Returns register view
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult Register()
         {
             return View();
         }
 
+        /// <summary>
+        /// Register user account
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
@@ -110,11 +140,21 @@ namespace InternetAuction.Web.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Checks if email is in use
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public JsonResult IsEmailAvailable(string email)
         {
             return Json(!_userService.GetAll().Any(u => u.Email == email), JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// Returns user profile view
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize]
         public async Task<ActionResult> UserProfile(string id)
         {
@@ -129,6 +169,11 @@ namespace InternetAuction.Web.Controllers
             return View(user);
         }
 
+        /// <summary>
+        /// Returns edit user profile view
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpGet]
         public async Task<ActionResult> Edit(string id)
@@ -155,6 +200,11 @@ namespace InternetAuction.Web.Controllers
             return View(editViewModel);
         }
 
+        /// <summary>
+        /// Saves user profile changes
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPost]
         public async Task<ActionResult> Edit(EditUserViewModel model)
@@ -191,6 +241,11 @@ namespace InternetAuction.Web.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Deletes user account by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize(Roles = Roles.Admin)]
         public async Task<ActionResult> Delete(string id)
         {
@@ -198,6 +253,13 @@ namespace InternetAuction.Web.Controllers
             return RedirectToAction("Users");
         }
 
+        /// <summary>
+        /// Returns users view
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="orderBy"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
         [Authorize(Roles = Roles.Admin)]
         public ActionResult Users(UserSearchModel model, string orderBy, int page = 1)
         {
@@ -207,6 +269,12 @@ namespace InternetAuction.Web.Controllers
             return View(userViewModel);
         }
 
+        /// <summary>
+        /// Sorts users
+        /// </summary>
+        /// <param name="users"></param>
+        /// <param name="orderBy"></param>
+        /// <returns></returns>
         private IEnumerable<UserModel> GetSortedUsers(IEnumerable<UserModel> users, string orderBy)
         {
             switch (orderBy)
@@ -218,6 +286,12 @@ namespace InternetAuction.Web.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates user view model
+        /// </summary>
+        /// <param name="users"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
         private UserViewModel CreateUserViewModel(IEnumerable<UserModel> users, int page)
         {
             var pageSize = 3;

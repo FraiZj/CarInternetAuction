@@ -20,10 +20,13 @@ namespace InternetAuction.BLL.Infrastructure
             ReturnValue = returnValue;
         }
 
+        /// <summary>
+        /// Consist the return value of the operation
+        /// </summary>
         public object ReturnValue { get; private set; }
 
         /// <summary>
-        /// Is operation succedeed
+        /// Indicates the success of the operation
         /// </summary>
         public bool Succedeed { get; private set; }
 

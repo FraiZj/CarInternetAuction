@@ -33,6 +33,11 @@ namespace InternetAuction.BLL.Services
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Adds a bet model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task<OperationDetails> AddAsync(BetModel model)
         {
             try
@@ -66,6 +71,11 @@ namespace InternetAuction.BLL.Services
             }
         }
 
+        /// <summary>
+        /// Deletes a bet model by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<OperationDetails> DeleteByIdAsync(int id)
         {
             try
@@ -80,6 +90,10 @@ namespace InternetAuction.BLL.Services
             }
         }
 
+        /// <summary>
+        /// Returns all bets models
+        /// </summary>
+        /// <returns></returns>
         public IQueryable<BetModel> GetAll()
         {
             try
@@ -93,6 +107,11 @@ namespace InternetAuction.BLL.Services
             }
         }
 
+        /// <summary>
+        /// Returns a bet model by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<BetModel> GetByIdAsync(int id)
         {
             try
@@ -106,6 +125,11 @@ namespace InternetAuction.BLL.Services
             }
         }
 
+        /// <summary>
+        /// Updates bet model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task<OperationDetails> UpdateAsync(BetModel model)
         {
             try
@@ -142,11 +166,22 @@ namespace InternetAuction.BLL.Services
             isDisposed = true;
         }
 
+        /// <summary>
+        /// Creates validation results
+        /// </summary>
+        /// <param name="error"></param>
+        /// <param name="memberName"></param>
+        /// <returns></returns>
         private IEnumerable<ValidationResult> CreateValidationResults(string error, string memberName)
         {
             return new List<ValidationResult> { new ValidationResult(error, new List<string> { memberName }) };
         }
 
+        /// <summary>
+        /// Validates a model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         private ICollection<ValidationResult> Validate(object model)
         {
             var validationResult = new List<ValidationResult>();
@@ -154,6 +189,12 @@ namespace InternetAuction.BLL.Services
             return validationResult;
         }
 
+        /// <summary>
+        /// Validates a bet model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="validationResult"></param>
+        /// <returns></returns>
         private bool ValidateBetModel(BetModel model, out ICollection<ValidationResult> validationResult)
         {
             if (model is null)

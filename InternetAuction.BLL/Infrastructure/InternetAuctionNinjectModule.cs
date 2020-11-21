@@ -31,11 +31,13 @@ namespace InternetAuction.BLL.Infrastructure
             Bind<ICarRepository>().To<CarRepository>();
             Bind<ILotRepository>().To<LotRepository>();
             Bind<IBetRepository>().To<BetRepository>();
+            Bind<ILogger>().To<Logger>();
             Bind<IUnitOfWork>().To<UnitOfWork>();
 
             Bind<ILotService>().To<LotService>();
             Bind<IBetService>().To<BetService>();
             Bind<IUserService>().To<UserService>();
+            Bind<ILoggerService>().To<LoggerService>();
 
             Bind<IMapper>().ToMethod(context =>
             {

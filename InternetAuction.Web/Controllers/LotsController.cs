@@ -12,50 +12,30 @@ using System.Web.Mvc;
 
 namespace InternetAuction.Web.Controllers
 {
+    /// <summary>
+    /// Represents lots controller class
+    /// </summary>
     [Authorize]
     public class LotsController : Controller
     {
         private readonly ILotService _lotService;
 
+        /// <summary>
+        /// Initializes an instance of the lots controller with lot service
+        /// </summary>
+        /// <param name="lotService"></param>
         public LotsController(ILotService lotService)
         {
             _lotService = lotService;
         }
 
-        private LotViewModel CreateLotViewModel(IEnumerable<LotModel> lots, int page)
-        {
-            var pageSize = 6;
-
-            if (Math.Ceiling((double)lots.Count() / pageSize) < page || page < 1) 
-                page = 1;
-
-            var lotsPerPage = lots.Skip((page - 1) * pageSize).Take(pageSize);
-
-            var pageInfo = new PageInfo
-            {
-                PageNumber = page,
-                PageSize = pageSize,
-                TotalItems = lots.Count()
-            };
-
-            return new LotViewModel
-            {
-                Lots = lotsPerPage,
-                PageInfo = pageInfo
-            };
-        }
-
-        private IEnumerable<LotModel> GetSortedLots(IEnumerable<LotModel> lots, string orderBy)
-        {
-            switch (orderBy)
-            {
-                case "BrandDesc": return lots.OrderByDescending(l => l.Car.Brand);
-                case "StartPrice": return lots.OrderBy(l => l.StartPrice);
-                case "StartPriceDesc": return lots.OrderByDescending(l => l.StartPrice);
-                default: return lots.OrderBy(l => l.Car.Brand);
-            }
-        }
-
+        /// <summary>
+        /// Returns lots view with active lots
+        /// </summary>
+        /// <param name="searchModel"></param>
+        /// <param name="orderBy"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         public ActionResult ActiveLots(SearchModel searchModel, string orderBy, int page = 1)
         {
@@ -67,6 +47,13 @@ namespace InternetAuction.Web.Controllers
             return View("Lots", lotViewModel);
         }
 
+        /// <summary>
+        /// Returns lots view with all lots
+        /// </summary>
+        /// <param name="searchModel"></param>
+        /// <param name="orderBy"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
         [Authorize(Roles = Roles.Admin)]
         public ActionResult AllLots(SearchModel searchModel, string orderBy, int page = 1)
         {
@@ -78,6 +65,13 @@ namespace InternetAuction.Web.Controllers
             return View("Lots", lotViewModel);
         }
 
+        /// <summary>
+        /// Returns lots view with archive lots
+        /// </summary>
+        /// <param name="searchModel"></param>
+        /// <param name="orderBy"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
         [Authorize(Roles = Roles.Admin)]
         public ActionResult ArchiveLots(SearchModel searchModel, string orderBy, int page = 1)
         {
@@ -89,6 +83,14 @@ namespace InternetAuction.Web.Controllers
             return View("Lots", lotViewModel);
         }
 
+        /// <summary>
+        /// Returns lots view with user`s sale lots
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="searchModel"></param>
+        /// <param name="orderBy"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
         public ActionResult SoldLots(string userId, SearchModel searchModel, string orderBy, int page = 1)
         {
             if (!User.IsInRole("Admin")
@@ -104,6 +106,14 @@ namespace InternetAuction.Web.Controllers
             return View("Lots", lotViewModel);
         }
 
+        /// <summary>
+        /// Returns lots view with user`s purchased lots
+        /// </summary>
+        /// <param name="searchModel"></param>
+        /// <param name="userId"></param>
+        /// <param name="orderBy"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
         public ActionResult PurchasedLots(SearchModel searchModel, string userId, string orderBy, int page = 1)
         {
             if (!User.IsInRole("Admin")
@@ -120,6 +130,11 @@ namespace InternetAuction.Web.Controllers
             return View("Lots", lotViewModel);
         }
 
+        /// <summary>
+        /// Returns view with lot details
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         public async Task<ActionResult> Details(int id)
         {
@@ -131,6 +146,10 @@ namespace InternetAuction.Web.Controllers
             return View(lot);
         }
 
+        /// <summary>
+        /// Returns lot creation view
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult Create()
         {
@@ -138,6 +157,11 @@ namespace InternetAuction.Web.Controllers
             return View(lotModel);
         }
 
+        /// <summary>
+        /// Creates lot
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> Create(LotModel model)
         {
@@ -160,6 +184,11 @@ namespace InternetAuction.Web.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Returns lot editor view
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
@@ -175,6 +204,11 @@ namespace InternetAuction.Web.Controllers
             return View(lot);
         }
 
+        /// <summary>
+        /// Udpates lot info
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> Edit(LotModel model)
         {
@@ -201,6 +235,11 @@ namespace InternetAuction.Web.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Deletes lot by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> Delete(int id)
         {
@@ -217,6 +256,12 @@ namespace InternetAuction.Web.Controllers
             return RedirectToAction("ActiveLots", "Lots");
         }
 
+        /// <summary>
+        /// Sells lot
+        /// </summary>
+        /// <param name="lotId"></param>
+        /// <param name="betId"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> Sell(int lotId, int betId)
         {
@@ -232,6 +277,11 @@ namespace InternetAuction.Web.Controllers
             return RedirectToAction("Details", "Lots", new { id = lotId });
         }
 
+        /// <summary>
+        /// Buys lot
+        /// </summary>
+        /// <param name="lotId"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> Buy(int lotId)
         {
@@ -245,6 +295,52 @@ namespace InternetAuction.Web.Controllers
 
             TempData["Success"] = "Lot purchased successfully";
             return RedirectToAction("Details", "Lots", new { id = lotId });
+        }
+
+        /// <summary>
+        /// Creates lot view model
+        /// </summary>
+        /// <param name="lots"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        private LotViewModel CreateLotViewModel(IEnumerable<LotModel> lots, int page)
+        {
+            var pageSize = 6;
+
+            if (Math.Ceiling((double)lots.Count() / pageSize) < page || page < 1)
+                page = 1;
+
+            var lotsPerPage = lots.Skip((page - 1) * pageSize).Take(pageSize);
+
+            var pageInfo = new PageInfo
+            {
+                PageNumber = page,
+                PageSize = pageSize,
+                TotalItems = lots.Count()
+            };
+
+            return new LotViewModel
+            {
+                Lots = lotsPerPage,
+                PageInfo = pageInfo
+            };
+        }
+
+        /// <summary>
+        /// Sorts lots
+        /// </summary>
+        /// <param name="lots"></param>
+        /// <param name="orderBy"></param>
+        /// <returns></returns>
+        private IEnumerable<LotModel> GetSortedLots(IEnumerable<LotModel> lots, string orderBy)
+        {
+            switch (orderBy)
+            {
+                case "BrandDesc": return lots.OrderByDescending(l => l.Car.Brand);
+                case "StartPrice": return lots.OrderBy(l => l.StartPrice);
+                case "StartPriceDesc": return lots.OrderByDescending(l => l.StartPrice);
+                default: return lots.OrderBy(l => l.Car.Brand);
+            }
         }
     }
 }
