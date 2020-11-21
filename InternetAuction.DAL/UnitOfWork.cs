@@ -28,6 +28,7 @@ namespace InternetAuction.DAL
             CarRepository = new CarRepository(context);
             LotRepository = new LotRepository(context);
             BetRepository = new BetRepository(context);
+            Logger = new Logger(context);
         }
 
         public ApplicationUserManager ApplicationUserManager { get;  }
@@ -39,6 +40,8 @@ namespace InternetAuction.DAL
         public ILotRepository LotRepository { get; }
 
         public IBetRepository BetRepository { get; }
+
+        public ILogger Logger { get; }
 
         public async Task SaveAsync()
         {

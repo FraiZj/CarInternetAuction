@@ -74,7 +74,7 @@ namespace InternetAuction.Tests.Web.Tests.ControllersTests
                 .Returns(GetTestLotsModels());
             var betController = new LotsController(mockLotService.Object);
 
-            var result = (ViewResult)(betController.ActiveLots(null));
+            var result = (ViewResult)(betController.ActiveLots(null, null));
 
             Assert.IsNotNull(result);
             Assert.AreEqual(GetTestLotsModels().Where(l => l.IsActive).Count(), ((LotViewModel)result.Model).Lots.Count());
@@ -94,7 +94,7 @@ namespace InternetAuction.Tests.Web.Tests.ControllersTests
                 MaxPrice = 3000
             };
 
-            var result = (ViewResult)(betController.ActiveLots(searchModel));
+            var result = (ViewResult)(betController.ActiveLots(searchModel, null));
 
             Assert.IsNotNull(result);
             Assert.AreEqual(GetTestLotsModels().Where(l => l.StartPrice > 500 
@@ -112,7 +112,7 @@ namespace InternetAuction.Tests.Web.Tests.ControllersTests
                 .Returns(GetTestLotsModels());
             var betController = new LotsController(mockLotService.Object);
 
-            var result = (ViewResult)(betController.AllLots(null));
+            var result = (ViewResult)(betController.AllLots(null, null));
 
             Assert.IsNotNull(result);
             Assert.AreEqual(GetTestLotsModels().Count(), ((LotViewModel)result.Model).Lots.Count());
@@ -127,7 +127,7 @@ namespace InternetAuction.Tests.Web.Tests.ControllersTests
                 .Returns(GetTestLotsModels());
             var betController = new LotsController(mockLotService.Object);
 
-            var result = (ViewResult)(betController.ArchiveLots(null));
+            var result = (ViewResult)(betController.ArchiveLots(null, null));
 
             Assert.IsNotNull(result);
             Assert.AreEqual(GetTestLotsModels().Where(l => !l.IsActive).Count(), ((LotViewModel)result.Model).Lots.Count());

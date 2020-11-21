@@ -196,6 +196,7 @@
     <Compile Include="Helpers\AlertHelper.cs" />
     <Compile Include="Helpers\PaginingHelper.cs" />
     <Compile Include="Infrastructure\EnumExtensions.cs" />
+    <Compile Include="Infrastructure\ExceptionLoggerAttribute.cs" />
     <Compile Include="Infrastructure\PageInfo.cs" />
     <Compile Include="ViewModels\BetViewModel.cs" />
     <Compile Include="ViewModels\EditUserViewModel.cs" />

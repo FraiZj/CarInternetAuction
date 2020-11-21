@@ -1,4 +1,4 @@
-﻿using System.Web;
+﻿using InternetAuction.Web.Infrastructure;
 using System.Web.Mvc;
 
 namespace InternetAuction.Web
@@ -8,6 +8,7 @@ namespace InternetAuction.Web
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            filters.Add(new ExceptionLoggerAttribute());
         }
     }
 }

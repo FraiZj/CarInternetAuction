@@ -43,5 +43,6 @@ namespace InternetAuction.DAL
         public virtual DbSet<CarImage> CarImages { get; set; }
         public virtual DbSet<Lot> Lots { get; set; }
         public virtual DbSet<Bet> Bets { get; set; }
+        public virtual DbSet<ExceptionLog> ExceptionLogs { get; set; }
     }
 }

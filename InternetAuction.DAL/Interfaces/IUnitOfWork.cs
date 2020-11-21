@@ -35,6 +35,11 @@ namespace InternetAuction.DAL.Interfaces
         IBetRepository BetRepository { get; }
 
         /// <summary>
+        /// Exposes a logger
+        /// </summary>
+        ILogger Logger { get; }
+
+        /// <summary>
         /// Saves database context
         /// </summary>
         /// <returns></returns>

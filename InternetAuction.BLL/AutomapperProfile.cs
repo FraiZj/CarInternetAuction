@@ -32,6 +32,8 @@ namespace InternetAuction.BLL
                 .ReverseMap();
             CreateMap<TechnicalPassport, TechnicalPassportModel>().ReverseMap();
 
+            CreateMap<ExceptionLog, ExceptionLogModel>().ReverseMap();
+
             CreateMap<Transmission, TransmissionDto>().ReverseMap();
             CreateMap<BodyType, BodyTypeDto>().ReverseMap();
             CreateMap<DriveUnit, DriveUnitDto>().ReverseMap();
