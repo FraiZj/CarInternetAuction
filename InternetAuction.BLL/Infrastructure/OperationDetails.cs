@@ -12,7 +12,8 @@ namespace InternetAuction.BLL.Infrastructure
         /// Initializes an instance of the operation details class
         /// </summary>
         /// <param name="succedeed"></param>
-        /// <param name="errors"></param>
+        /// <param name="validationResults"></param>
+        /// <param name="returnValue"></param>
         public OperationDetails(bool succedeed = true, IEnumerable<ValidationResult> validationResults = null, object returnValue = null)
         {
             Succedeed = succedeed;

@@ -132,7 +132,7 @@ namespace InternetAuction.BLL.Services
         /// Updates lot model
         /// </summary>
         /// <param name="model"></param>
-        /// <returns></returns>
+        /// <returns>ReturnValue type - LotModel</returns>
         public async Task<OperationDetails> UpdateAsync(LotModel model)
         {
             try
@@ -140,10 +140,11 @@ namespace InternetAuction.BLL.Services
                 if (!ValidateLotModel(model, out var validationResult))
                     return new OperationDetails(false, validationResult);
 
-                var lot = _mapper.Map<Lot>(model);
-                _unitOfWork.LotRepository.Update(lot);
+                var updatedLot = _mapper.Map<Lot>(model);
+
+                _unitOfWork.LotRepository.Update(updatedLot);
                 await _unitOfWork.SaveAsync();
-                return new OperationDetails(true, returnValue: lot.Id);
+                return new OperationDetails(true, returnValue: model);
             }
             catch (Exception ex)
             {
@@ -340,6 +341,17 @@ namespace InternetAuction.BLL.Services
             }
 
             return imageModels;
+        }
+
+        /// <summary>
+        /// Creates validation results
+        /// </summary>
+        /// <param name="error"></param>
+        /// <param name="memberName"></param>
+        /// <returns></returns>
+        private IEnumerable<ValidationResult> CreateValidationResults(string error, string memberName)
+        {
+            return new List<ValidationResult> { new ValidationResult(error, new List<string> { memberName }) };
         }
 
         /// <summary>

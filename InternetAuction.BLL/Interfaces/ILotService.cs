@@ -23,7 +23,7 @@ namespace InternetAuction.BLL.Interfaces
         /// Sells lot for a bet sum
         /// </summary>
         /// <param name="lotId"></param>
-        /// <param name="userId"></param>
+        /// <param name="betId"></param>
         /// <returns></returns>
         Task<OperationDetails> SellLot(int lotId, int betId);
 

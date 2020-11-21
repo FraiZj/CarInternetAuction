@@ -7,14 +7,20 @@
 }
 
 <div>
-    <h2>@Model.FirstName @Model.LastName</h2>
-    <hr />
 
     @Html.ActionLink("Sale Lots", "SoldLots", "Lots", new { userId = Model.Id }, new { @class = "btn btn-warning" })
     @Html.ActionLink("Purchased Lots", "PurchasedLots", "Lots", new { userId = Model.Id }, new { @class = "btn btn-warning" })
 
     <table class="table w-50 p-0 mt-3">
         <tbody>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.FirstName)</td>
+                <td class="font-weight-bold">@Html.DisplayFor(m => m.FirstName)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.LastName)</td>
+                <td class="font-weight-bold">@Html.DisplayFor(m => m.LastName)</td>
+            </tr>
             <tr>
                 <td>@Html.DisplayNameFor(m => m.Email)</td>
                 <td class="font-weight-bold">@Html.DisplayFor(m => m.Email)</td>

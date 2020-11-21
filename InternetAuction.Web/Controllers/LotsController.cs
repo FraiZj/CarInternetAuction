@@ -223,7 +223,7 @@ namespace InternetAuction.Web.Controllers
 
                 if (result.Succedeed)
                 {
-                    return RedirectToAction("Details", new { id = (int)result.ReturnValue });
+                    return RedirectToAction("Details", new { id = ((LotModel)result.ReturnValue).Id });
                 }
 
                 foreach (var error in result.ValidationResults)
