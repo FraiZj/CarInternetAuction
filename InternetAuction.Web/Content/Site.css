@@ -60,7 +60,7 @@ input.largeCheckbox {
     }
 
     .carouselImage {
-        height: 200px;
+        height: 400px;
     }
 
     #showUserSearchButton,
@@ -73,5 +73,11 @@ input.largeCheckbox {
     #InfoBlock,
     #filtersBlock {
         display: none;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .carouselImage {
+        height: 250px;
     }
 }

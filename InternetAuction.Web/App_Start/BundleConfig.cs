@@ -11,7 +11,10 @@ namespace InternetAuction.Web
                 "~/Scripts/customScripts/handlePlaceBetRequest.js",
                 "~/Scripts/customScripts/detailsInfoBlockToggle.js",
                 "~/Scripts/customScripts/searchBlockToggle.js",
-                "~/Scripts/customScripts/userSearchToggle.js")); 
+                "~/Scripts/customScripts/userSearchToggle.js"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/customScripts/confirmDelete").Include(
+               "~/Scripts/customScripts/confirmDelete.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js").Include("~/Scripts/jquery.form.js"));

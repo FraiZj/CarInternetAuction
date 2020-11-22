@@ -225,6 +225,7 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\customScripts\confirmDelete.js" />
     <Content Include="Scripts\customScripts\detailsInfoBlockToggle.js" />
     <Content Include="Scripts\customScripts\handlePlaceBetRequest.js" />
     <Content Include="Scripts\customScripts\searchBlockToggle.js" />

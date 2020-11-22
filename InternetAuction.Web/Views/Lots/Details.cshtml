@@ -18,6 +18,10 @@
         <table class="table w-100 p-0">
             <tbody>
                 <tr>
+                    <td>Seller</td>
+                    <td>@Html.ActionLink("Profile", "UserProfile", "Account", new { id = Model.SellerId }, null)</td>
+                </tr>
+                <tr>
                     <td>@Html.DisplayNameFor(m => m.SaleType)</td>
                     <td class="font-weight-bold">@Model.SaleType.GetDisplayName()</td>
                 </tr>
@@ -31,7 +35,7 @@
                 </tr>
                 <tr>
                     <td>Current Bet</td>
-                    @{ 
+                    @{
                         var currentBet = Model.StartPrice;
                         if (Model.Bets?.Any() ?? false)
                         {
@@ -142,17 +146,20 @@
     @if (User.Identity.GetUserId() == Model.SellerId || User.IsInRole("Admin"))
     {
         <div class="container p-2">
-            <div class="row">
-                <div class="col-6 col-lg-3">
-                    @Html.ActionLink("Edit", "Edit", "Lots", new { id = Model.Id }, new { @class = "btn btn-success col-xs-12 col-lg-12" })
-                </div>
-                <div class="col-6 col-lg-3">
-                    @using (Html.BeginForm("Delete", "Lots", new { id = Model.Id }, FormMethod.Post, new { @class = "col-xs-12 col-lg-12 p-0" }))
-                    {
-                        <input type="submit" name="Delete" value="Delete" class="btn btn-danger col-xs-12 col-lg-12" />
-                    }
-                </div>
-            </div>
+            @using (Html.BeginForm("Delete", "Lots", new { id = Model.Id }, FormMethod.Post, new { @class = "col-xs-12 col-lg-12 p-0" }))
+            {
+                @Html.ActionLink("Edit", "Edit", "Lots", new { id = Model.Id }, new { @class = "btn btn-success col-xs-12 col-lg-2 mb-2 mb-lg-0" })
+                <span id="confirmDeleteSpan_@Model.Id" style="display: none;" class="col-xs-12 col-lg-2 p-0">
+                    <span class="h6">Are you sure you want to delete?</span>
+                    <span>
+                        <button class="btn btn-danger col-xs-6 col-lg-2 mb-2 mb-lg-0" type="submit">Yes</button>
+                        <a href="#" class="btn btn-primary col-xs-6 col-lg-2" onclick="confirmDelete('@Model.Id', false)">No</a>
+                    </span>
+                </span>
+                <span id="deleteSpan_@Model.Id" class="col-2 col-lg-2 p-0">
+                    <a href="#" class="btn btn-danger col-xs-12 col-lg-2" onclick="confirmDelete('@Model.Id', true)">Delete</a>
+                </span>
+            }
         </div>
     }
 
@@ -179,7 +186,7 @@
                 </tr>
                 <tr>
                     <td>@Html.DisplayNameFor(m => m.Car.Mileage)</td>
-                    <td>@Html.DisplayFor(m => m.Car.Mileage)</td>
+                    <td>@Html.DisplayFor(m => m.Car.Mileage) Km</td>
                 </tr>
                 <tr>
                     <td>@Html.DisplayNameFor(m => m.Car.Year)</td>
@@ -230,3 +237,7 @@
     }
 
 </div>
+
+@section scripts {
+    @Scripts.Render("~/Scripts/customScripts/confirmDelete")
+}

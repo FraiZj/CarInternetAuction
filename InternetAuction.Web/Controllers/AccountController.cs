@@ -247,6 +247,7 @@ namespace InternetAuction.Web.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [Authorize(Roles = Roles.Admin)]
+        [HttpPost]
         public async Task<ActionResult> Delete(string id)
         {
             await _userService.Delete(id);

@@ -42,17 +42,44 @@
 @foreach (var item in Model.Users)
 {
     <div class="card mb-3">
+        <div class="card-header">
+            User ID - @item.Id
+        </div>
         <div class="card-body">
             <h5 class="card-title">@item.FirstName @item.LastName</h5>
             <p class="card-text">
                 Email - @item.Email<br />
                 Phone - @item.PhoneNumber<br />
             </p>
-            <div>
-                <a href="@Url.Action("UserProfile", new { id = item.Id })" class="btn btn-dark">Profile</a>
-                <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-primary">Edit</a>
-                <a href="@Url.Action("Delete", new { id = item.Id })" class="btn btn-danger">Delete</a>
-            </div>
+        </div>
+        <div class="card-footer">
+            @using (Html.BeginForm("Delete", "Account", FormMethod.Post, new { @class = "row" }))
+            {
+                @Html.AntiForgeryToken();
+
+                <div class="col-12">
+                    <a href="@Url.Action("UserProfile", new { id = item.Id })" class="btn btn-dark col-lg-3">Profile</a>
+                </div>
+                <div class="col-12 mt-1">
+                    <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-primary col-lg-3">Edit</a>
+                </div>
+                <div class="col-12 mt-1">
+                    <span id="confirmDeleteSpan_@item.Id" class="h6 col-lg-3 col-xs-12" style="display: none;">
+                        <span>Are you sure you want to delete?</span>
+                        <span class="row p-3 mr-auto">
+                            <span class="col-6  col-lg-2">
+                                <button class="btn btn-danger col-12 offset-1" type="submit">Yes</button>
+                            </span>
+                            <span  class="col-6  col-lg-2">
+                                <a href="#" class="btn btn-primary col-12" onclick="confirmDelete('@item.Id', false)">No</a>
+                            </span>
+                        </span>
+                    </span>
+                    <span id="deleteSpan_@item.Id">
+                        <a href="#" class="btn btn-danger col-lg-3" onclick="confirmDelete('@item.Id', true)">Delete</a>
+                    </span>
+                </div>
+            }
         </div>
     </div>
 }
@@ -69,3 +96,7 @@
             page = page
         }))
 </div>
+
+@section scripts {
+    @Scripts.Render("~/Scripts/customScripts/confirmDelete")
+}
