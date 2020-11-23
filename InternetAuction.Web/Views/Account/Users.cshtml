@@ -70,7 +70,7 @@
                             <span class="col-6  col-lg-2">
                                 <button class="btn btn-danger col-12 offset-1" type="submit">Yes</button>
                             </span>
-                            <span  class="col-6  col-lg-2">
+                            <span class="col-6  col-lg-2">
                                 <a href="#" class="btn btn-primary col-12" onclick="confirmDelete('@item.Id', false)">No</a>
                             </span>
                         </span>
@@ -98,5 +98,6 @@
 </div>
 
 @section scripts {
-    @Scripts.Render("~/Scripts/customScripts/confirmDelete")
+    @Scripts.Render("~/bundles/customScripts/confirmDelete")
+    @Scripts.Render("~/bundles/customScripts/userSearchToggle")
 }

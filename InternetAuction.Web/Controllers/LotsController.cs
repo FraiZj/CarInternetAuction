@@ -93,6 +93,10 @@ namespace InternetAuction.Web.Controllers
         /// <returns></returns>
         public ActionResult SoldLots(string userId, SearchModel searchModel, string orderBy, int page = 1)
         {
+            userId = string.IsNullOrWhiteSpace(userId) ?
+                User.Identity.GetUserId()
+                : userId;
+
             if (!User.IsInRole("Admin")
                 && User.Identity.GetUserId() != userId)
                 return RedirectToAction("Forbidden", "Errors");
@@ -116,6 +120,10 @@ namespace InternetAuction.Web.Controllers
         /// <returns></returns>
         public ActionResult PurchasedLots(SearchModel searchModel, string userId, string orderBy, int page = 1)
         {
+            userId = string.IsNullOrWhiteSpace(userId) ?
+                User.Identity.GetUserId()
+                : userId;
+
             if (!User.IsInRole("Admin")
                 && User.Identity.GetUserId() != userId)
                 return RedirectToAction("Forbidden", "Errors");

@@ -138,3 +138,8 @@
 <div class="btn-group">
     @Html.PageLinks(Model.PageInfo, func)
 </div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/customScripts/searchBlockToggle")
+}
