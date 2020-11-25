@@ -185,7 +185,6 @@ namespace InternetAuction.Tests.DAL.Tests.RepositoriesTests
         [Test]
         public void LotRepository_Update_UpdatesLot()
         {
-            // TODO: fix test
             var mockDbSet = UnitTestHelper.GetMockDbSet<Lot>(GetTestLots());
             var mockContext = GetMockContext(mockDbSet);
             var lotRepo = new LotRepository(mockContext.Object);

@@ -71,6 +71,7 @@ namespace InternetAuction.BLL.Services
             try
             {
                 await _unitOfWork.LotRepository.DeleteByIdAsync(id);
+                await _unitOfWork.CarRepository.DeleteByIdAsync(id);
                 await _unitOfWork.SaveAsync();
                 return new OperationDetails(true);
             }
@@ -404,20 +405,24 @@ namespace InternetAuction.BLL.Services
             if (model.TurnkeyPrice < 0)
                 validationResult.Add(new ValidationResult("Invalid Turnkey Price", new List<string> { "TurnkeyPrice" }));
 
-            if (model.Car.Year > DateTime.UtcNow.Year)
-                validationResult.Add(new ValidationResult("Invalid Car Year", new List<string> { "Year" }));
-
             if (model.SaleType == 0)
                 validationResult.Add(new ValidationResult("Specify Sale Type", new List<string> { "SaleType" }));
 
+            if (model.Car.Mileage < 0)
+                validationResult.Add(new ValidationResult("Invalid Car Mileage", new List<string> { "Car.Mileage" }));
+
+            if (model.Car.Year > DateTime.UtcNow.Year
+                || model.Car.Year < 1885)
+                validationResult.Add(new ValidationResult("Invalid Car Year", new List<string> { "Car.Year" }));
+
             if (model.Car.TechnicalPassport.BodyType == 0)
-                validationResult.Add(new ValidationResult("Specify Body Type", new List<string> { "BodyType" }));
+                validationResult.Add(new ValidationResult("Specify Body Type", new List<string> { "Car.TechnicalPassport.BodyType" }));
 
             if (model.Car.TechnicalPassport.DriveUnit == 0)
-                validationResult.Add(new ValidationResult("Specify Drive Unit", new List<string> { "DriveUnit" }));
+                validationResult.Add(new ValidationResult("Specify Drive Unit", new List<string> { "Car.TechnicalPassport.DriveUnit" }));
 
             if (model.Car.TechnicalPassport.Transmission == 0)
-                validationResult.Add(new ValidationResult("Specify Transmission", new List<string> { "Transmission" }));
+                validationResult.Add(new ValidationResult("Specify Transmission", new List<string> { "Car.TechnicalPassport.Transmission" }));
 
             return validationResult.Count == 0;
         }

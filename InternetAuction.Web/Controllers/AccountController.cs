@@ -242,19 +242,6 @@ namespace InternetAuction.Web.Controllers
         }
 
         /// <summary>
-        /// Deletes user account by id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [Authorize(Roles = Roles.Admin)]
-        [HttpPost]
-        public async Task<ActionResult> Delete(string id)
-        {
-            await _userService.Delete(id);
-            return RedirectToAction("Users");
-        }
-
-        /// <summary>
         /// Returns users view
         /// </summary>
         /// <param name="model"></param>

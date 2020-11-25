@@ -14,7 +14,7 @@
 
     <div id="InfoBlock" class="container">
 
-        <h3>Lot Info:</h3>
+        <h3 class="font-weight-light">Lot Info:</h3>
         <table class="table w-100 p-0">
             <tbody>
                 <tr>
@@ -57,7 +57,7 @@
                     @Html.Partial("~/Views/Bet/PlaceBetPartial.cshtml", new BetViewModel() { LotId = Model.Id })
                 </div>
 
-                <hr class="bg-dark" />
+
                 <div>
                     <h3>Buy the lot</h3>
 
@@ -72,11 +72,14 @@
                 </div>
             }
 
+
             if (User.Identity.GetUserId() == Model.SellerId)
             {
                 var bet = Model.Bets.OrderByDescending(b => b.Sum).FirstOrDefault();
 
-                <h3>Current bet:</h3>
+                <hr class="bg-dark" />
+
+                <h3 class="font-weight-light">Current bet:</h3>
 
                 if (bet is null)
                 {

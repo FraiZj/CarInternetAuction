@@ -224,7 +224,6 @@ namespace InternetAuction.Web.Controllers
                 && User.Identity.GetUserId() != model.SellerId)
                 return RedirectToAction("Forbidden", "Errors");
 
-            // TODO: add images editing
             if (ModelState.IsValid)
             {
                 var result = await _lotService.UpdateAsync(model);

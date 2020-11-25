@@ -7,11 +7,11 @@ namespace InternetAuction.BLL.Models
     {
         public string Id { get; set; }
 
-        [Required, RegularExpression(@"^[a-zA-Z-_ ]+$", ErrorMessage = "Invalid VIN format")]
+        [Required, RegularExpression(@"^[a-zA-Z-_ ]+$", ErrorMessage = "Invalid First Name format")]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
-        [Required, RegularExpression(@"^[a-zA-Z-_ ]+$", ErrorMessage = "Invalid VIN format")]
+        [Required, RegularExpression(@"^[a-zA-Z-_ ]+$", ErrorMessage = "Invalid Last Name format")]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 

@@ -87,6 +87,7 @@ namespace InternetAuction.BLL.Services
             try
             {
                 var user = await _unitOfWork.ApplicationUserManager.FindByEmailAsync(model.Email);
+
                 if (user != null)
                     return new OperationDetails(false, CreateValidationResults("User with this email already exist", "Email"));
 
@@ -233,14 +234,14 @@ namespace InternetAuction.BLL.Services
                 var user = await _unitOfWork.ApplicationUserManager.FindByIdAsync(id);
 
                 if (user is null)
-                    return new OperationDetails(false, CreateValidationResults("id", $"User with Id = {id} does not exist"));
+                    return new OperationDetails(false, CreateValidationResults($"User with Id = {id} does not exist", "id"));
 
                 var result = await _unitOfWork.ApplicationUserManager.DeleteAsync(user);
 
                 if (result.Succeeded)
                     return new OperationDetails(true);
 
-                return new OperationDetails(false, CreateValidationResults("id", result.Errors.First()));
+                return new OperationDetails(false, CreateValidationResults(result.Errors.First(), "id"));
             }
             catch (Exception ex)
             {

@@ -22,6 +22,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
             {
                 new LotModel
                 {
+                    Id = 1,
                     SellerId = "1",
                     SaleType = SaleTypeDto.BrandNew,
                     IsActive = false,
@@ -73,6 +74,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
             {
                 new Lot
                 {
+                    Id = 1,
                     TurnkeyPrice = 5000,
                     SellerId = "1",
                     SaleType = SaleType.BrandNew,
@@ -208,6 +210,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
         {
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             mockUnitOfWork.Setup(m => m.LotRepository.DeleteByIdAsync(It.IsAny<int>()));
+            mockUnitOfWork.Setup(m => m.CarRepository.DeleteByIdAsync(It.IsAny<int>()));
             var lotService = new LotService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile());
             var id = 1;
 
@@ -216,6 +219,8 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
             Assert.IsTrue(result.Succedeed);
             mockUnitOfWork.Verify(
                 m => m.LotRepository.DeleteByIdAsync(id), Times.Once);
+            mockUnitOfWork.Verify(
+                m => m.CarRepository.DeleteByIdAsync(id), Times.Once);
             mockUnitOfWork.Verify(
                m => m.SaveAsync(),
                Times.Once);
@@ -293,7 +298,10 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             mockUnitOfWork.Setup(m => m.LotRepository.Update(It.IsAny<Lot>()));
             mockUnitOfWork
-                .Setup(m => m.BetRepository.GetByIdWithDetailsAsync(It.IsAny<int>()))
+               .Setup(m => m.LotRepository.GetByIdAsync(It.IsAny<int>()))
+               .ReturnsAsync(GetTestLotsEntities().First());
+            mockUnitOfWork
+                .Setup(m => m.BetRepository.GetByIdAsync(It.IsAny<int>()))
                 .ReturnsAsync(bet);
             var lotService = new LotService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile());
 
