@@ -8,9 +8,11 @@ namespace InternetAuction.DAL.Entities
     {
 
         [Required, RegularExpression(@"^[a-zA-Z-_ ]+$")]
+        [MaxLength(30)]
         public string Brand { get; set; }
 
         [Required, RegularExpression(@"^[a-zA-Z0-9-_ ]+$")]
+        [MaxLength(30)]
         public string Model { get; set; }
 
         [Required]
@@ -20,6 +22,7 @@ namespace InternetAuction.DAL.Entities
         public int Mileage { get; set; }
 
         [Required]
+        [MaxLength(30)]
         public string EngineType { get; set; }
 
         public virtual TechnicalPassport TechnicalPassport { get; set; }

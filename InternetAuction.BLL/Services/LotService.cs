@@ -399,10 +399,10 @@ namespace InternetAuction.BLL.Services
 
             validationResult = modelValidationResult.Concat(carValidationResult).Concat(technicalPassportValidationResult).ToList();
 
-            if (model.StartPrice < 0)
+            if (model.StartPrice < 0 || model.StartPrice > 1000000)
                 validationResult.Add(new ValidationResult("Invalid Start Price", new List<string> { "StartPrice" }));
 
-            if (model.TurnkeyPrice < 0)
+            if (model.TurnkeyPrice < 0 || model.TurnkeyPrice > 1000000)
                 validationResult.Add(new ValidationResult("Invalid Turnkey Price", new List<string> { "TurnkeyPrice" }));
 
             if (model.SaleType == 0)
@@ -411,8 +411,7 @@ namespace InternetAuction.BLL.Services
             if (model.Car.Mileage < 0)
                 validationResult.Add(new ValidationResult("Invalid Car Mileage", new List<string> { "Car.Mileage" }));
 
-            if (model.Car.Year > DateTime.UtcNow.Year
-                || model.Car.Year < 1885)
+            if (model.Car.Year > DateTime.UtcNow.Year || model.Car.Year < 1885)
                 validationResult.Add(new ValidationResult("Invalid Car Year", new List<string> { "Car.Year" }));
 
             if (model.Car.TechnicalPassport.BodyType == 0)

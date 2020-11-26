@@ -14,9 +14,6 @@ namespace InternetAuction.DAL.Entities
         public string VIN { get; set; }
 
         [Required]
-        public int Mileage { get; set; }
-
-        [Required]
         public Transmission Transmission { get; set; }
 
         [Required]
@@ -25,6 +22,7 @@ namespace InternetAuction.DAL.Entities
         [Required]
         public BodyType BodyType { get; set; }
 
+        [MaxLength(50)]
         public string PrimaryDamage { get; set; }
 
         [Required]

@@ -26,11 +26,11 @@
                     <td class="font-weight-bold">@Model.SaleType.GetDisplayName()</td>
                 </tr>
                 <tr>
-                    <td>@Html.DisplayNameFor(m => m.StartPrice)</td>
+                    <td>StartPrice</td>
                     <td class="font-weight-bold">@string.Format(new CultureInfo("en-US", false), "{0:c0}", Model.StartPrice)</td>
                 </tr>
                 <tr>
-                    <td>@Html.DisplayNameFor(m => m.TurnkeyPrice)</td>
+                    <td>TurnkeyPrice</td>
                     <td class="font-weight-bold">@string.Format(new CultureInfo("en-US", false), "{0:c0}", Model.TurnkeyPrice)</td>
                 </tr>
                 <tr>
@@ -59,7 +59,8 @@
 
 
                 <div>
-                    <h3>Buy the lot</h3>
+                    <hr class="bg-dark" />  
+                    <h3 class="font-weight-lighter">Buy the lot</h3>
 
                     @using (Html.BeginForm("Buy", "Lots", new { lotId = Model.Id }, FormMethod.Post, new { @class = "" }))
                     {

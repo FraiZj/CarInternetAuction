@@ -8,9 +8,11 @@ namespace InternetAuction.BLL.Models
     public class CarModel : BaseModel
     {
         [Required, RegularExpression(@"^[a-zA-Z-_ ]+$", ErrorMessage = "Invalid car brand format")]
+        [MaxLength(30)]
         public string Brand { get; set; }
 
         [Required, RegularExpression(@"^[a-zA-Z0-9-_ ]+$", ErrorMessage = "Invalid car model format")]
+        [MaxLength(30)]
         public string Model { get; set; }
 
         [Required]
@@ -20,6 +22,7 @@ namespace InternetAuction.BLL.Models
         public int Mileage { get; set; }
 
         [Required, Display(Name = "Engine Type")]
+        [MaxLength(30)]
         public string EngineType { get; set; }
 
         [Required, Display(Name = "Technical Passport")]

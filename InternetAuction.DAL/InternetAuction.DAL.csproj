@@ -132,6 +132,10 @@
     <Compile Include="Migrations\202011210838399_AddLogger.designer.cs">
       <DependentUpon>202011210838399_AddLogger.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011261249305_UpdateTechnicalPassportEntity.cs" />
+    <Compile Include="Migrations\202011261249305_UpdateTechnicalPassportEntity.designer.cs">
+      <DependentUpon>202011261249305_UpdateTechnicalPassportEntity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Base\Repository.cs" />
@@ -181,6 +185,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011210838399_AddLogger.resx">
       <DependentUpon>202011210838399_AddLogger.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011261249305_UpdateTechnicalPassportEntity.resx">
+      <DependentUpon>202011261249305_UpdateTechnicalPassportEntity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

@@ -22,11 +22,11 @@ namespace InternetAuction.BLL.Models
         [Required, Display(Name = "Sale Type")]
         public SaleTypeDto SaleType { get; set; }
 
-        [Display(Name = "Start Price($)")]
+        [Display(Name = "Start Price (Max. 1 000 000 $)")]
         [Required]
         public decimal StartPrice { get; set; }
 
-        [Display(Name = "Turnkey Price($)")]
+        [Display(Name = "Turnkey Price (Max. 1 000 000 $)")]
         [Required]
         public decimal TurnkeyPrice { get; set; }
 

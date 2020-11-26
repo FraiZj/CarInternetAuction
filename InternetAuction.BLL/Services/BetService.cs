@@ -207,6 +207,9 @@ namespace InternetAuction.BLL.Services
 
             validationResult = modelValidationResult.ToList();
 
+            if (model.Sum < 0 || model.Sum > 1000000)
+                validationResult.Add(new ValidationResult("Invalid Sum", new List<string> { "Sum" }));
+
             return validationResult.Count == 0;
         }
     }

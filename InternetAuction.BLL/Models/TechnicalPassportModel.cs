@@ -22,6 +22,7 @@ namespace InternetAuction.BLL.Models
         public BodyTypeDto BodyType { get; set; }
 
         [Display(Name = "Primary Damage")]
+        [MaxLength(50)]
         public string PrimaryDamage { get; set; }
 
         [Required, Display(Name = "Has Keys")]

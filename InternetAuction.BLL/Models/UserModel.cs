@@ -9,10 +9,12 @@ namespace InternetAuction.BLL.Models
 
         [Required, RegularExpression(@"^[a-zA-Z-_ ]+$", ErrorMessage = "Invalid First Name format")]
         [Display(Name = "First Name")]
+        [MaxLength(30)]
         public string FirstName { get; set; }
 
         [Required, RegularExpression(@"^[a-zA-Z-_ ]+$", ErrorMessage = "Invalid Last Name format")]
         [Display(Name = "Last Name")]
+        [MaxLength(30)]
         public string LastName { get; set; }
 
         [Required, EmailAddress]
