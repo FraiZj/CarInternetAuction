@@ -1,5 +1,6 @@
 ﻿using InternetAuction.DAL.Entities;
 using InternetAuction.DAL.Interfaces;
+using System.Linq;
 
 namespace InternetAuction.DAL.Repositories
 {
@@ -17,6 +18,15 @@ namespace InternetAuction.DAL.Repositories
         public Logger(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        /// <summary>
+        /// Returns all logs
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<ExceptionLog> GetAll()
+        {
+            return _context.ExceptionLogs.AsQueryable();
         }
 
         /// <summary>

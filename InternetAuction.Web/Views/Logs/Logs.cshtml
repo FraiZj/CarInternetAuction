@@ -1,0 +1,39 @@
+﻿@using InternetAuction.Web.Helpers
+
+@model InternetAuction.Web.ViewModels.LogViewModel
+
+@{
+    ViewBag.Title = "Logs";
+}
+
+<h2 class="font-weight-light">Logs</h2>
+
+@if (Model.Logs?.Any() ?? false)
+{
+    foreach (var log in Model.Logs)
+    {
+        <div class="card mb-2">
+            <div class="card-header">
+                #@log.Id - <b>@log.ExceptionMessage</b>
+            </div>
+            <div class="card-body">
+                <div class="card-text m-0">
+                    <p class="m-0">Controller: <b>@log.Controller</b></p>
+                    <p class="m-0">Action: <b>@log.Action</b></p>
+                    <p class="m-0">IP: <b>@log.IP</b></p>
+                    <p class="m-0">Date: <b>@log.DateTime.ToString()</b></p>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="btn-group">
+        @Html.PageLinks(Model.PageInfo, page => Url.Action("Logs", new { page }))
+    </div>
+}
+else
+{
+    <p>No logs found</p>
+}
+
+

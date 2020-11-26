@@ -5,6 +5,7 @@ using InternetAuction.BLL.Validation;
 using InternetAuction.DAL.Entities;
 using InternetAuction.DAL.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace InternetAuction.BLL.Services
@@ -28,10 +29,23 @@ namespace InternetAuction.BLL.Services
             _mapper = mapper;
         }
 
+        public IEnumerable<ExceptionLogModel> GetAll()
+        {
+            try
+            {
+                var logs = _unitOfWork.Logger.GetAll();
+                return _mapper.Map<IEnumerable<ExceptionLogModel>>(logs);
+            }
+            catch (Exception ex)
+            {
+                throw new InternetAuctionException("An error occurred while getting all logs", ex);
+            }
+        }
+
         /// <summary>
         /// Logs an exception
         /// </summary>
-        public async Task Log(ExceptionLogModel exceptionLogModel)
+        public async Task LogAsync(ExceptionLogModel exceptionLogModel)
         {
             try
             {

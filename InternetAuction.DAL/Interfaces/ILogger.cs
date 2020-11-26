@@ -1,4 +1,5 @@
 ﻿using InternetAuction.DAL.Entities;
+using System.Linq;
 
 namespace InternetAuction.DAL.Interfaces
 {
@@ -12,5 +13,11 @@ namespace InternetAuction.DAL.Interfaces
         /// </summary>
         /// <param name="exceptionLog"></param>
         void Log(ExceptionLog exceptionLog);
+
+        /// <summary>
+        /// Returns all logs
+        /// </summary>
+        /// <returns></returns>
+        IQueryable<ExceptionLog> GetAll();
     }
 }

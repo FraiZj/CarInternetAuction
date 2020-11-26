@@ -1,4 +1,5 @@
 ﻿using InternetAuction.BLL.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace InternetAuction.BLL.Interfaces
@@ -11,6 +12,12 @@ namespace InternetAuction.BLL.Interfaces
         /// <summary>
         /// Logs an exception
         /// </summary>
-        Task Log(ExceptionLogModel exceptionLogModel);
+        Task LogAsync(ExceptionLogModel exceptionLogModel);
+
+        /// <summary>
+        /// Returns all logs
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<ExceptionLogModel> GetAll();
     }
 }

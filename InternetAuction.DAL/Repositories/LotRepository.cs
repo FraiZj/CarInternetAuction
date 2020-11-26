@@ -31,6 +31,10 @@ namespace InternetAuction.DAL.Repositories
                 .AsQueryable();
         }
 
+        /// <summary>
+        /// Returns all lots with details
+        /// </summary>
+        /// <returns></returns>
         public IQueryable<Lot> FindAllWithDetails()
         {
             return _entities

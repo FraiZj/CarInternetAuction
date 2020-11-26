@@ -6,6 +6,10 @@
 
 @model InternetAuction.BLL.Models.LotModel
 
+@{ 
+    ViewBag.Title = $"{Model.Car.Year} {Model.Car.Brand} {Model.Car.Model}";
+}
+
 @section sidebar
 {
     <div class="col-12 mb-2">
@@ -26,11 +30,11 @@
                     <td class="font-weight-bold">@Model.SaleType.GetDisplayName()</td>
                 </tr>
                 <tr>
-                    <td>StartPrice</td>
+                    <td>Start Price</td>
                     <td class="font-weight-bold">@string.Format(new CultureInfo("en-US", false), "{0:c0}", Model.StartPrice)</td>
                 </tr>
                 <tr>
-                    <td>TurnkeyPrice</td>
+                    <td>Turnkey Price</td>
                     <td class="font-weight-bold">@string.Format(new CultureInfo("en-US", false), "{0:c0}", Model.TurnkeyPrice)</td>
                 </tr>
                 <tr>
@@ -167,7 +171,7 @@
         </div>
     }
 
-    <div class="container d-flex justify-content-center">
+    <div class="container d-flex justify-content-md-center float-left float-md-none">
         <table class="table w-75">
             <thead>
                 <tr>

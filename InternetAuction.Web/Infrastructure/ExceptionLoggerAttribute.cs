@@ -28,7 +28,7 @@ namespace InternetAuction.Web.Infrastructure
                 DateTime = DateTime.UtcNow
             };
 
-            LoggerService.Log(exceptionLog);
+            LoggerService.LogAsync(exceptionLog);
 
             filterContext.Result = new RedirectResult("~/Errors/InternalError");
             filterContext.ExceptionHandled = true;
