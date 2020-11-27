@@ -78,6 +78,6 @@ input.largeCheckbox {
 
 @media screen and (max-width: 768px) {
     .carouselImage {
-        height: 250px;
+        height: 280px;
     }
 }

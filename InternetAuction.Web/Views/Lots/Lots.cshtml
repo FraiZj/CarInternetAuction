@@ -85,12 +85,12 @@
                     }
                 </a>
                 <div class="card-body">
+                    @if (!item.IsActive)
+                    {
+                        <h3 class="text-warning">Inactive lot</h3>
+                    }
                     <h4 class="card-title">
                         <a href="@Url.Action("Details", "Lots", new { id = item.Id })" class="text-dark">@item.Car.Brand @item.Car.Model</a>
-                        @if (!item.IsActive)
-                        {
-                            <span class="text-warning">Inactive lot</span>
-                        }
                     </h4>
                     <p class="card-text text-muted">
                         @item.Car.Year |

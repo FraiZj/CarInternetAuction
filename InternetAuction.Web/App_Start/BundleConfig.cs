@@ -22,6 +22,12 @@ namespace InternetAuction.Web
             bundles.Add(new ScriptBundle("~/bundles/customScripts/confirmDelete").Include(
                "~/Scripts/customScripts/confirmDelete.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/customScripts/confirmPurchase").Include(
+               "~/Scripts/customScripts/confirmPurchase.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/customScripts/confirmSale").Include(
+               "~/Scripts/customScripts/confirmSale.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js").Include("~/Scripts/jquery.form.js"));
 

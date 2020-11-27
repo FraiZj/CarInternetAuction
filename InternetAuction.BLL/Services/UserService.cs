@@ -198,8 +198,6 @@ namespace InternetAuction.BLL.Services
 
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
-                user.Email = model.Email;
-                user.UserName = model.Email;
                 user.PhoneNumber = model.PhoneNumber;
 
                 await _unitOfWork.ApplicationUserManager.UpdateAsync(user);

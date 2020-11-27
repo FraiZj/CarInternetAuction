@@ -6,7 +6,7 @@
 
 @model InternetAuction.BLL.Models.LotModel
 
-@{ 
+@{
     ViewBag.Title = $"{Model.Car.Year} {Model.Car.Brand} {Model.Car.Model}";
 }
 
@@ -65,18 +65,19 @@
                 <div>
                     <hr class="bg-dark" />
                     <h3 class="font-weight-light">Buy the lot</h3>
+                    <h4>@string.Format(new CultureInfo("en-US", false), "{0:c0}", Model.TurnkeyPrice)</h4>
 
                     @using (Html.BeginForm("Buy", "Lots", new { id = Model.Id }, FormMethod.Post, new { @class = "m-auto" }))
                     {
-                        <span id="confirmDeleteSpan_@Model.Id" style="display: none;">
+                        <span id="confirmBuySpan_@Model.Id" style="display: none;">
                             <span class="h6">Are you sure you want to buy?</span> <br />
                             <span>
                                 <button class="btn btn-success col-5 float-left" type="submit">Yes</button>
-                                <a href="#" class="btn btn-danger col-5 float-right" onclick="confirmDelete('@Model.Id', false)">No</a>
+                                <a href="#" class="btn btn-danger col-5 float-right" onclick="confirmPurchase('@Model.Id', false)">No</a>
                             </span>
                         </span>
-                        <span id="deleteSpan_@Model.Id" class="col-12 p-0 pl-3">
-                            <a href="#" class="btn btn-success col-10" onclick="confirmDelete('@Model.Id', true)">Buy</a>
+                        <span id="buySpan_@Model.Id" class="col-12 p-0 pl-3">
+                            <a href="#" class="btn btn-success col-10" onclick="confirmPurchase('@Model.Id', true)">Buy</a>
                         </span>
                     }
                 </div>
@@ -97,13 +98,20 @@
                 }
                 else
                 {
+                    <h4>@string.Format(new CultureInfo("en-US", false), "{0:c0}", bet.Sum)</h4>
+
                     using (Html.BeginForm("Sell", "Lots", new { lotId = bet.LotId, betId = bet.Id }, FormMethod.Post, new { @class = "" }))
                     {
-                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-                        <div class="form-group ">
-                            @Html.Label(string.Format(new CultureInfo("en-US", false), "{0:c0}", bet.Sum), htmlAttributes: new { @class = "control-label col-lg-12" })
-                            <button type="submit" value="Sold" class="btn btn-success col-lg-12">Sold</button>
-                        </div>
+                        <span id="confirmSaleSpan_@Model.Id" style="display: none;">
+                            <span class="h6">Are you sure you want to sell?</span> <br />
+                            <span>
+                                <button class="btn btn-success col-5 float-left" type="submit">Yes</button>
+                                <a href="#" class="btn btn-danger col-5 float-right" onclick="confirmSale('@Model.Id', false)">No</a>
+                            </span>
+                        </span>
+                        <span id="saleSpan_@Model.Id" class="col-12 p-0 pl-3">
+                            <a href="#" class="btn btn-success col-10" onclick="confirmSale('@Model.Id', true)">Sell</a>
+                        </span>
                     }
                 }
             }
@@ -156,16 +164,16 @@
         </div>
     }
 
-    @if (User.Identity.GetUserId() == Model.SellerId || User.IsInRole("Admin"))
+    @if ((User.Identity.GetUserId() == Model.SellerId || User.IsInRole("Admin") && Model.BuyerId is null))
     {
         <div class="container p-2">
             @using (Html.BeginForm("Delete", "Lots", new { id = Model.Id }, FormMethod.Post, new { @class = "col-xs-12 col-lg-12 p-0" }))
             {
-                @Html.ActionLink("Edit", "Edit", "Lots", new { id = Model.Id }, new { @class = "btn btn-success col-xs-12 col-lg-2 mb-2 mb-lg-0" })
+                @Html.ActionLink("Edit", "Edit", "Lots", new { id = Model.Id }, new { @class = "btn btn-info col-xs-12 col-lg-2 mb-2 mb-lg-0" })
                 <span id="confirmDeleteSpan_@Model.Id" style="display: none;" class="col-xs-12 col-lg-2 p-0">
                     <span class="h6">Are you sure you want to delete?</span>
                     <span>
-                        <button class="btn btn-danger col-xs-6 col-lg-2 mb-2 mb-lg-0" type="submit">Yes</button>
+                        <button class="btn btn-danger col-xs-6 col-lg-2 mt-2 mt-lg-0 mb-2 mb-lg-0" type="submit">Yes</button>
                         <a href="#" class="btn btn-primary col-xs-6 col-lg-2" onclick="confirmDelete('@Model.Id', false)">No</a>
                     </span>
                 </span>
@@ -253,6 +261,8 @@
 
 @section scripts {
     @Scripts.Render("~/bundles/customScripts/confirmDelete")
+    @Scripts.Render("~/bundles/customScripts/confirmPurchase")
+    @Scripts.Render("~/bundles/customScripts/confirmSale")
     @Scripts.Render("~/bundles/customScripts/handlePlaceBetRequest")
     @Scripts.Render("~/bundles/customScripts/detailsInfoBlockToggle")
 }
