@@ -7,11 +7,11 @@ namespace InternetAuction.BLL.Models
 {
     public class CarModel : BaseModel
     {
-        [Required, RegularExpression(@"^[a-zA-Z-_ ]+$", ErrorMessage = "Invalid car brand format")]
+        [Required, RegularExpression(@"^[a-zA-Zа-яА-я-_ ]+$", ErrorMessage = "Invalid car brand format")]
         [MaxLength(30)]
         public string Brand { get; set; }
 
-        [Required, RegularExpression(@"^[a-zA-Z0-9-_ ]+$", ErrorMessage = "Invalid car model format")]
+        [Required, RegularExpression(@"^[a-zA-Zа-яА-я0-9-_ ]+$", ErrorMessage = "Invalid car model format")]
         [MaxLength(30)]
         public string Model { get; set; }
 

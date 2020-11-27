@@ -7,11 +7,11 @@ namespace InternetAuction.DAL.Entities
     public class Car : BaseEntity
     {
 
-        [Required, RegularExpression(@"^[a-zA-Z-_ ]+$")]
+        [Required, RegularExpression(@"^[a-zA-Zа-яА-я-_ ]+$")]
         [MaxLength(30)]
         public string Brand { get; set; }
 
-        [Required, RegularExpression(@"^[a-zA-Z0-9-_ ]+$")]
+        [Required, RegularExpression(@"^[a-zA-Zа-яА-я0-9-_ ]+$")]
         [MaxLength(30)]
         public string Model { get; set; }
 

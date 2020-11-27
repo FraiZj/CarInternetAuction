@@ -6,12 +6,12 @@ namespace InternetAuction.Web.ViewModels
     {
         public string Id { get; set; }
 
-        [Required, RegularExpression(@"^[a-zA-Z-_ ]+$", ErrorMessage = "Invalid first name format")]
+        [Required, RegularExpression(@"^[a-zA-Zа-яА-я-_ ]+$", ErrorMessage = "Invalid first name format")]
         [Display(Name = "First Name")]
         [MaxLength(30)]
         public string FirstName { get; set; }
 
-        [Required, RegularExpression(@"^[a-zA-Z-_ ]+$", ErrorMessage = "Invalid last name format")]
+        [Required, RegularExpression(@"^[a-zA-Zа-яА-я-_ ]+$", ErrorMessage = "Invalid last name format")]
         [Display(Name = "Last Name")]
         [MaxLength(30)]
         public string LastName { get; set; }

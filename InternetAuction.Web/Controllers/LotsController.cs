@@ -211,8 +211,9 @@ namespace InternetAuction.Web.Controllers
             if (lot is null)
                 return RedirectToAction("NotFound", "Errors");
 
-            if (!User.IsInRole("Admin")
+            if ((!User.IsInRole("Admin")
                 && User.Identity.GetUserId() != lot.SellerId)
+                || lot.BuyerId != null)
                 return RedirectToAction("Forbidden", "Errors");
 
             return View(lot);
@@ -226,8 +227,9 @@ namespace InternetAuction.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(LotModel model)
         {
-            if (!User.IsInRole("Admin")
+            if ((!User.IsInRole("Admin")
                 && User.Identity.GetUserId() != model.SellerId)
+                || !string.IsNullOrWhiteSpace(model.BuyerId))
                 return RedirectToAction("Forbidden", "Errors");
 
             if (ModelState.IsValid)
@@ -261,8 +263,9 @@ namespace InternetAuction.Web.Controllers
             if (lot is null)
                 return RedirectToAction("NotFound", "Errors");
 
-            if (!User.IsInRole("Admin")
+            if ((!User.IsInRole("Admin")
                 && User.Identity.GetUserId() != lot.SellerId)
+                || !string.IsNullOrWhiteSpace(lot.BuyerId))
                 return RedirectToAction("Forbidden", "Errors");
 
             await _lotService.DeleteByIdAsync(id);
