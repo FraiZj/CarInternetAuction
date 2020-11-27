@@ -234,7 +234,7 @@ namespace InternetAuction.Web.Controllers
 
                 foreach (var error in result.ValidationResults)
                 {
-                    ModelState.AddModelError(error.ErrorMessage, error.MemberNames.First());
+                    ModelState.AddModelError(error.MemberNames.First(), error.ErrorMessage);
                 }
             }
 

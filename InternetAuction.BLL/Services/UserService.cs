@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace InternetAuction.BLL.Services
@@ -187,29 +186,20 @@ namespace InternetAuction.BLL.Services
             try
             {
                 if (model is null)
-                    return new OperationDetails(false, CreateValidationResults("User cannot be null", "Model"));
+                    return new OperationDetails(false, CreateValidationResults("User cannot be null", ""));
 
-                var validationResult = new List<ValidationResult>();
+                if (!ValidateUserModel(model, out var validationResults))
+                    return new OperationDetails(false, validationResults);
 
-                if (!Regex.IsMatch(model.FirstName, @"^[a-zA-Z-_ ]+$"))
-                    validationResult.AddRange(CreateValidationResults("Invalid first name", "FirstName"));
+                var user = await _unitOfWork.ApplicationUserManager.FindAsync(model.Email, model.Password);
 
-                if (!Regex.IsMatch(model.LastName, @"^[a-zA-Z-_ ]+$"))
-                    validationResult.AddRange(CreateValidationResults("Invalid Last Name", "LastName"));
+                if (user is null)
+                    return new OperationDetails(false, CreateValidationResults("Invalid Password", "Password"));
 
-                if (!Regex.IsMatch(model.PhoneNumber, @"^\s*\+?\s*([0-9][\s-]*){9,}$"))
-                    validationResult.AddRange(CreateValidationResults("Invalid Phone Number", "PhoneNumber"));
-
-                if (!Regex.IsMatch(model.Email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
-                    validationResult.AddRange(CreateValidationResults("Invalid Email", "Email"));
-
-                if (validationResult.Any())
-                    return new OperationDetails(false, validationResult);
-
-                var user = await _unitOfWork.ApplicationUserManager.FindByIdAsync(model.Id);
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
                 user.Email = model.Email;
+                user.UserName = model.Email;
                 user.PhoneNumber = model.PhoneNumber;
 
                 await _unitOfWork.ApplicationUserManager.UpdateAsync(user);
@@ -314,6 +304,37 @@ namespace InternetAuction.BLL.Services
         private IEnumerable<ValidationResult> CreateValidationResults(string error, string memberName)
         {
             return new List<ValidationResult> { new ValidationResult(error, new List<string> { memberName }) };
+        }
+
+        /// <summary>
+        /// Validates a model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        private ICollection<ValidationResult> Validate(object model)
+        {
+            var validationResult = new List<ValidationResult>();
+            Validator.TryValidateObject(model, new System.ComponentModel.DataAnnotations.ValidationContext(model), validationResult, true);
+            return validationResult;
+        }
+
+        /// <summary>
+        /// Validates user model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="validationResult"></param>
+        /// <returns></returns>
+        private bool ValidateUserModel(UserModel model, out ICollection<ValidationResult> validationResult)
+        {
+            if (model is null)
+            {
+                validationResult = new List<ValidationResult> { new ValidationResult("User Model cannot be null") };
+                return false;
+            }
+
+            validationResult = Validate(model);
+
+            return validationResult.Count == 0;
         }
     }
 }

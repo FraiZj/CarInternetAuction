@@ -85,7 +85,7 @@ namespace InternetAuction.BLL.Services
         /// Returns all lots models
         /// </summary>
         /// <returns></returns>
-        public IQueryable<LotModel> GetAll()
+        public IEnumerable<LotModel> GetAll()
         {
             try
             {
@@ -158,7 +158,7 @@ namespace InternetAuction.BLL.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public IQueryable<LotModel> SearchLotModels(SearchModel model)
+        public IEnumerable<LotModel> SearchLotModels(SearchModel model)
         {
             try
             {
@@ -194,7 +194,7 @@ namespace InternetAuction.BLL.Services
                     lotsModels[i].Car.CarImages = GetRetrievedImages(lots[i].Car.CarImages);
                 }
 
-                return lotsModels.AsQueryable();
+                return lotsModels;
             }
             catch (Exception ex)
             {

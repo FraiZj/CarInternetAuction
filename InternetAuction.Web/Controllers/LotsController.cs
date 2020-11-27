@@ -37,7 +37,7 @@ namespace InternetAuction.Web.Controllers
         /// <param name="page"></param>
         /// <returns></returns>
         [AllowAnonymous]
-        [OutputCache(Duration = 300, VaryByParam = "searchModel;orderBy;page")]
+        [OutputCache(Duration = 5, VaryByParam = "searchModel;orderBy;page")]
         public ActionResult ActiveLots(SearchModel searchModel, string orderBy, int page = 1)
         {
             ViewBag.Title = "Active Lots";
@@ -56,7 +56,7 @@ namespace InternetAuction.Web.Controllers
         /// <param name="page"></param>
         /// <returns></returns>
         [Authorize(Roles = Roles.Admin)]
-        [OutputCache(Duration = 300, VaryByParam = "searchModel;orderBy;page")]
+        [OutputCache(Duration = 5, VaryByParam = "searchModel;orderBy;page")]
         public ActionResult AllLots(SearchModel searchModel, string orderBy, int page = 1)
         {
             ViewBag.Title = "All Lots";
@@ -75,7 +75,7 @@ namespace InternetAuction.Web.Controllers
         /// <param name="page"></param>
         /// <returns></returns>
         [Authorize(Roles = Roles.Admin)]
-        [OutputCache(Duration = 300, VaryByParam = "searchModel;orderBy;page")]
+        [OutputCache(Duration = 5, VaryByParam = "searchModel;orderBy;page")]
         public ActionResult ArchiveLots(SearchModel searchModel, string orderBy, int page = 1)
         {
             ViewBag.Title = "Archive Lots";
@@ -94,8 +94,8 @@ namespace InternetAuction.Web.Controllers
         /// <param name="orderBy"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        [OutputCache(Duration = 300, VaryByParam = "searchModel;userId;orderBy;page")]
-        public ActionResult SoldLots(string userId, SearchModel searchModel, string orderBy, int page = 1)
+        [OutputCache(Duration = 5, VaryByParam = "searchModel;userId;orderBy;page")]
+        public ActionResult SaleLots(string userId, SearchModel searchModel, string orderBy, int page = 1)
         {
             userId = string.IsNullOrWhiteSpace(userId) ?
                 User.Identity.GetUserId()
@@ -105,7 +105,7 @@ namespace InternetAuction.Web.Controllers
                 && User.Identity.GetUserId() != userId)
                 return RedirectToAction("Forbidden", "Errors");
 
-            ViewBag.Title = "Sold Lots";
+            ViewBag.Title = "Sale Lots";
             ViewBag.UserId = userId;
             var lots = _lotService.SearchLotModels(searchModel).Where(l => l.SellerId == userId);
             var sortedLots = GetSortedLots(lots, orderBy);
@@ -122,7 +122,7 @@ namespace InternetAuction.Web.Controllers
         /// <param name="orderBy"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        [OutputCache(Duration = 300, VaryByParam = "searchModel;userId;orderBy;page")]
+        [OutputCache(Duration = 5, VaryByParam = "searchModel;userId;orderBy;page")]
         public ActionResult PurchasedLots(SearchModel searchModel, string userId, string orderBy, int page = 1)
         {
             userId = string.IsNullOrWhiteSpace(userId) ?
@@ -149,7 +149,7 @@ namespace InternetAuction.Web.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [AllowAnonymous]
-        [OutputCache(Duration = 300, VaryByParam = "id")]
+        [OutputCache(Duration = 5, VaryByParam = "id")]
         public async Task<ActionResult> Details(int id)
         {
             var lot = await _lotService.GetByIdAsync(id);

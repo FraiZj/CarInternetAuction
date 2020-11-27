@@ -15,7 +15,7 @@ namespace InternetAuction.Tests.Web.Tests.ControllersTests
     [TestFixture]
     public class LotsControllerTests
     {
-        private IQueryable<LotModel> GetTestLotsModels()
+        private IEnumerable<LotModel> GetTestLotsModels()
         {
             return new List<LotModel>
             {
@@ -68,7 +68,7 @@ namespace InternetAuction.Tests.Web.Tests.ControllersTests
                         Mileage = 100000,
                     }
                 },
-            }.AsQueryable();
+            };
         }
 
         [Test]
@@ -84,7 +84,7 @@ namespace InternetAuction.Tests.Web.Tests.ControllersTests
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf(typeof(LotViewModel), result.Model);
-            Assert.AreEqual(GetTestLotsModels().Where(l => l.IsActive).Count(), ((LotViewModel)result.Model).Lots.Count());
+            Assert.AreEqual(GetTestLotsModels().Count(l => l.IsActive), ((LotViewModel)result.Model).Lots.Count());
         }
 
         [Test]
@@ -105,9 +105,9 @@ namespace InternetAuction.Tests.Web.Tests.ControllersTests
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf(typeof(LotViewModel), result.Model);
-            Assert.AreEqual(GetTestLotsModels().Where(l => l.StartPrice > 500 
+            Assert.AreEqual(GetTestLotsModels().Count(l => l.StartPrice > 500
                                         && l.StartPrice < 3000
-                                        && l.IsActive).Count(), 
+                                        && l.IsActive), 
                             ((LotViewModel)result.Model).Lots.Count());
         }
 
@@ -140,7 +140,7 @@ namespace InternetAuction.Tests.Web.Tests.ControllersTests
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf(typeof(LotViewModel), result.Model);
-            Assert.AreEqual(GetTestLotsModels().Where(l => !l.IsActive).Count(), ((LotViewModel)result.Model).Lots.Count());
+            Assert.AreEqual(GetTestLotsModels().Count(l => !l.IsActive), ((LotViewModel)result.Model).Lots.Count());
         }
 
         [Test]

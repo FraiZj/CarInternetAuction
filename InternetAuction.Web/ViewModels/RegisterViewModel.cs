@@ -18,10 +18,13 @@ namespace InternetAuction.Web.ViewModels
 
         [Required, EmailAddress]
         [Remote("IsEmailAvailable", "Account", ErrorMessage = "Email already in use")]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         [Required, Phone]
+        [RegularExpression(@"^\s*\+?\s*([0-9][\s-]*){9,}$", ErrorMessage = "Invalid Phone Number")]
         [Display(Name = "Phone Number")]
+        [DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; }
 
         [Required]

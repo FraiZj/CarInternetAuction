@@ -16,7 +16,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
     [TestFixture]
     public class LotServiceTests
     {
-        private IQueryable<LotModel> GetTestLotsModels()
+        private IEnumerable<LotModel> GetTestLotsModels()
         {
             return new List<LotModel>
             {
@@ -65,10 +65,10 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
                         Mileage = 100000,
                     }
                 },
-            }.AsQueryable();
+            };
         }
 
-        private IQueryable<Lot> GetTestLotsEntities()
+        private IEnumerable<Lot> GetTestLotsEntities()
         {
             return new List<Lot>
             {
@@ -117,7 +117,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
                         Mileage = 100000,
                     }
                 },
-            }.AsQueryable();
+            };
         }
 
         [Test]
@@ -231,7 +231,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
         {
             var expected = GetTestLotsModels().ToList();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
-            mockUnitOfWork.Setup(m => m.LotRepository.FindAllWithDetails()).Returns(GetTestLotsEntities());
+            mockUnitOfWork.Setup(m => m.LotRepository.FindAllWithDetails()).Returns(GetTestLotsEntities().AsQueryable());
             var lotService = new LotService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile());
 
             var actual = lotService.GetAll().ToList();
@@ -271,7 +271,7 @@ namespace InternetAuction.Tests.BLL.Tests.ServicesTests
             var maxPrice = 3000;
             var expected = GetTestLotsModels().Where(l => l.StartPrice > minPrice && l.StartPrice < maxPrice).ToList();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
-            mockUnitOfWork.Setup(m => m.LotRepository.FindAll()).Returns(GetTestLotsEntities());
+            mockUnitOfWork.Setup(m => m.LotRepository.FindAll()).Returns(GetTestLotsEntities().AsQueryable());
             var lotService = new LotService(mockUnitOfWork.Object, UnitTestHelper.CreateMapperProfile());
             var searchModel = new SearchModel
             {

@@ -94,12 +94,12 @@ namespace InternetAuction.BLL.Services
         /// Returns all bets models
         /// </summary>
         /// <returns></returns>
-        public IQueryable<BetModel> GetAll()
+        public IEnumerable<BetModel> GetAll()
         {
             try
             {
                 var bets = _unitOfWork.BetRepository.FindAllWithDetails();
-                return _mapper.Map<List<BetModel>>(bets).AsQueryable();
+                return _mapper.Map<IEnumerable<BetModel>>(bets);
             }
             catch (Exception ex)
             {

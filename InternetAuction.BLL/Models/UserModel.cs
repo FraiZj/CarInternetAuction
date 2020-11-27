@@ -18,13 +18,17 @@ namespace InternetAuction.BLL.Models
         public string LastName { get; set; }
 
         [Required, EmailAddress]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         [Required]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [Required, Phone]
+        [RegularExpression(@"^\s*\+?\s*([0-9][\s-]*){9,}$", ErrorMessage = "Invalid Phone Number")]
         [Display(Name = "Phone Number")]
+        [DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; }
 
         [Display(Name = "Bets")]

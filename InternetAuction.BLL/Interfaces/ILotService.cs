@@ -1,7 +1,7 @@
 ﻿using InternetAuction.BLL.Infrastructure;
 using InternetAuction.BLL.Models;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace InternetAuction.BLL.Interfaces
@@ -17,7 +17,7 @@ namespace InternetAuction.BLL.Interfaces
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        IQueryable<LotModel> SearchLotModels(SearchModel model);
+        IEnumerable<LotModel> SearchLotModels(SearchModel model);
 
         /// <summary>
         /// Sells lot for a bet sum

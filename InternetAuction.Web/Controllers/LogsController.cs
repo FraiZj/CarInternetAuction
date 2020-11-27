@@ -34,7 +34,7 @@ namespace InternetAuction.Web.Controllers
         /// <returns></returns>
         public ActionResult Logs(int page = 1)
         {
-            var logs = _loggerService.GetAll();
+            var logs = _loggerService.GetAll().OrderByDescending(l => l.DateTime);
             var logViewModel = CreateLotViewModel(logs, page);
             return View(logViewModel);
         }

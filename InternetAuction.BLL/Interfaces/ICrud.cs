@@ -1,6 +1,6 @@
 ﻿using InternetAuction.BLL.Infrastructure;
 using InternetAuction.BLL.Models.Base;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace InternetAuction.BLL.Interfaces
@@ -15,7 +15,7 @@ namespace InternetAuction.BLL.Interfaces
         /// Returns all models
         /// </summary>
         /// <returns></returns>
-        IQueryable<TModel> GetAll();
+        IEnumerable<TModel> GetAll();
 
         /// <summary>
         /// Returns model by id

@@ -17,12 +17,15 @@ namespace InternetAuction.Web.ViewModels
         public string LastName { get; set; }
 
         [Required, EmailAddress]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         [Required, Phone]
+        [DataType(DataType.PhoneNumber)]
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
+        [DataType(DataType.Password)]
         public string Password { get; set; }
     }
 }

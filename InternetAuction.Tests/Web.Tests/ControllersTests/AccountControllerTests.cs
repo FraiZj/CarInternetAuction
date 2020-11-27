@@ -13,14 +13,14 @@ namespace InternetAuction.Tests.Web.Tests.ControllersTests
     [TestFixture]
     public class AccountControllerTests
     {
-        private IQueryable<UserModel> GetTestUsersModels()
+        private IEnumerable<UserModel> GetTestUsersModels()
         {
             return new List<UserModel>
             {
                 new UserModel { Id = "1", Email = "1" },
                 new UserModel { Id = "2", Email = "2" },
                 new UserModel { Id = "3", Email = "3" },
-            }.AsQueryable();
+            };
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace InternetAuction.Tests.Web.Tests.ControllersTests
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf(typeof(UserViewModel), result.Model);
-            Assert.AreEqual(GetTestUsersModels().Where(u => u.Email == "1").Count(), ((UserViewModel)result.Model).Users.Count());
+            Assert.AreEqual(GetTestUsersModels().Count(u => u.Email == "1"), ((UserViewModel)result.Model).Users.Count());
         }
     }
 }
