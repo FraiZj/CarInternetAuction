@@ -24,15 +24,16 @@ namespace InternetAuction.BLL.Models
         public string Password { get; set; }
 
         [Required, Phone]
+        [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
-        [Display(Name = "Bets Ids")]
+        [Display(Name = "Bets")]
         public ICollection<int> BetsIds { get; set; }
 
-        [Display(Name = "Sale Lots Ids")]
+        [Display(Name = "Sale Lots")]
         public ICollection<LotModel> SaleLots { get; set; }
 
-        [Display(Name = "Purchased Lots Ids")]
+        [Display(Name = "Purchased Lots")]
         public ICollection<LotModel> PurchasedLots { get; set; }
 
     }

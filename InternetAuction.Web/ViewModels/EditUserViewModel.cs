@@ -20,6 +20,7 @@ namespace InternetAuction.Web.ViewModels
         public string Email { get; set; }
 
         [Required, Phone]
+        [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
         public string Password { get; set; }

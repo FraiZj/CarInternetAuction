@@ -63,16 +63,21 @@
 
 
                 <div>
-                    <hr class="bg-dark" />  
-                    <h3 class="font-weight-lighter">Buy the lot</h3>
+                    <hr class="bg-dark" />
+                    <h3 class="font-weight-light">Buy the lot</h3>
 
-                    @using (Html.BeginForm("Buy", "Lots", new { lotId = Model.Id }, FormMethod.Post, new { @class = "" }))
+                    @using (Html.BeginForm("Buy", "Lots", new { id = Model.Id }, FormMethod.Post, new { @class = "m-auto" }))
                     {
-                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-                        <div class="form-group ">
-                            @Html.Label(string.Format(new CultureInfo("en-US", false), "{0:c0}", Model.TurnkeyPrice), htmlAttributes: new { @class = "control-label col-lg-12" })
-                            <button type="submit" value="Buy" class="btn btn-success col-lg-12">Buy</button>
-                        </div>
+                        <span id="confirmDeleteSpan_@Model.Id" style="display: none;">
+                            <span class="h6">Are you sure you want to buy?</span> <br />
+                            <span>
+                                <button class="btn btn-success col-5 float-left" type="submit">Yes</button>
+                                <a href="#" class="btn btn-danger col-5 float-right" onclick="confirmDelete('@Model.Id', false)">No</a>
+                            </span>
+                        </span>
+                        <span id="deleteSpan_@Model.Id" class="col-12 p-0 pl-3">
+                            <a href="#" class="btn btn-success col-10" onclick="confirmDelete('@Model.Id', true)">Buy</a>
+                        </span>
                     }
                 </div>
             }

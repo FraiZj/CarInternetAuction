@@ -40,19 +40,20 @@
                         </li>
                         @if (User.IsInRole(AppRoles.Admin))
                         {
-            <li class="nav-item">
-                <div class="dropdown nav-item">
-                    <a class="nav-link" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Admin
-                    </a>
-                    <div class="dropdown-menu bg-dark" aria-labelledby="adminDropdown">
-                        @Html.ActionLink("All Lots", "AllLots", "Lots", null, htmlAttributes: new { @class = "nav-link  ml-3" })
-                        @Html.ActionLink("Archive Lots", "ArchiveLots", "Lots", null, htmlAttributes: new { @class = "nav-link  ml-3" })
-                        @Html.ActionLink("Users", "Users", "Account", null, htmlAttributes: new { @class = "nav-link  ml-3" })
-                    </div>
-                </div>
-            </li>
-}
+                            <li class="nav-item">
+                                <div class="dropdown nav-item">
+                                    <a class="nav-link" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Admin
+                                    </a>
+                                    <div class="dropdown-menu bg-dark" aria-labelledby="adminDropdown">
+                                        @Html.ActionLink("All Lots", "AllLots", "Lots", null, htmlAttributes: new { @class = "nav-link  ml-3" })
+                                        @Html.ActionLink("Archive Lots", "ArchiveLots", "Lots", null, htmlAttributes: new { @class = "nav-link  ml-3" })
+                                        @Html.ActionLink("Users", "Users", "Account", null, htmlAttributes: new { @class = "nav-link  ml-3" })
+                                        @Html.ActionLink("Logs", "Logs", "Logs", null, htmlAttributes: new { @class = "nav-link  ml-3" })
+                                    </div>
+                                </div>
+                            </li>
+                        }
                     </ul>
                     @Html.Partial("_LoginPartial")
                 </div>

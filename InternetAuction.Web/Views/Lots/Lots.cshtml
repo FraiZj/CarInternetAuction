@@ -105,7 +105,7 @@
                     <span class="font-weight-bold">
                         @if (item.Bets.Count == 0)
                         {
-                            <text>No bet yet</text>
+                            <text>Current bet - @string.Format(new CultureInfo("en-US", false), "{0:c0}", item.StartPrice)</text>
                         }
                         else
                         {
