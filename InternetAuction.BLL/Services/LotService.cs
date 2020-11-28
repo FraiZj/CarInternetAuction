@@ -57,7 +57,7 @@ namespace InternetAuction.BLL.Services
             }
             catch (Exception ex)
             {
-                throw new InternetAuctionException("An error occured while adding a new lot", ex.InnerException);
+                throw new InternetAuctionException("An error occurred while adding a new lot", ex.InnerException);
             }
         }
 
@@ -77,7 +77,7 @@ namespace InternetAuction.BLL.Services
             }
             catch (Exception ex)
             {
-                throw new InternetAuctionException("An error occured while deleting a lot", ex.InnerException);
+                throw new InternetAuctionException("An error occurred while deleting a lot", ex.InnerException);
             }
         }
 
@@ -101,7 +101,7 @@ namespace InternetAuction.BLL.Services
             }
             catch (Exception ex)
             {
-                throw new InternetAuctionException("An error occured while searching lots", ex.InnerException);
+                throw new InternetAuctionException("An error occurred while searching lots", ex.InnerException);
             }
         }
 
@@ -125,7 +125,7 @@ namespace InternetAuction.BLL.Services
             }
             catch (Exception ex)
             {
-                throw new InternetAuctionException("An error occured while searching the lot", ex.InnerException);
+                throw new InternetAuctionException("An error occurred while searching the lot", ex.InnerException);
             }
         }
 
@@ -149,7 +149,7 @@ namespace InternetAuction.BLL.Services
             }
             catch (Exception ex)
             {
-                throw new InternetAuctionException("An error occured while updating lot", ex.InnerException);
+                throw new InternetAuctionException("An error occurred while updating lot", ex.InnerException);
             }
         }
 
@@ -198,7 +198,7 @@ namespace InternetAuction.BLL.Services
             }
             catch (Exception ex)
             {
-                throw new InternetAuctionException("An error occured while searching lots", ex.InnerException);
+                throw new InternetAuctionException("An error occurred while searching lots", ex.InnerException);
             }
         }
 
@@ -234,7 +234,7 @@ namespace InternetAuction.BLL.Services
             }
             catch (Exception ex)
             {
-                throw new InternetAuctionException("An error occured while selling lot", ex);
+                throw new InternetAuctionException("An error occurred while selling lot", ex);
             }
         }
 
@@ -262,7 +262,7 @@ namespace InternetAuction.BLL.Services
             }
             catch (Exception ex)
             {
-                throw new InternetAuctionException("An error occured while buying lot", ex);
+                throw new InternetAuctionException("An error occurred while buying lot", ex);
             }
         }
 

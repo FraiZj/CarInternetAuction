@@ -67,7 +67,7 @@ namespace InternetAuction.BLL.Services
             }
             catch (Exception ex)
             {
-                throw new InternetAuctionException("An error occured while adding a new bet", ex.InnerException);
+                throw new InternetAuctionException("An error occurred while adding a new bet", ex.InnerException);
             }
         }
 
@@ -86,7 +86,7 @@ namespace InternetAuction.BLL.Services
             }
             catch (Exception ex)
             {
-                throw new InternetAuctionException("An error occured while deleting a bet", ex.InnerException);
+                throw new InternetAuctionException("An error occurred while deleting a bet", ex.InnerException);
             }
         }
 
@@ -103,7 +103,7 @@ namespace InternetAuction.BLL.Services
             }
             catch (Exception ex)
             {
-                throw new InternetAuctionException("An error occured while searching bets", ex.InnerException);
+                throw new InternetAuctionException("An error occurred while searching bets", ex.InnerException);
             }
         }
 
@@ -121,7 +121,7 @@ namespace InternetAuction.BLL.Services
             }
             catch (Exception ex)
             {
-                throw new InternetAuctionException("An error occured while searching a bet", ex.InnerException);
+                throw new InternetAuctionException("An error occurred while searching a bet", ex.InnerException);
             }
         }
 
@@ -144,7 +144,7 @@ namespace InternetAuction.BLL.Services
             }
             catch (Exception ex)
             {
-                throw new InternetAuctionException("An error occured while updating a bet", ex.InnerException);
+                throw new InternetAuctionException("An error occurred while updating a bet", ex.InnerException);
             }
         }
 

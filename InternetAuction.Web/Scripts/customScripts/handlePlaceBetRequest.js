@@ -15,7 +15,9 @@ function handlePlaceBetRequest(e) {
                 var index = data.search("!DOCTYPE");
 
                 if (index !== -1) {
-                    window.location.href = window.location.search;
+                    document.open();
+                    document.write(data);
+                    document.close();
                     return;
                 }
 
