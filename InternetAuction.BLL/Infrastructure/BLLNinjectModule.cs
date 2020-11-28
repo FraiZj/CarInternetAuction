@@ -1,7 +1,4 @@
-﻿using AutoMapper;
-using InternetAuction.BLL.Interfaces;
-using InternetAuction.BLL.Services;
-using InternetAuction.DAL;
+﻿using InternetAuction.DAL;
 using InternetAuction.DAL.Interfaces;
 using InternetAuction.DAL.Repositories;
 using Ninject.Modules;
@@ -9,9 +6,9 @@ using Ninject.Modules;
 namespace InternetAuction.BLL.Infrastructure
 {
     /// <summary>
-    /// Represents DI module
+    /// Represents BLL DI module
     /// </summary>
-    public class InternetAuctionNinjectModule : NinjectModule
+    public class BllNinjectModule : NinjectModule
     {
         private readonly string nameOrConnectionStringForContext;
 
@@ -19,11 +16,14 @@ namespace InternetAuction.BLL.Infrastructure
         /// Initializes module with connection string
         /// </summary>
         /// <param name="nameOrConnectionStringForContext"></param>
-        public InternetAuctionNinjectModule(string nameOrConnectionStringForContext)
+        public BllNinjectModule(string nameOrConnectionStringForContext)
         {
             this.nameOrConnectionStringForContext = nameOrConnectionStringForContext;
         }
 
+        /// <summary>
+        /// Loads the module into the kernel
+        /// </summary>
         public override void Load()
         {
             Bind<ApplicationDbContext>().ToSelf()
@@ -33,17 +33,6 @@ namespace InternetAuction.BLL.Infrastructure
             Bind<IBetRepository>().To<BetRepository>();
             Bind<ILogger>().To<Logger>();
             Bind<IUnitOfWork>().To<UnitOfWork>();
-
-            Bind<ILotService>().To<LotService>();
-            Bind<IBetService>().To<BetService>();
-            Bind<IUserService>().To<UserService>();
-            Bind<ILoggerService>().To<LoggerService>();
-
-            Bind<IMapper>().ToMethod(context =>
-            {
-                var config = new MapperConfiguration(cfg => cfg.AddProfile(new AutomapperProfile()));
-                return new Mapper(config);
-            });
         }
     }
 }

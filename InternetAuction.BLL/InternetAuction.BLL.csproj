@@ -104,7 +104,7 @@
     <Compile Include="EnumsDtos\DriveUnitDto.cs" />
     <Compile Include="EnumsDtos\SaleTypeDto.cs" />
     <Compile Include="EnumsDtos\TransmissionDto.cs" />
-    <Compile Include="Infrastructure\InternetAuctionNinjectModule.cs" />
+    <Compile Include="Infrastructure\BLLNinjectModule.cs" />
     <Compile Include="Infrastructure\OperationDetails.cs" />
     <Compile Include="Infrastructure\Roles.cs" />
     <Compile Include="Interfaces\IBetService.cs" />

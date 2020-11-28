@@ -1,4 +1,5 @@
 using InternetAuction.BLL.Infrastructure;
+using InternetAuction.Web.Infrastructure;
 using Ninject;
 using Ninject.Modules;
 using Ninject.Web.Mvc;
@@ -19,8 +20,9 @@ namespace InternetAuction.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            NinjectModule module = new InternetAuctionNinjectModule(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
-            var kernel = new StandardKernel(module);
+            NinjectModule bllModule = new BllNinjectModule(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            NinjectModule plModule = new PlNinjectModule();
+            var kernel = new StandardKernel(bllModule, plModule);
             kernel.Unbind<ModelValidatorProvider>();
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
         }
