@@ -2,6 +2,7 @@
 using Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin;
+using System;
 
 namespace InternetAuction.Web
 {
@@ -13,7 +14,8 @@ namespace InternetAuction.Web
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
-                LoginPath = new PathString("/Account/Login")
+                LoginPath = new PathString("/Account/Login"),
+                ExpireTimeSpan = new TimeSpan(1, 0, 0)
             });
         }
     }

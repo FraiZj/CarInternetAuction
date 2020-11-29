@@ -10,21 +10,33 @@ namespace InternetAuction.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "AccountDefaultRoute",
+                name: "Account",
                 url: "Account/{action}/{id}",
                 defaults: new { controller = "Account", action = "UserProfile", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(
-                name: "DetailsDefaultRoute",
-                url: "Lots/Details",
-                defaults: new { controller = "Lots", action = "Details", id = 0 }
+                name: "UserProfileEdit",
+                url: "Account/Edit/{id}",
+                defaults: new { controller = "Account", action = "Edit", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Details",
+                url: "Lots/Details/{id}",
+                defaults: new { controller = "Lots", action = "Details", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "LotEdit",
+                url: "Lots/Edit/{id}",
+                defaults: new { controller = "Lots", action = "Edit", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Lots", action = "ActiveLots", id = UrlParameter.Optional }
+                url: "{controller}/{action}",
+                defaults: new { controller = "Lots", action = "ActiveLots" }
             );
         }
     }
